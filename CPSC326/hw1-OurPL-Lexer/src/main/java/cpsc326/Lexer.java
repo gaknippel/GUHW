@@ -6,21 +6,43 @@ import java.util.List;
 import java.util.Map;
 
 import static cpsc326.TokenType.AND;
+import static cpsc326.TokenType.BANG;
+import static cpsc326.TokenType.BANG_EQUAL;
+import static cpsc326.TokenType.COMMA;
+import static cpsc326.TokenType.DOT;
 import static cpsc326.TokenType.ELSE;
 import static cpsc326.TokenType.EOF;
+import static cpsc326.TokenType.EQUAL;
+import static cpsc326.TokenType.EQUAL_EQUAL;
 import static cpsc326.TokenType.FALSE;
 import static cpsc326.TokenType.FOR;
 import static cpsc326.TokenType.FUN;
+import static cpsc326.TokenType.GREATER;
+import static cpsc326.TokenType.GREATER_EQUAL;
 import static cpsc326.TokenType.IF;
+import static cpsc326.TokenType.LEFT_BRACE;
+import static cpsc326.TokenType.LEFT_PAREN;
+import static cpsc326.TokenType.LESS;
+import static cpsc326.TokenType.LESS_EQUAL;
+import static cpsc326.TokenType.MINUS;
 import static cpsc326.TokenType.NIL;
 import static cpsc326.TokenType.OR;
+import static cpsc326.TokenType.PLUS;
 import static cpsc326.TokenType.PRINT;
 import static cpsc326.TokenType.RETURN;
+import static cpsc326.TokenType.RIGHT_BRACE;
+import static cpsc326.TokenType.RIGHT_PAREN;
+import static cpsc326.TokenType.SEMICOLON;
+import static cpsc326.TokenType.SLASH;
+import static cpsc326.TokenType.STAR;
 import static cpsc326.TokenType.STRUCT;
 import static cpsc326.TokenType.THIS;
 import static cpsc326.TokenType.TRUE;
 import static cpsc326.TokenType.VAR;
 import static cpsc326.TokenType.WHILE;
+;
+
+
 
 class Lexer {
     private final String source;
@@ -125,10 +147,94 @@ class Lexer {
     }
 
     private void scanToken() {
-        
+        char c = advance();
+        switch (c) {
+            case '(':
+                addToken(LEFT_PAREN);
+                break;
+            
+            case ')':
+                addToken(RIGHT_PAREN);
+                break;
+
+            case '{':
+                addToken(LEFT_BRACE);
+                break;
+
+            case '}':
+                addToken(RIGHT_BRACE);
+                break;
+
+            case ',':
+                addToken(COMMA);
+                break;
+
+            case '.':
+                addToken(DOT);
+                break;
+
+            case '+':
+                addToken(PLUS);
+                break;
+
+            case '-':
+                addToken(MINUS);
+                break;
+
+            case '*':
+                addToken(STAR);
+                break;
+
+            case '/':
+                addToken(SLASH);
+                break;
+
+            case ';':
+                addToken(SEMICOLON);
+                break;
 
 
+                // match cases that could be different things
+            case '!':
+                addToken(match('=') ? BANG_EQUAL : BANG);
+                break;
 
-        // TODO: implement scanToken()
+            case '=':
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+                break;
+
+            case '<':
+                addToken(match('=') ? LESS_EQUAL : LESS);
+                break;
+
+            case '>':
+                addToken(match('=') ? GREATER_EQUAL : GREATER);
+                break;       
+                
+                
+            // whitespace stuff
+
+            case ' ':
+                break;
+            case '\t':
+                break;
+            case '\r':
+                break;
+
+
+            case '\n':
+                line++;
+                break;
+                
+
+            case '#':
+                while(peek() != '\n' && !isAtEnd()) {
+                    advance();
+                }
+                break;
+
+
+        }
+
     }
 }
