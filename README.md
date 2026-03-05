@@ -1,1 +1,1 @@
-buncha stuff for hw assignments at GU
+various homework for GU
