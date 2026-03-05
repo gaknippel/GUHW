@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{titling}
+\setlength{\droptitle}{-3em}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false
+}
+
+\geometry{margin=1in}
+
+\title{ODE Project Phase 1}
+\author{
+Greyson Knippel \\[4pt]
+MATH 260-1 --- Gonzaga University \\[4pt]
+Professor Jensen
+}
+\date{\today}
+
+
+
+\begin{document}
+
+\maketitle
+
+\section*{problem 2 (balloon)}
+
+
+A balloon is ascending at a rate of 15 m/s at a height of 100 m above the ground when a package
+is dropped from the gondola. How long will it take the package to reach the ground? Ignore air resistance.
+
+\subsection*{known variables}
+when the package is dropped, it has an upward velocity of the balloon.
+
+\begin{center}
+\begin{tabular}{ll}
+    \hline
+    variable & value \\
+    \hline
+    initial height $y_0$ & $100$ m \\
+    initial velocity $v_0$ & $+15$ m/s (upward) \\
+    acceleration $a$ & $-9.8$ m/s$^2$ (gravity) \\
+    final height $y$ & $0$ m (ground) \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsection*{Setting Up the Equation}
+using the kinematic equation for position:
+\[
+y = y_0 + v_0 t + \frac{1}{2}at^2
+\]
+substituting known values and setting $y = 0$:
+\[
+0 = 100 + 15t + \frac{1}{2}(-9.8)t^2
+\]
+\[
+0 = 100 + 15t - 4.9t^2
+\]
+Rearranging into standard quadratic form $at^2 + bt + c = 0$:
+\[
+4.9t^2 - 15t - 100 = 0
+\]
+where $a = 4.9$, $b = -15$, $c = -100$.
+
+\subsection*{Solving with the Quadratic Formula}
+\[
+t = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\]
+Computing the discriminant:
+\[
+b^2 - 4ac = (-15)^2 - 4(4.9)(-100) = 225 + 1960 = 2185
+\]
+Substituting:
+\[
+t = \frac{15 \pm \sqrt{2185}}{9.8} = \frac{15 \pm 46.74}{9.8}
+\]
+This yields two solutions:
+\[
+t = \frac{15 + 46.74}{9.8} \approx 6.3 \text{ s} \qquad \text{or} \qquad t = \frac{15 - 46.74}{9.8} \approx -3.24 \text{ s}
+\]
+
+\subsection*{Result}
+Since time cannot be negative, we discard $t \approx -3.24$ s. The package reaches the ground in:
+\[
+\boxed{t \approx 6.3 \text{ seconds}}
+\]
+
+\end{document}
