@@ -35,6 +35,7 @@ import static cpsc326.TokenType.RIGHT_PAREN;
 import static cpsc326.TokenType.SEMICOLON;
 import static cpsc326.TokenType.SLASH;
 import static cpsc326.TokenType.STAR;
+import static cpsc326.TokenType.STRING;
 import static cpsc326.TokenType.STRUCT;
 import static cpsc326.TokenType.THIS;
 import static cpsc326.TokenType.TRUE;
@@ -135,10 +136,30 @@ class Lexer {
     }
 
     private void string() {
-        // TODO: implement string()
+        while(peek() != '"' && !isAtEnd()) {
+            if(peek() == '\n')
+            {
+                line++;
+            }
+            advance();
+        }
+        if (peek() == '"')
+        {
+            advance();
+            addToken(STRING, source.substring(start + 1, current - 1));
+        }
+        else
+        {
+            System.out.println("no closing quote! error on line: " + line);
+        }
+
     }
 
     private void number() {
+        while(isDigit(peek())) {
+            advance();
+        }
+
         // TODO: implement number()
     }
 
