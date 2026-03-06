@@ -7,9 +7,6 @@ import java.util.Map;
 
 import static cpsc326.TokenType.*;
 
-
-
-
 class Lexer {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
@@ -39,9 +36,6 @@ class Lexer {
         keywords.put("this", THIS);
         keywords.put("while", WHILE);
         keywords.put("var", VAR);
-
-        // TODO: add keywrods 
-        
     }
 
     List<Token> scanTokens() {
@@ -115,7 +109,7 @@ class Lexer {
         }
         else
         {
-            System.out.println("no closing quote! error on line: " + line);
+            OurPL.error(line, "Unterminated string.");
         }
 
     }
@@ -136,7 +130,18 @@ class Lexer {
     }
 
     private void identifier() {
-        
+        while (isAlphaNumeric(peek()))
+        {
+            advance();
+        }
+        String text = source.substring(start,current);
+        TokenType type = keywords.get(text);
+        if (type == null) //if keywords.get doesnt have it, make it null, and null is identifier
+        {
+            type = IDENTIFIER;
+        }
+        addToken(type);
+
     }
 
     private void scanToken() {
@@ -242,7 +247,7 @@ class Lexer {
                 }
                 else
                 {
-                    System.out.println("unexpected character on line: " + line);
+                    OurPL.error(line, "Unexpected character.");
                 }
                 break;
 

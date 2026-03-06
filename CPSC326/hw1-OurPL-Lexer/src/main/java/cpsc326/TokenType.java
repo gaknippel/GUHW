@@ -11,7 +11,4 @@ LESS, LESS_EQUAL,
 IDENTIFIER, STRING, NUMBER, 
 ELSE, FALSE, FOR, FUN, IF, NIL, OR, 
 PRINT, RETURN, STRUCT, THIS, TRUE, VAR, WHILE
-
-    
-        // TODO: add the token types needed by the OurPL lexer.
 }
