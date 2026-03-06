@@ -5,42 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cpsc326.TokenType.AND;
-import static cpsc326.TokenType.BANG;
-import static cpsc326.TokenType.BANG_EQUAL;
-import static cpsc326.TokenType.COMMA;
-import static cpsc326.TokenType.DOT;
-import static cpsc326.TokenType.ELSE;
-import static cpsc326.TokenType.EOF;
-import static cpsc326.TokenType.EQUAL;
-import static cpsc326.TokenType.EQUAL_EQUAL;
-import static cpsc326.TokenType.FALSE;
-import static cpsc326.TokenType.FOR;
-import static cpsc326.TokenType.FUN;
-import static cpsc326.TokenType.GREATER;
-import static cpsc326.TokenType.GREATER_EQUAL;
-import static cpsc326.TokenType.IF;
-import static cpsc326.TokenType.LEFT_BRACE;
-import static cpsc326.TokenType.LEFT_PAREN;
-import static cpsc326.TokenType.LESS;
-import static cpsc326.TokenType.LESS_EQUAL;
-import static cpsc326.TokenType.MINUS;
-import static cpsc326.TokenType.NIL;
-import static cpsc326.TokenType.OR;
-import static cpsc326.TokenType.PLUS;
-import static cpsc326.TokenType.PRINT;
-import static cpsc326.TokenType.RETURN;
-import static cpsc326.TokenType.RIGHT_BRACE;
-import static cpsc326.TokenType.RIGHT_PAREN;
-import static cpsc326.TokenType.SEMICOLON;
-import static cpsc326.TokenType.SLASH;
-import static cpsc326.TokenType.STAR;
-import static cpsc326.TokenType.STRING;
-import static cpsc326.TokenType.STRUCT;
-import static cpsc326.TokenType.THIS;
-import static cpsc326.TokenType.TRUE;
-import static cpsc326.TokenType.VAR;
-import static cpsc326.TokenType.WHILE;
+import static cpsc326.TokenType.*;
 
 
 
