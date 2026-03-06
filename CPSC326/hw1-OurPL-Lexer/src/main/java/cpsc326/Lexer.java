@@ -132,12 +132,11 @@ class Lexer {
                 advance();
             }
         }
-
-        // TODO: implement number()
+        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
     private void identifier() {
-        // TODO: implement identifier()
+        
     }
 
     private void scanToken() {
@@ -229,6 +228,22 @@ class Lexer {
 
             case '"':
                 string();
+                break;
+
+
+            default: //default case (weird chars, numbers, & identifiers)
+                if (isDigit(c))
+                {
+                    number();
+                }
+                else if (isAlpha(c))
+                {
+                    identifier();
+                }
+                else
+                {
+                    System.out.println("unexpected character on line: " + line);
+                }
                 break;
 
 

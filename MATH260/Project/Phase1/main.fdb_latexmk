@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1772758626.61065 "c:/CodeProjects/GULaTeXHW/MATH260/Project/Phase1/main.tex" "main.pdf" "main" 1772758627.20804 0
+["pdflatex"] 1772766461.94779 "c:/CodeProjects/GULaTeXHW/MATH260/Project/Phase1/main.tex" "main.pdf" "main" 1772766462.54378 0
   "C:/Users/burri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1769220602 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/burri/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1772756810 14064 7bbf26aacdc174c466b0d23df1216666 ""
   "C:/Users/burri/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1769143393 13333487 d029dab1b967ff5ee3ac8778ec4fff17 ""
@@ -65,9 +65,9 @@
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstpatch.sty" 1763898348 353 9024412f43e92cd5b21fe9ded82d0610 ""
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/titling/titling.sty" 1252048308 7358 95ac619994bd30d405a74f3eca431c84 ""
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "c:/CodeProjects/GULaTeXHW/MATH260/Project/Phase1/main.tex" 1772758625 5949 99bac8a8a4a2d222f52baede28897782 ""
-  "main.aux" 1772758627 32 c81c40425fbb5e93b90fba65da0b5e61 "pdflatex"
-  "main.tex" 1772758625 5949 99bac8a8a4a2d222f52baede28897782 ""
+  "c:/CodeProjects/GULaTeXHW/MATH260/Project/Phase1/main.tex" 1772766461 6795 7e7bf5861e681ffa6334b2b03a494877 ""
+  "main.aux" 1772766462 32 c81c40425fbb5e93b90fba65da0b5e61 "pdflatex"
+  "main.tex" 1772766461 6795 7e7bf5861e681ffa6334b2b03a494877 ""
   (generated)
   "main.aux"
   "main.log"
