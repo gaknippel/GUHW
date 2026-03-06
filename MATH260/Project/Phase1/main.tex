@@ -61,7 +61,7 @@ when the package is dropped, it has an upward velocity of the balloon.
 \end{tabular}
 \end{center}
 
-\subsection*{Setting Up the Equation}
+\subsection*{setting up the equation}
 using the kinematic equation for position:
 \[
 y = y_0 + v_0 t + \frac{1}{2}at^2
@@ -73,33 +73,151 @@ substituting known values and setting $y = 0$:
 \[
 0 = 100 + 15t - 4.9t^2
 \]
-Rearranging into standard quadratic form $at^2 + bt + c = 0$:
+rearranging into quadratic form $at^2 + bt + c = 0$:
 \[
 4.9t^2 - 15t - 100 = 0
 \]
-where $a = 4.9$, $b = -15$, $c = -100$.
+where $a = 4.9$, $b = -15$, $c = -100$
 
-\subsection*{Solving with the Quadratic Formula}
+\subsection*{solving with quadratic formula}
 \[
 t = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 \]
-Computing the discriminant:
+calculate the discriminant:
 \[
 b^2 - 4ac = (-15)^2 - 4(4.9)(-100) = 225 + 1960 = 2185
 \]
-Substituting:
+substituting:
 \[
 t = \frac{15 \pm \sqrt{2185}}{9.8} = \frac{15 \pm 46.74}{9.8}
 \]
-This yields two solutions:
+gives us two solutions:
 \[
 t = \frac{15 + 46.74}{9.8} \approx 6.3 \text{ s} \qquad \text{or} \qquad t = \frac{15 - 46.74}{9.8} \approx -3.24 \text{ s}
 \]
 
-\subsection*{Result}
-Since time cannot be negative, we discard $t \approx -3.24$ s. The package reaches the ground in:
+\subsection*{result}
+since time can't be negative, we don't care about $t \approx -3.24$ s. the package reaches the ground in:
 \[
 \boxed{t \approx 6.3 \text{ seconds}}
 \]
+
+\section*{problem 4 (rocket)}
+
+\subsection*{}
+A rocket is fired vertically and ascends with constant acceleration $a = 100$ m/s$^2$ for 1.0 min.
+At that point, the rocket motor shuts off and the rocket continues upward under the influence of gravity.
+Find the maximum altitude acquired by the rocket and the total time elapsed from take-off until the
+rocket returns to the earth. Ignore air resistance.
+
+\subsection*{overview}
+this problem has two parts:
+\begin{itemize}
+    \item \textbf{part 1:} engine ON — constant acceleration upward for 60 seconds
+    \item \textbf{part 2:} engine OFF — only gravity acts on the rocket
+\end{itemize}
+the kinematic equations used are:
+\begin{align}
+    v &= v_0 + at \tag{1} \\
+    y &= y_0 + v_0 t + \frac{1}{2}at^2 \tag{2} \\
+    v^2 &= v_0^2 + 2a\Delta y \tag{3}
+\end{align}
+
+\subsection*{part 1: engine on ($t = 0$ to $t = 60$ s)}
+
+known quantities:
+\begin{center}
+\begin{tabular}{ll}
+    \hline
+    variable & value \\
+    \hline
+    initial height $y_0$ & $0$ m \\
+    initial velocity $v_0$ & $0$ m/s \\
+    acceleration $a$ & $+100$ m/s$^2$ \\
+    time $t$ & $60$ s \\
+    \hline
+\end{tabular}
+\end{center}
+
+\textbf{height at engine shutoff} (using equation 2):
+\[
+y_1 = 0 + (0)(60) + \frac{1}{2}(100)(60)^2 = 180{,}000 \text{ m}
+\]
+
+\textbf{velocity at engine shutoff} (using equation 1):
+\[
+v_1 = 0 + (100)(60) = 6{,}000 \text{ m/s}
+\]
+
+\subsection*{part 2: engine off}
+
+the rocket enters part 2 with $y_0 = 180{,}000$ m, $v_0 = 6{,}000$ m/s, and $a = -9.8$ m/s$^2$.
+this part is split into two (other) parts.
+
+\subsubsection*{part 2a: coasting up to max altitude}
+
+at maximum altitude, the rocket momentarily stops, so $v = 0$. using equation (3) to find the
+additional height gained:
+\[
+0 = (6{,}000)^2 + 2(-9.8)\Delta y
+\]
+\[
+\Delta y = \frac{(6{,}000)^2}{2(9.8)} = 1{,}836{,}734.94 \text{ m}
+\]
+
+\textbf{maximum altitude:}
+\[
+y_{\max} = 180{,}000 + 1{,}836{,}734.94 = \boxed{2{,}016{,}734.94 \text{ m}}
+\]
+
+time to reach maximum altitude (using equation 1):
+\[
+0 = 6{,}000 + (-9.8)t \implies t_{2a} = \frac{6{,}000}{9.8} \approx 612.24 \text{ s}
+\]
+
+\subsubsection*{part 2b: falling from max altitude to ground}
+the rocket falls from rest at $y_0 = 2{,}016{,}734.94$ m. using equation (2) with $v_0 = 0$:
+\[
+0 = 2{,}016{,}734.94 - \frac{1}{2}(9.8)t^2
+\]
+\[
+t^2 = \frac{2{,}016{,}734.94}{4.9} = 411{,}578.56
+\]
+\[
+t_{2b} = \sqrt{411{,}578.56} \approx 641.23 \text{ s}
+\]
+
+\subsection*{total time}
+
+\[
+t_{\text{total}} = t_1 + t_{2a} + t_{2b} = 60 + 612.24 + 641.23 = \boxed{1{,}313.47 \text{ s}}
+\]
+
+\section*{guide for solving:}
+
+\subsection*{background info}
+
+\begin{quote}
+what helped me solve these problems was the background information I gained from taking AP Physics in
+high school. it took me a little while to remember some of the steps to use these formulas, but it
+came back with that previous knowledge of kinematics.
+
+\medskip
+
+if you did \textbf{not} take AP Physics in high school, or just can't remember how to use these
+equations, a simple google search or kinematics textbook can tell you how to use the equations
+used in the problems to find velocity, time, acceleration, etc.
+\end{quote}
+
+
+\subsection*{mock report:}
+
+
+\begin{quote}
+both of these problems can be solved with fairly basic kinematics equations, splitting these
+questions into different parts.
+
+
+\end{quote}
 
 \end{document}
