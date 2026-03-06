@@ -41,7 +41,7 @@ import static cpsc326.TokenType.THIS;
 import static cpsc326.TokenType.TRUE;
 import static cpsc326.TokenType.VAR;
 import static cpsc326.TokenType.WHILE;
-;
+
 
 
 
@@ -159,6 +159,14 @@ class Lexer {
         while(isDigit(peek())) {
             advance();
         }
+        if (peek() == '.' && isDigit(peekNext()))
+        {
+            advance();
+            while(isDigit(peek()))
+            {
+                advance();
+            }
+        }
 
         // TODO: implement number()
     }
@@ -252,6 +260,10 @@ class Lexer {
                 while(peek() != '\n' && !isAtEnd()) {
                     advance();
                 }
+                break;
+
+            case '"':
+                string();
                 break;
 
 
