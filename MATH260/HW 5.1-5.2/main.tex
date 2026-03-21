@@ -1,0 +1,179 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{microtype}
+\geometry{margin=1in}
+
+\title{ODE HW 5.1-5.2}
+\author{
+Greyson Knippel \\[4pt]
+MATH 260 --- Gonzaga University \\[4pt]
+Professor Jensen \\[4pt]
+\textit{compiled with \LaTeX}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ─────────────────────────────────────────────
+\section*{problem 1}
+
+use definition 1.1 to find the laplace transform of $f(t) = t^n$ for $n = 2, 3$, and
+prove the general case by induction.
+
+\bigskip
+
+\subsection*{(a) $g(t) = t^2 \;\Longrightarrow\; G(s) = \dfrac{2!}{s^3}$}
+
+by definition,
+\[
+  G(s) = \int_0^{\infty} t^2 e^{-st}\, dt.
+\]
+use integration by parts with $u = t^2$, $dv = e^{-st}\,dt$, so $du = 2t\,dt$,
+$v = -\tfrac{1}{s}e^{-st}$:
+\[
+  G(s)
+  = \left[-\frac{t^2 e^{-st}}{s}\right]_0^{\infty}
+    + \frac{2}{s}\int_0^{\infty} t\, e^{-st}\, dt.
+\]
+then,
+\[
+  G(s) = \frac{2}{s}\,\mathcal{L}(t)
+        = \frac{2}{s} \cdot \frac{1}{s^2}
+        = \frac{2}{s^3}
+        = \frac{2!}{s^3}. \qquad \checkmark
+\]
+
+\subsection*{(b) $h(t) = t^3 \;\Longrightarrow\; H(s) = \dfrac{3!}{s^4}$}
+
+\[
+  H(s) = \int_0^{\infty} t^3 e^{-st}\, dt.
+\]
+use integration by parts again with $u = t^3$, $dv = e^{-st}\,dt$:
+\[
+  H(s)
+  = \left[-\frac{t^3 e^{-st}}{s}\right]_0^{\infty}
+    + \frac{3}{s}\int_0^{\infty} t^2 e^{-st}\, dt
+  = \frac{3}{s}\,G(s)
+  = \frac{3}{s} \cdot \frac{2}{s^3}
+  = \frac{6}{s^4}
+  = \frac{3!}{s^4}. \qquad \checkmark
+\]
+
+\subsection*{(c) general case: $f(t) = t^n \;\Longrightarrow\; F(s) = \dfrac{n!}{s^{n+1}}$}
+
+\textbf{proof by induction!!!}
+
+\medskip
+\textbf{base case} ($n = 1$): it is given that $\mathcal{L}(t) = \dfrac{1}{s^2} = \dfrac{1!}{s^2}$. \checkmark
+
+\medskip
+\textbf{inductive step:} assume for some $n \geq 1$,\
+\[
+  \mathcal{L}(t^n) = \frac{n!}{s^{n+1}}.
+\]
+we show it holds for $n+1$. then integrate by parts $u = t^{n+1}$,
+$dv = e^{-st}\,dt$:
+\[
+  \mathcal{L}(t^{n+1})
+  = \int_0^{\infty} t^{n+1} e^{-st}\, dt
+  = \underbrace{\left[-\frac{t^{n+1}e^{-st}}{s}\right]_0^{\infty}}_{=\,0}
+    + \frac{n+1}{s}\int_0^{\infty} t^n e^{-st}\, dt
+  = \frac{n+1}{s}\,\mathcal{L}(t^n).
+\]
+apply the inductive hypothesis:
+\[
+  \mathcal{L}(t^{n+1}) = \frac{n+1}{s} \cdot \frac{n!}{s^{n+1}}
+                        = \frac{(n+1)!}{s^{n+2}}. \qquad \checkmark
+\]
+by induction, the formula holds  $n \geq 1$. \hfill $\blacksquare$
+
+% ─────────────────────────────────────────────
+\newpage
+\section*{problem 2}
+
+find laplace transform of the piecewise function
+\[
+  f(t) = \begin{cases} t, & 0 \le t < 2 \\ 2, & t \ge 2. \end{cases}
+\]
+
+split the integral $t = 2$:
+\[
+  F(s) = \int_0^{2} t\, e^{-st}\, dt + \int_2^{\infty} 2\, e^{-st}\, dt.
+\]
+
+\textbf{piece 1.} integration by parts with $u = t$, $dv = e^{-st}\,dt$:
+\begin{align*}
+  \int_0^{2} t\, e^{-st}\, dt
+  &= \left[-\frac{t\,e^{-st}}{s}\right]_0^{2}
+     + \frac{1}{s}\int_0^{2} e^{-st}\, dt \\
+  &= -\frac{2e^{-2s}}{s}
+     + \frac{1}{s}\left[-\frac{e^{-st}}{s}\right]_0^{2} \\
+  &= -\frac{2e^{-2s}}{s}
+     - \frac{e^{-2s}}{s^2}
+     + \frac{1}{s^2}.
+\end{align*}
+
+\textbf{piece 2.}
+\[
+  \int_2^{\infty} 2\,e^{-st}\,dt
+  = 2\left[-\frac{e^{-st}}{s}\right]_2^{\infty}
+  = \frac{2e^{-2s}}{s}.
+\]
+
+\textbf{combining:}
+\[
+  F(s)
+  = \left(-\frac{2e^{-2s}}{s} - \frac{e^{-2s}}{s^2} + \frac{1}{s^2}\right)
+    + \frac{2e^{-2s}}{s}.
+\]
+the $\pm\,\dfrac{2e^{-2s}}{s}$ terms cancel, giving
+\[
+  \boxed{F(s) = \frac{1}{s^2} - \frac{e^{-2s}}{s^2} = \frac{1 - e^{-2s}}{s^2}.}
+\]
+
+% ─────────────────────────────────────────────
+\newpage
+\section*{problem 3}
+
+transform the initial value problem
+\[
+  y'' + 3y' + 5y = t + e^{-t}, \qquad y(0) = -1,\quad y'(0) = 0
+\]
+transform to $\mathcal{L}(y) = Y(s)$, and solve for $Y(s)$.
+
+\medskip
+\textbf{step 1: take laplace transform of both sides.}
+
+using the standard derivative rules
+\[
+  \mathcal{L}(y'') = s^2 Y - s\,y(0) - y'(0), \qquad
+  \mathcal{L}(y')  = s Y - y(0),
+\]
+with $y(0)=-1$ and $y'(0)=0$:
+\begin{align*}
+  \mathcal{L}(y'')  &= s^2 Y + s, \\
+  \mathcal{L}(y')   &= sY + 1, \\
+  \mathcal{L}(y)    &= Y.
+\end{align*}
+the right-hand side transforms as
+\[
+  \mathcal{L}(t + e^{-t}) = \frac{1}{s^2} + \frac{1}{s+1}.
+\]
+
+\textbf{step 2: substitute and collect $Y$ terms.}
+\[
+  (s^2 Y + s) + 3(sY + 1) + 5Y = \frac{1}{s^2} + \frac{1}{s+1}
+\]
+\[
+  Y(s^2 + 3s + 5) = \frac{1}{s^2} + \frac{1}{s+1} - s - 3.
+\]
+
+\textbf{step 3: solve for $Y(s)$.}
+\[
+  \boxed{Y(s) = \frac{1}{s^2+3s+5}\!\left(\frac{1}{s^2}+\frac{1}{s+1}-s-3\right).}
+\]
+
+\end{document}
