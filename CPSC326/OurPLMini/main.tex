@@ -1,0 +1,206 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{forest}
+\usepackage{verbatim}
+
+\geometry{margin=1in}
+
+\title{OurPL Mini Assignment}
+\author{
+Greyson Knippel \\[4pt]
+CPSC326 --- Gonzaga University \\[4pt]
+Professor Johnson \\[4pt]
+\textit{Compiled with \LaTeX}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ─────────────────────────────────────────────
+\section*{answers!!!}
+% ─────────────────────────────────────────────
+
+
+\subsection*{1. is it left recursive?}
+
+no. it doesn't derive itself on the very first symbol.
+
+it avoids it by using the (...)* pattern
+
+\subsection*{2. is it left factorable?}
+
+no, because it has no common shared prefixes.
+
+the \texttt{(...)*} loop structure already eliminates conflicting prefixes
+
+\subsection*{3. is it ambiguous?}
+
+no. there aren't multuiple ways to derive a string here, you can only derive it one way through a primary.
+
+% ─────────────────────────────────────────────
+\section*{3 example derivations}
+% ─────────────────────────────────────────────
+
+\textbf{number}, \textbf{bool}, and \textbf{string}.
+
+\subsection*{derivation 1 --- number: \texttt{2 + 2 / 2}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\langle\textit{term}\rangle \\
+\Rightarrow\;&\langle\textit{factor}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{unary}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{primary}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&2\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&2\;+\;\langle\textit{factor}\rangle \\
+\Rightarrow\;&2\;+\;\langle\textit{unary}\rangle\;(/\;\langle\textit{unary}\rangle)^* \\
+\Rightarrow\;&2\;+\;\langle\textit{primary}\rangle\;(/\;\langle\textit{unary}\rangle)^* \\
+\Rightarrow\;&2\;+\;2\;(/\;\langle\textit{unary}\rangle)^* \\
+\Rightarrow\;&2\;+\;2\;/\;\langle\textit{unary}\rangle \\
+\Rightarrow\;&2\;+\;2\;/\;\langle\textit{primary}\rangle \\
+\Rightarrow\;&2\;+\;2\;/\;2
+\end{align*}
+
+
+\subsection*{derivation 2 --- bool: \texttt{"dog" == "zebra"}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{term}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{factor}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{unary}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{primary}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"dog"}\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\langle\textit{term}\rangle \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\langle\textit{factor}\rangle \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\langle\textit{unary}\rangle \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\langle\textit{primary}\rangle \\
+\Rightarrow\;&\texttt{"dog"}\;==\;\texttt{"zebra"}
+\end{align*}
+
+\subsection*{derivation 3 --- string: \texttt{"flower"}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\langle\textit{term}\rangle \\
+\Rightarrow\;&\langle\textit{factor}\rangle \\
+\Rightarrow\;&\langle\textit{unary}\rangle \\
+\Rightarrow\;&\langle\textit{primary}\rangle \\
+\Rightarrow\;&\texttt{"flower"}
+\end{align*}
+
+% ─────────────────────────────────────────────
+\section*{parsing trees}
+% ─────────────────────────────────────────────
+
+
+\subsection*{parse tree 1: \texttt{"Hello" + " World" == "Hello World"}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{term}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{factor}\rangle\;(+\;\langle\textit{factor}\rangle)^*\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{unary}\rangle\;(+\;\langle\textit{factor}\rangle)^*\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\langle\textit{primary}\rangle\;(+\;\langle\textit{factor}\rangle)^*\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;(+\;\langle\textit{factor}\rangle)^*\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\langle\textit{factor}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\langle\textit{unary}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\langle\textit{primary}\rangle\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;(==\;\langle\textit{comparison}\rangle)^* \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\langle\textit{term}\rangle \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\langle\textit{factor}\rangle \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\langle\textit{unary}\rangle \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\langle\textit{primary}\rangle \\
+\Rightarrow\;&\texttt{"Hello"}\;+\;\texttt{" World"}\;==\;\texttt{"Hello World"}
+\end{align*}
+
+\textbf{LLk value:} 1. you only need to look ahead one token to see whats next.
+
+\subsection*{parse tree 2: \texttt{1 + 2 * 3 - 4}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\langle\textit{term}\rangle \\
+\Rightarrow\;&\langle\textit{factor}\rangle\;(+\;|\;-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{unary}\rangle\;(+\;|\;-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{primary}\rangle\;(+\;|\;-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;(+\;|\;-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;\langle\textit{factor}\rangle\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;\langle\textit{unary}\rangle\;(*\;\langle\textit{unary}\rangle)^*\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;\langle\textit{primary}\rangle\;(*\;\langle\textit{unary}\rangle)^*\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;2\;(*\;\langle\textit{unary}\rangle)^*\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;2\;*\;\langle\textit{unary}\rangle\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;2\;*\;\langle\textit{primary}\rangle\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;2\;*\;3\;(-\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&1\;+\;2\;*\;3\;-\;\langle\textit{factor}\rangle \\
+\Rightarrow\;&1\;+\;2\;*\;3\;-\;\langle\textit{unary}\rangle \\
+\Rightarrow\;&1\;+\;2\;*\;3\;-\;\langle\textit{primary}\rangle \\
+\Rightarrow\;&1\;+\;2\;*\;3\;-\;4
+\end{align*}
+
+\textbf{LLk value:} 1 token again.
+
+\subsection*{parse tree 3: \texttt{"Storms, these steamed cremlings are divine!" + " Rock, you've done it again."}}
+
+\begin{align*}
+&\langle\textit{expression}\rangle \\
+\Rightarrow\;&\langle\textit{equality}\rangle \\
+\Rightarrow\;&\langle\textit{comparison}\rangle \\
+\Rightarrow\;&\langle\textit{term}\rangle \\
+\Rightarrow\;&\langle\textit{factor}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{unary}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\langle\textit{primary}\rangle\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\texttt{"Storms\ldots divine!"}\;(+\;\langle\textit{factor}\rangle)^* \\
+\Rightarrow\;&\texttt{"Storms\ldots divine!"}\;+\;\langle\textit{factor}\rangle \\
+\Rightarrow\;&\texttt{"Storms\ldots divine!"}\;+\;\langle\textit{unary}\rangle \\
+\Rightarrow\;&\texttt{"Storms\ldots divine!"}\;+\;\langle\textit{primary}\rangle \\
+\Rightarrow\;&\texttt{"Storms\ldots divine!"}\;+\;\texttt{" Rock\ldots again."}
+\end{align*}
+
+\textbf{LLk value:} 1 yet again :D
+
+% ─────────────────────────────────────────────
+\section*{is this grammar LL(1)?}
+% ─────────────────────────────────────────────
+
+yep. as shown above, all trees only have to look ahead once to know where to go.
+it doesnt recurse left, and doesnt have left factoring which is bad.
+
+
+% ─────────────────────────────────────────────
+\section*{operator precedence}
+% ─────────────────────────────────────────────
+
+\subsection*{how does this grammar enforce order of operations?}
+
+by whichever operator is deepest, it determines the order of the operation.
+
+for example, / and * are evaluated last because they are the deepest, compared to + and - which
+aren't the deepest. and you have to evaluate the leaves before the rest of the tree.
+
+\subsection*{can we add a string to a number?}
+
+yes. there's nothing preventing us from doing so. this also just isn't the parser's
+job. it has no derivation rules to stop us from simply adding a string to a number when deriving term.
+
+\end{document}
