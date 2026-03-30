@@ -47,12 +47,22 @@ public class OurPL {
     }
 
     public static void run(String source) {
+        
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
 
         for (Token token : tokens){
             System.out.println(token);
         }
+
+
+
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
+
+        if (hadError) return;
+
+        System.out.println(new ASTPrinter().print(expression));
     }
 
     static void error(int line, String message) {
@@ -63,4 +73,5 @@ public class OurPL {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
+
 }
