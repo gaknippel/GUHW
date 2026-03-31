@@ -51,9 +51,9 @@ public class OurPL {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
 
-        for (Token token : tokens){
-            System.out.println(token);
-        }
+        // for (Token token : tokens){
+        //     System.out.println(token);
+        // }
 
 
 
@@ -63,6 +63,8 @@ public class OurPL {
         if (hadError) return;
 
         System.out.println(new ASTPrinter().print(expression));
+
+        new Interpreter().interpret(expression);
     }
 
     static void error(int line, String message) {
@@ -72,6 +74,11 @@ public class OurPL {
     private static void report(int line, String where, String message) {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
+    }
+
+    static void runtimeError(RuntimeError error) 
+    {
+    System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
     }
 
 }
