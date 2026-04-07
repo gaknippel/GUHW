@@ -14,25 +14,20 @@ class Parser {
         this.tokens = tokens;
     }
 
-    private List<Stmt> parse() {
-        try {
-            List<Stmt> statements = new ArrayList<Stmt>();
-            while(!isAtEnd()){
-                statements.add(Statement());
-            }
-            consume(EOF, "Exprected EOF");
-
-        } catch (ParseError error) {
-            return null;
-        }
+private List<Stmt> parse() {
+    List<Stmt> statements = new ArrayList<Stmt>();
+    while(!isAtEnd()){
+        statements.add(Statement());
     }
+    return statements; // <-- missing this!
+}
 
     private Stmt Statement() {
         if(match(PRINT)) {
-            PrintStatement();
+            return PrintStatement();
         }
         else {
-            ExpressionStatement();
+            return ExpressionStatement();
         }
     }
 

@@ -58,13 +58,14 @@ public class OurPL {
 
 
         Parser parser = new Parser(tokens);
-        Expr expression = parser.parse();
+        List<Stmt> statements = parser.parse();
 
         if (hadError) return;
 
-        System.out.println(new ASTPrinter().print(expression));
 
-        new Interpreter().interpret(expression);
+        System.out.println(new ASTPrinter().print(statements));
+
+        new Interpreter().interpret(statements);
     }
 
     static void error(int line, String message) {
