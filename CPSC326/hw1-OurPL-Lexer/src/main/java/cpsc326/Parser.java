@@ -19,7 +19,7 @@ private List<Stmt> parse() {
     while(!isAtEnd()){
         statements.add(Statement());
     }
-    return statements; // <-- missing this!
+    return statements; 
 }
 
     private Stmt Statement() {
