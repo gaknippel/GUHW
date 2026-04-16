@@ -63,7 +63,7 @@ public class OurPL {
         if (hadError) return;
 
 
-        System.out.println(new ASTPrinter().print(statements));
+        // System.out.println(new ASTPrinter().print(statements));
 
         new Interpreter().interpret(statements);
     }
