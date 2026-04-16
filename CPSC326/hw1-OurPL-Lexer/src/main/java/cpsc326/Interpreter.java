@@ -41,12 +41,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
         return null;
     }
 
-        @Override
-        public Void visitPrintStatement(Stmt.Print stmt) {
-            Object value = evaluate(stmt.expression);
-            System.out.print(stringify(value));
-            return null;
-        }
+    @Override
+    public Void visitPrintStatement(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.print(stringify(value));
+        return null;
+    }
 
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;

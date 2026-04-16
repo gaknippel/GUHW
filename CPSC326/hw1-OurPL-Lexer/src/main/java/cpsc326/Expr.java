@@ -11,6 +11,15 @@ abstract class Expr {
     R visitLiteralExpr(Literal expr);
 
     R visitUnaryExpr(Unary expr);
+
+    R visitAssignExpr(Assign expr);
+  }
+  
+  static class Assign extends Expr {
+    Assign(Token identifier, Expr logic) {
+      this.identifier = identifier;
+      this.logic = logic;
+    }
   }
 
   static class Unary extends Expr {
@@ -76,6 +85,8 @@ abstract class Expr {
 
     final Object value;
   }
+
+
 
   abstract <R> R accept(Visitor<R> visitor);
 }

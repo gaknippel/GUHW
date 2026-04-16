@@ -14,13 +14,22 @@ class Parser {
         this.tokens = tokens;
     }
 
-List<Stmt> parse() {
-    List<Stmt> statements = new ArrayList<Stmt>();
-    while(!isAtEnd()){
-        statements.add(Statement());
+    List<Stmt> parse() {
+        List<Stmt> statements = new ArrayList<Stmt>();
+
+        while(!isAtEnd()) {
+            statements.add(Statement());
+        }
+
+        return statements;
+
+
+        // try {
+        //     return expression();
+        // } catch (ParseError error) {
+        //     return null;
+        // }
     }
-    return statements; 
-}
 
     private Stmt Statement() {
         if(match(PRINT)) {
@@ -190,7 +199,7 @@ List<Stmt> parse() {
     }
 
     private boolean check(TokenType type) {
-        if (isAtEnd()) return type == EOF;
+        if (isAtEnd()) return false;
         return peek().type == type;
     }
 
