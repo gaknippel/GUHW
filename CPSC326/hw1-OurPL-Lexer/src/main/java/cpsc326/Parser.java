@@ -188,7 +188,12 @@ class Parser {
     }
 
     private Expr expression() {
-        return equality();
+        return assignment();
+    }
+
+    private Expr assignment() {
+        
+        return
     }
 
     private Expr equality() {
