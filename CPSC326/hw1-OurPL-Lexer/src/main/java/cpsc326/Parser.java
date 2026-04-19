@@ -34,12 +34,16 @@ class Parser {
     }
 
     private Stmt declaration(){
-        if(match(VAR)){
-            return varDecl();
+    try {
+        if (match(VAR)) return varDecl();{
+        return statement();
         }
-        else{
-            return statement();
-        }
+    } 
+    catch (ParseError error) {
+        synchronize();
+        return null;
+    }
+
     } 
 
     private Stmt.Var varDecl(){
@@ -79,7 +83,7 @@ class Parser {
     private Stmt.Block blockStatement(){
         List<Stmt> statements = new ArrayList<>();
 
-        while(!check(RIGHT_BRACE) && isAtEnd()){
+        while(!check(RIGHT_BRACE) && !isAtEnd()){
             statements.add(declaration());
         }
 
@@ -91,7 +95,7 @@ class Parser {
         consume(LEFT_PAREN, "Expect '(' after if.");
 
         Expr condition = expression();
-        consume(RIGHT_PAREN, "Expect ') after if.");
+        consume(RIGHT_PAREN, "Expect ')'' after if.");
 
         Stmt thenBranch = statement();
 

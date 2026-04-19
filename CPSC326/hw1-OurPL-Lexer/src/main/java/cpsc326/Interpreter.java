@@ -1,8 +1,14 @@
 package cpsc326;
 
+import static cpsc326.TokenType.AND;
+
 import java.util.List;
 
+
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
+
+    Environment environment = new Environment();
+
     void interpret(List<Stmt> statements) {
         try {
             for(Stmt statement : statements) {
@@ -13,7 +19,88 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
         }
     }
 
-    
+
+    @Override
+    public Void visitVarStatement(Stmt.Var stmt){
+        Object value = null;
+        if(stmt.initializer != null){
+            value = evaluate(stmt.initializer);
+        }
+
+        environment.define(stmt.name.lexeme, value);
+        return null;
+    }
+
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr){
+        return environment.get(expr.name);
+    }
+
+    @Override
+    public Object visitAssignExpr(Expr.Assign expr){
+        Object value = evaluate(expr.value);
+
+        environment.assign(expr.name, value);
+
+        return value;
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr){
+        Object left = evaluate(expr.left);
+
+        if(expr.operator.type == TokenType.OR && isTruthy(left)){
+            return left;
+        }
+
+        if(expr.operator.type == TokenType.AND && !isTruthy(left)){
+            return left;
+        }
+        Object right = evaluate(expr.right);
+
+        return right;
+
+    }
+
+    @Override
+    public Void visitBlockStatement(Stmt.Block stmt){
+        Environment previous = environment;
+        environment = new Environment(environment);
+
+        try {
+            for(Stmt statement : stmt.stmt){
+                execute(statement);
+            }
+        }
+        finally{
+            environment = previous;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitIfStatement(Stmt.If stmt){
+        Object condition = evaluate(stmt.condition);
+
+        if(isTruthy(condition)){
+            execute(stmt.thenBranch);
+        }
+        else if(stmt.elseBranch != null){
+            execute(stmt.elseBranch);
+        }
+
+        return null;    
+    }
+
+    @Override
+    public Void visitWhileStatement(Stmt.While stmt){
+        while(isTruthy(evaluate(stmt.condition))){
+            execute(stmt.body);
+        }
+
+        return null;
+    }
 
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
@@ -44,7 +131,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
     @Override
     public Void visitPrintStatement(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
-        System.out.print(stringify(value));
+        System.out.println(stringify(value));
         return null;
     }
 
