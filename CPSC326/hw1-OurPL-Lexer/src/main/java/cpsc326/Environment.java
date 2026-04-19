@@ -6,7 +6,7 @@ public class Environment {
 
     Environment enclosing;
 
-    Map<String, Object> values = new HashMap<>();
+    Map<String, Object> values = new HashMap<>(); //our hash map to store our statements in
     
 
     Environment(){ //constructor 1
@@ -18,11 +18,11 @@ public class Environment {
     }
 
 
-    void define(String name, Object value){
+    void define(String name, Object value){ //defines vars
         values.put(name,value);
     }
 
-    Object get(Token name){
+    Object get(Token name){ //fetches vars
         if(values.containsKey(name.lexeme)){
             return values.get(name.lexeme);
         }
@@ -35,7 +35,7 @@ public class Environment {
 
     }
 
-    void assign(Token name, Object value)
+    void assign(Token name, Object value) //assigning vars
     {
         if(values.containsKey(name.lexeme)){
             values.put(name.lexeme, value);

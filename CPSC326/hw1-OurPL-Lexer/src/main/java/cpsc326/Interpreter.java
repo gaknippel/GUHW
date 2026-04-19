@@ -7,11 +7,11 @@ import java.util.List;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
 
-    Environment environment = new Environment();
+    Environment environment = new Environment(); //creating our environment
 
-    void interpret(List<Stmt> statements) {
+    void interpret(List<Stmt> statements) { //interprets a lists of statements
         try {
-            for(Stmt statement : statements) {
+            for(Stmt statement : statements) { 
                 execute(statement);
             }
         } catch (RuntimeError error) {
@@ -46,7 +46,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
     }
 
     @Override
-    public Object visitLogicalExpr(Expr.Logical expr){
+    public Object visitLogicalExpr(Expr.Logical expr){ 
         Object left = evaluate(expr.left);
 
         if(expr.operator.type == TokenType.OR && isTruthy(left)){
@@ -63,24 +63,24 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
     }
 
     @Override
-    public Void visitBlockStatement(Stmt.Block stmt){
+    public Void visitBlockStatement(Stmt.Block stmt){ 
         Environment previous = environment;
-        environment = new Environment(environment);
+        environment = new Environment(environment); //handling enclosing env
 
         try {
-            for(Stmt statement : stmt.stmt){
+            for(Stmt statement : stmt.statements){ //execute our statements in the block
                 execute(statement);
             }
         }
         finally{
-            environment = previous;
+            environment = previous; //revert to prev environment
         }
 
         return null;
     }
 
     @Override
-    public Void visitIfStatement(Stmt.If stmt){
+    public Void visitIfStatement(Stmt.If stmt){ //if condition is true, to then, else if have else, do else. (lol)
         Object condition = evaluate(stmt.condition);
 
         if(isTruthy(condition)){
@@ -94,7 +94,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
     }
 
     @Override
-    public Void visitWhileStatement(Stmt.While stmt){
+    public Void visitWhileStatement(Stmt.While stmt){ //execute body while condition is true!
         while(isTruthy(evaluate(stmt.condition))){
             execute(stmt.body);
         }
@@ -131,7 +131,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
     @Override
     public Void visitPrintStatement(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
-        System.out.println(stringify(value));
+        System.out.print(stringify(value) + "\n");
         return null;
     }
 

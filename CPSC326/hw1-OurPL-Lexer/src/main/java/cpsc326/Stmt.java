@@ -13,8 +13,10 @@ abstract class Stmt {
     }
 
     static class Block extends Stmt {
-        Block(List<Stmt> stmt){
-            this.stmt = stmt;
+        final List<Stmt> statements;
+
+        Block(List<Stmt> statements){
+            this.statements = statements;
         }
 
         @Override
@@ -22,7 +24,6 @@ abstract class Stmt {
             return visitor.visitBlockStatement(this);
         }
 
-        final List<Stmt> stmt;
     }
     
     static class Expression extends Stmt {

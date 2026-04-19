@@ -10,6 +10,7 @@ import java.util.List;
 
 public class OurPL {
     
+    static boolean hadRuntimeError = false;
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("Usage: OurPl [script]");
@@ -79,6 +80,7 @@ public class OurPL {
     static void runtimeError(RuntimeError error) 
     {
     System.err.println(error.getMessage() + "\n[line " + error.token.line + "]");
+    hadRuntimeError = true;
     }
 
 }
