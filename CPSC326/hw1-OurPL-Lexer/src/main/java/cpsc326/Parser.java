@@ -192,8 +192,42 @@ class Parser {
     }
 
     private Expr assignment() {
-        
-        return
+        Expr expr = logicOr();
+
+        if(match(EQUAL)){
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable) {
+                Token name = ((Expr.Variable)expr).name;
+                return new Expr.Assign(name, value);
+            }
+
+            error(equals, "Invalid assigment target.");
+        }
+        return expr;
+    }
+
+    private Expr logicOr(){
+        Expr expr = logicAnd();
+
+        while(match(OR)){
+            Token operator = previous();
+            expr = new Expr.Logical(expr, operator, logicAnd());
+        }
+
+        return expr;
+    }
+
+    private Expr logicAnd(){
+        Expr expr = equality();
+
+        while(match(AND)){
+            Token operator = previous();
+            expr = new Expr.Logical(expr, operator, equality());
+        }
+
+        return expr;
     }
 
     private Expr equality() {
@@ -278,6 +312,10 @@ class Parser {
         if(match(STRING))
         {
             return new Expr.Literal(previous().literal);
+        }
+        if(match(IDENTIFIER))
+        {
+            return new Expr.Variable(previous());
         }
 
         if (match(LEFT_PAREN)) //if its a group
