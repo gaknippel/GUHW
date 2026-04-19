@@ -1,6 +1,8 @@
 package cpsc326;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.lang.Thread.State;
 import java.util.ArrayList;
 import static cpsc326.TokenType.*;
 
@@ -18,7 +20,7 @@ class Parser {
         List<Stmt> statements = new ArrayList<Stmt>();
 
         while(!isAtEnd()) {
-            statements.add(Statement());
+            statements.add(declaration());
         }
 
         return statements;
@@ -31,16 +33,143 @@ class Parser {
         // }
     }
 
-    private Stmt Statement() {
-        if(match(PRINT)) {
-            return PrintStatement();
+    private Stmt declaration(){
+        if(match(VAR)){
+            return varDecl();
         }
-        else {
-            return ExpressionStatement();
+        else{
+            return statement();
         }
+    } 
+
+    private Stmt.Var varDecl(){
+       Token name = consume(IDENTIFIER, "Expect variable name.");
+       
+       Expr initializer = null;
+       if(match(EQUAL)){
+            initializer = expression();
+       }
+
+        if(match(SEMICOLON)) {
+            return new Stmt.Var(name, initializer);
+        }
+        throw error(peek(), "Expected ;");
     }
 
-    private Stmt PrintStatement() {
+    private Stmt statement() {
+        if(match(PRINT)) {
+            return printStatement();
+        }
+        if(match(LEFT_BRACE)){
+            return blockStatement();
+        }
+        if(match(IF)) {
+            return ifStatement();
+        }
+        if(match(WHILE)){
+            return whileStatement();
+        }
+        if(match(FOR)) {
+            return forStatement();
+        }
+
+        return expressionStatement();
+    }
+
+    private Stmt.Block blockStatement(){
+        List<Stmt> statements = new ArrayList<>();
+
+        while(!check(RIGHT_BRACE) && isAtEnd()){
+            statements.add(declaration());
+        }
+
+        consume(RIGHT_BRACE, "Expect '}' after block.");
+        return new Stmt.Block(statements);
+    }
+
+    private Stmt.If ifStatement() {
+        consume(LEFT_PAREN, "Expect '(' after if.");
+
+        Expr condition = expression();
+        consume(RIGHT_PAREN, "Expect ') after if.");
+
+        Stmt thenBranch = statement();
+
+        Stmt elseBranch = null;
+
+        if(match(ELSE)){
+            elseBranch = statement();
+        }
+
+        return new Stmt.If(condition, thenBranch, elseBranch);
+    }
+
+    private Stmt.While whileStatement(){
+        consume(LEFT_PAREN, "Expect '(' after while.");
+
+        Expr condition = expression();
+        consume(RIGHT_PAREN, "Expect ')' after while.");
+
+        Stmt body = statement();
+
+        return new Stmt.While(condition, body);
+    }
+
+    private Stmt forStatement(){
+        consume(LEFT_PAREN, "Expected '(' after for.");
+
+        Stmt initializer;
+        if(match(SEMICOLON)){
+            initializer = null;
+        }
+        else if (match(VAR)){
+            initializer = varDecl();
+        }
+        else 
+        {
+            initializer = expressionStatement();
+        }
+
+        Expr condition = null;
+
+        if(!check(SEMICOLON)){ //if the next token is NOT a ';' (doesnt consume it)
+            condition = expression();
+        }
+        consume(SEMICOLON, "Expect ';' after loop condition.");
+
+        Expr increment = null;
+
+        if(!check(RIGHT_PAREN)){
+            increment = expression();
+        }
+        consume(RIGHT_PAREN, "Expect ')' after for.");
+
+        Stmt body = statement();
+
+
+        if(increment != null){
+            body = new Stmt.Block(
+                List.of(body, new Stmt.Expression((increment)))
+            );
+        }
+
+        if(condition == null){
+            condition = new Expr.Literal(true);
+        }
+
+        body = new Stmt.While(condition, body);
+
+        if(initializer != null){
+            body = new Stmt.Block(
+                List.of(initializer, body)
+            );
+        }
+
+        return body;
+
+    }
+
+    private Stmt printStatement() {
         Expr expr = expression();
 
         if(match(SEMICOLON)) {
@@ -49,7 +178,7 @@ class Parser {
         throw error(peek(), "Expected ;");
     }
 
-    private Stmt ExpressionStatement() {
+    private Stmt expressionStatement() {
         Expr expr = expression();
 
         if(match(SEMICOLON)) {
