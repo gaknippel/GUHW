@@ -12,6 +12,18 @@ abstract class Stmt {
         R visitWhileStatement(Stmt.While stmt);
     }
 
+    static class Function extends Stmt{
+        Token name;
+        List<Token> params;
+        List<Stmt> body;
+
+        Function(Token name, List<Token> params, List<Stmt> body){
+            this.name = name;
+            this.params = params;
+            this.body = body;
+        }
+    }
+
     static class Block extends Stmt {
         final List<Stmt> statements;
 
