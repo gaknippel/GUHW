@@ -10,6 +10,7 @@ abstract class Stmt {
         R visitVarStatement(Stmt.Var stmt);
         R visitIfStatement(Stmt.If stmt);
         R visitWhileStatement(Stmt.While stmt);
+        R visitFunctionStatement(Stmt.Function stmt);
     }
 
     static class Function extends Stmt{
@@ -21,6 +22,11 @@ abstract class Stmt {
             this.name = name;
             this.params = params;
             this.body = body;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor){
+            return visitor.visitFunctionStatement();
         }
     }
 
