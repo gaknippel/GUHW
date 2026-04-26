@@ -24,27 +24,56 @@ class Parser {
         }
 
         return statements;
-
-
-        // try {
-        //     return expression();
-        // } catch (ParseError error) {
-        //     return null;
-        // }
     }
 
-    private Stmt declaration(){
-    try {
-        if (match(VAR)) return varDecl();{
-        return statement();
+    private Stmt.Return returnStatement(){
+        Token keyword = previous();
+        Expr value = null;
+
+        if(!check(SEMICOLON)){
+            value = expression();
         }
-    } 
-    catch (ParseError error) {
-        synchronize();
-        return null;
+        
+        consume(SEMICOLON, "Exprect ';' after return value.");
+
+        return new Stmt.Return(value, keyword);
+
     }
 
-    } 
+    private Stmt declaration() {
+        try {
+            if (match(FUN)) return funDecl();
+            if (match(VAR)) return varDecl();
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }
+    }
+
+    private Stmt.Function funDecl(){
+        Token name = consume(IDENTIFIER, "Expect function name.");
+
+        consume(LEFT_PAREN, "Expect '(' after function.");
+
+        List<Token> params = new ArrayList<>();
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (params.size() >= 255) {
+                    error(peek(), "Can't have more than 255 parameters.");
+                }
+                params.add(consume(IDENTIFIER, "Expect parameter name."));
+            } while (match(COMMA));
+        }
+        consume(RIGHT_PAREN, "Expect ')' after parameters.");
+
+        consume(LEFT_BRACE, "Expect '{' before function body.");
+        List<Stmt> body = blockStatement().statements;
+
+        return new Stmt.Function(name, params, body);
+    }
+    
+    
 
     private Stmt.Var varDecl(){
        Token name = consume(IDENTIFIER, "Expect variable name.");
@@ -75,6 +104,9 @@ class Parser {
         }
         if(match(FOR)) {
             return forStatement();
+        }
+        if(match(RETURN)){
+            return returnStatement();
         }
 
         return expressionStatement();
@@ -293,7 +325,35 @@ class Parser {
             return new Expr.Unary(operator, right);
         }
 
-        return primary();
+        return call();
+    }
+
+    private Expr call(){
+        Expr expr = primary();
+
+        while(match(LEFT_PAREN)){
+            expr = finishCall(expr);
+        }
+        return expr;
+    } 
+
+    private Expr finishCall(Expr callee){
+
+        List<Expr> arguments = new ArrayList<>();
+
+        if (!check(RIGHT_PAREN)) {
+            do {
+                if (arguments.size() >= 255) {
+                    error(peek(), "Can't have more than 255 parameters.");
+                }
+                arguments.add(expression());
+            } while (match(COMMA));
+        }
+
+        Token paren = consume(RIGHT_PAREN, "Expect ')' after arguments.");
+
+        return new Expr.Call(callee, paren, arguments);
+
     }
 
     private Expr primary() {

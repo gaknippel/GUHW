@@ -11,6 +11,23 @@ abstract class Stmt {
         R visitIfStatement(Stmt.If stmt);
         R visitWhileStatement(Stmt.While stmt);
         R visitFunctionStatement(Stmt.Function stmt);
+        R visitReturnStatement(Stmt.Return stmt);
+    }
+
+    static class Return extends Stmt{
+        final Expr value;
+        final Token keyword;
+
+        Return(Expr value, Token keyword){
+            this.value = value;
+            this.keyword = keyword;
+        }
+
+        @Override
+        <R> R accept(Visitor <R> visitor){
+            return visitor.visitReturnStatement(this);
+        }
+
     }
 
     static class Function extends Stmt{
@@ -26,7 +43,7 @@ abstract class Stmt {
 
         @Override
         <R> R accept(Visitor<R> visitor){
-            return visitor.visitFunctionStatement();
+            return visitor.visitFunctionStatement(this);
         }
     }
 

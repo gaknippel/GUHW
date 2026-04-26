@@ -4,6 +4,10 @@ import static cpsc326.TokenType.AND;
 
 import java.util.List;
 
+import java.util.ArrayList;
+
+import cpsc326.Expr.Call;
+
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
 
@@ -29,6 +33,48 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
 
         environment.define(stmt.name.lexeme, value);
         return null;
+    }
+
+    @Override 
+    public Void visitFunctionStatement(Stmt.Function stmt){
+        OurPLFunction func = new OurPLFunction(stmt);
+        environment.define(stmt.name.lexeme, func);
+
+        return null;
+    }
+
+    @Override
+    public Void visitReturnStatement(Stmt.Return stmt){
+        Object value = null;
+
+        if (stmt.value != null){
+            value = evaluate(stmt.value);
+        }
+
+        throw new Return(value);
+    }
+
+    @Override
+    public Object visitCallExpr(Call expr){
+        Object callee = evaluate(expr.callee);
+
+        List<Object> arguments = new ArrayList<>();
+        for (Expr argument : expr.arguments){
+            arguments.add(evaluate(argument));
+        }
+
+        if (!(callee instanceof OurPLCallable)){
+            throw new RuntimeError(expr.paren, "Can only call functions.");
+        }
+
+        OurPLCallable function = (OurPLCallable) callee;
+
+        if(arguments.size() != function.arity()){
+            throw new RuntimeError(expr.paren, "Expected " + function.arity() + " arguments but got " + arguments.size() + ".");
+        }
+
+
+        return function.call(this, arguments);
     }
 
     @Override
