@@ -9,8 +9,13 @@ class OurPLFunction implements OurPLCallable{
         this.declaration = declaration;
     }
 
+
+//makes a new env with interpreter passed in when calling function. 
+//we are going through each of the arguments and defining them in the scope to actual variables
+//so we can use them in the function environment
+//then we execute the block of the function, and call return.
     @Override
-    public Object call(Interpreter interpreter, List<Object> arguments) {
+    public Object call(Interpreter interpreter, List<Object> arguments) {  
         Environment environment = new Environment(interpreter.environment);
         
         for (int i = 0; i < declaration.params.size(); i++) {
