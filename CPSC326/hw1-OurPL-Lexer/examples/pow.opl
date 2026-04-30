@@ -1,0 +1,35 @@
+fun pow (base, exp) {
+
+    if (exp == 0) {
+        return 1;
+    }
+    else {
+    var total = 1;
+    var bool = false;
+
+    if(exp < 0){
+        exp = -1 * exp;
+        bool = true;
+    }
+
+    for(var i = 0; i < exp; i = i + 1) {
+        total = total * base;
+    }
+
+    if (bool == true){
+        total = 1/total;
+    }
+
+
+    return total;
+    }
+}
+
+print pow(2,-4);
+print pow(-2,-3);
+print pow(-2,3);
+print pow(-2,4);
+print pow(2,10);
+print pow(10,0);
+
+

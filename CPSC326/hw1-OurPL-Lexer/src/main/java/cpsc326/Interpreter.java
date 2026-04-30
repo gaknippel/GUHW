@@ -67,7 +67,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>{
             throw new RuntimeError(expr.paren, "Can only call functions.");
         }
 
-        OurPLCallable function = (OurPLCallable) callee;
+        OurPLCallable function = (OurPLCallable)callee;
 
         if(arguments.size() != function.arity()){
             throw new RuntimeError(expr.paren, "Expected " + function.arity() + " arguments but got " + arguments.size() + ".");

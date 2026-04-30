@@ -1,0 +1,38 @@
+fun truncate(n) {
+    var i = 0;
+    if (n >= 0) 
+    {
+        while (i + 1 <= n) 
+        {
+            i = i + 1;
+        }
+    } 
+    else 
+    {
+        while (i - 1 >= n) 
+        {
+            i = i - 1;
+        }
+    }
+    return i;
+}
+
+fun mod(a, b) {
+    return a - (b * truncate(a / b));
+}
+
+
+fun gcd(a,b){
+    while (b != 0) {
+        var temp = b;
+        b = mod(a,b);
+        a = temp;
+    }
+
+    return a;
+}
+
+
+print gcd(48, 18);   
+print gcd(100, 75);  
+print gcd(17, 5);    
