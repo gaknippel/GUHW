@@ -3,26 +3,27 @@
 .section .text
 
 _start:
-    movq $5, %rdi       # first argument
-    movq $3, %rsi       # second argument
-    call myFunction
+    movq $7, %rdi       # first argument
+    movq $4, %rsi       # second argument
+    call subtract
+
+    # %rax should hold the result here
 
     movq $60, %rax
     xor %rdi, %rdi
     syscall
 
-myFunction:
-
-    pushq %rbp
+subtract:
+    pusq %rbp
 
     movq %rdi, %rax
-    addq %rsi, %rax
+    subq %rsi, %rax
 
     popq %rbp
-    # prologue - set up the stack frame
+    # prologue
     
-    # do something with the two arguments
-    # maybe add them together?
+    # subtract second argument from first
+    # result in %rax
 
-    # epilogue - tear down the stack frame
+    # epilogue
     ret
