@@ -18,7 +18,12 @@ fun truncate(n) {
 }
 
 fun mod(a, b) {
-    return a - (b * truncate(a / b));
+    var result = a - (b * truncate(a / b));
+    if (result != 0 and (result < 0) != (b < 0)) 
+    {
+        result = result + b;
+    }
+    return result;
 }
 
 print mod(21,5);
