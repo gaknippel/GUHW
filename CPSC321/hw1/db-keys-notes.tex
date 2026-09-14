@@ -1,0 +1,547 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{titling}
+\setlength{\droptitle}{-3em}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false
+}
+
+\lstdefinestyle{plainschema}{
+    language=,
+    basicstyle=\ttfamily\small,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false,
+    numbers=none
+}
+
+\lstdefinestyle{sqlstyle}{
+    language=SQL,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false,
+    numbers=none
+}
+
+\geometry{margin=1in}
+
+\title{Database Notes: Schemas, Keys, and Schema Design}
+\author{
+Greyson Knippel \\[4pt]
+CPSC 321 --- Gonzaga University
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\noindent Reference notes for an intro database course. Covers relational schema
+vocabulary, the key hierarchy, how to derive keys from stated constraints, and
+foreign key placement in schema design.
+
+\section{Relation Schema}
+
+A \textbf{relation schema} has three parts:
+
+\begin{enumerate}
+    \item \textbf{Relation name} --- e.g. \texttt{STUDENT}
+    \item \textbf{Attributes} --- $A_1, A_2, \ldots, A_n$ (the columns)
+    \item \textbf{Domains} --- $\mathrm{dom}(A_i)$, the allowed atomic values for each attribute
+\end{enumerate}
+
+Notation: $R(A_1, A_2, \ldots, A_n)$
+
+\subsection*{Example}
+
+\begin{lstlisting}[style=plainschema]
+STUDENT(Name, SSN, Age, Major)
+\end{lstlisting}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|c|l|}
+\hline
+\textbf{Name} & \textbf{SSN} & \textbf{Age} & \textbf{Major} \\
+\hline
+Ana Ruiz & 305-61-2435 & 19 & CS \\
+Ben Cho & 422-11-9087 & 21 & Math \\
+Dee Patel & 700-53-1122 & 20 & CS \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Term} & \textbf{Meaning} & \textbf{Here} \\
+\hline
+Relation name & the table's name & \texttt{STUDENT} \\
+Attribute & a column & \texttt{Name}, \texttt{SSN}, \texttt{Age}, \texttt{Major} \\
+Domain & allowed values for an attribute & $\mathrm{dom}(\text{Age}) = $ int 1--120 \\
+Degree / arity & number of attributes & 4 \\
+Tuple & one row & \texttt{<Ana Ruiz, 305-61-2435, 19, CS>} \\
+Cardinality & number of tuples & 3 \\
+Attribute value & one cell, must be \textbf{atomic} & $t[\text{Age}] = 19$ \\
+Relation state $r(R)$ & the whole set of tuples right now & these 3 rows \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Schema vs.\ instance:} the schema is the definition (intension); the
+relation state/instance is the data at a moment (extension).
+
+\textbf{Relation schema vs.\ relational database schema:} the latter is
+\emph{all} relation schemas plus integrity constraints.
+
+A relation is a \textbf{set of tuples} --- no duplicates, no row order. Values
+\emph{within} a tuple are ordered, matched positionally to the attributes.
+
+\section{The Key Hierarchy}
+
+\subsection*{Definitions}
+
+\begin{itemize}
+    \item \textbf{Superkey} --- any attribute set that uniquely identifies a tuple. Extras allowed.
+    \item \textbf{Candidate key} --- a superkey that is \textbf{minimal}: removing \emph{any} attribute breaks uniqueness.
+    \item \textbf{Primary key} --- the candidate key you choose as the official identifier. Never NULL.
+    \item \textbf{Alternate key} --- the candidate keys you didn't choose.
+    \item \textbf{Foreign key} --- attribute(s) referencing another relation's primary key.
+    \item \textbf{Surrogate key} --- a meaningless system-generated ID (auto\_increment, UUID).
+\end{itemize}
+
+\subsection*{Simple vs.\ composite --- just a count}
+
+\begin{itemize}
+    \item \textbf{Simple key} = one attribute
+    \item \textbf{Composite key} = two or more attributes taken together
+\end{itemize}
+
+Orthogonal to primary/candidate. A composite key can absolutely be the primary key.
+
+\subsection*{The Minimality Test}
+
+\begin{quote}
+Remove each attribute \textbf{one at a time}. If \textbf{EVERY} removal breaks
+uniqueness, it's a candidate key. If \textbf{ANY} removal survives, it's a
+superkey only.
+\end{quote}
+
+\textbf{Breaking is the PASS condition.} If it still works after removal, that
+attribute was dead weight and the set was not minimal.
+
+One-line version: \textbf{a candidate key is a superkey you cannot make any smaller.}
+
+\subsection*{Worked Example --- EMPLOYEE}
+
+\begin{lstlisting}[style=plainschema]
+EMPLOYEE(EmpID, Email, Phone, Name, Dept)
+\end{lstlisting}
+
+Constraints: \texttt{EmpID}, \texttt{Email}, \texttt{Phone} each unique.
+\texttt{Name}, \texttt{Dept} repeat.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|l|}
+\hline
+\textbf{Set} & \textbf{Superkey?} & \textbf{Candidate key?} & \textbf{Why} \\
+\hline
+\texttt{\{EmpID\}} & \checkmark & \checkmark & unique + minimal \\
+\texttt{\{Email\}} & \checkmark & \checkmark & unique + minimal \\
+\texttt{\{EmpID, Name\}} & \checkmark & $\times$ & remove \texttt{Name} $\to$ still works $\to$ not minimal \\
+\texttt{\{EmpID, Email\}} & \checkmark & $\times$ & two keys stapled together --- remove either, still works \\
+\texttt{\{Name, Dept\}} & $\times$ & $\times$ & not unique \\
+all 5 attributes & \checkmark & $\times$ & the whole row is always a superkey \\
+\hline
+\end{tabular}
+\end{table}
+
+Counts: \textbf{28 superkeys} ($2^5 = 32$ subsets, minus the 4 subsets of
+\texttt{\{Name, Dept\}}), but only \textbf{3 candidate keys}.
+
+\begin{quote}
+Gotcha: \texttt{\{EmpID, Email\}} is the \emph{worst} offender, not the best ---
+it contains two complete keys when one would do. Keyring analogy: two keys that
+open the same door. A candidate key is a keyring where losing \textbf{any} key
+locks you out.
+\end{quote}
+
+\subsection*{Worked Example --- CAR (composite candidate key)}
+
+\begin{lstlisting}[style=plainschema]
+CAR(LicensePlate, State, VIN, Make, Model, Year)
+\end{lstlisting}
+
+License plates are unique only \emph{within} a state.
+
+\begin{itemize}
+    \item Candidate keys: \texttt{\{VIN\}} (simple) and \texttt{\{LicensePlate, State\}} (composite)
+    \item \texttt{\{LicensePlate\}} alone is \textbf{not} a superkey --- the trap
+\end{itemize}
+
+A relation can have a simple and a composite candidate key at the same time.
+
+\subsection*{Worked Example --- Derive From Data}
+
+\begin{lstlisting}[style=plainschema]
+R(A, B, C)
+\end{lstlisting}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{A} & \textbf{B} & \textbf{C} \\
+\hline
+a1 & b1 & c1 \\
+a1 & b2 & c1 \\
+a2 & b1 & c2 \\
+a2 & b2 & c2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item \texttt{\{A\}}, \texttt{\{B\}}, \texttt{\{C\}} --- all have duplicates $\times$
+    \item \texttt{\{A,B\}} --- distinct $\to$ superkey, and minimal $\to$ \textbf{candidate key} \checkmark
+    \item \texttt{\{A,C\}} --- (a1,c1) twice $\times$ (because $A \to C$, so $C$ adds nothing)
+    \item \texttt{\{B,C\}} --- distinct $\to$ \textbf{candidate key} \checkmark
+    \item \texttt{\{A,B,C\}} --- superkey, not minimal
+\end{itemize}
+
+\textbf{3 superkeys, 2 candidate keys.}
+
+\begin{quote}
+\textbf{Warning:} An instance can only DISPROVE a key, never PROVE one. Keys are
+constraints over all possible states. Uniqueness in one snapshot may be
+coincidence. Keys come from the rules of the domain, not from staring at data.
+\end{quote}
+
+\subsection*{The Minimality Trap}
+
+\begin{lstlisting}[style=plainschema]
+ENROLLMENT(StudentID, CourseID, Semester, Grade)
+\end{lstlisting}
+
+All four columns together are unique --- but drop \texttt{Grade} and it still
+works, so it's a \textbf{superkey only}. Candidate key is
+\texttt{\{StudentID, CourseID, Semester\}}.
+
+Rule of thumb: \textbf{if you can delete an attribute from your answer and it
+still works, your answer is wrong.}
+
+\section{Deriving Keys From Stated Constraints}
+
+Word problems state constraints in the form:
+
+\begin{quote}
+``at most one \textbf{[B]} for a given \textbf{[A]}''
+\end{quote}
+
+This gives you a \textbf{functional dependency}: $A \to B$.
+
+\subsection*{The Rule}
+
+\begin{enumerate}
+    \item Translate the sentence into an FD.
+    \item Ask: \textbf{does the left side determine EVERY remaining attribute?}
+    \begin{itemize}
+        \item Yes $\to$ the left side is the key.
+        \item No $\to$ add the uncovered attributes, then re-run the minimality test.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Three Worked Cases}
+
+\textbf{Case 1 --- \texttt{ALLOWED\_PLAN(vt\_id, p\_id)}}
+
+``A vehicle type has at most one plan; a plan serves many vehicle types.''
+\begin{itemize}
+    \item FD: $vt\_id \to p\_id$
+    \item Left side covers everything else \checkmark
+    \item \textbf{PK = \{vt\_id\}} (simple)
+    \item Both columns are also FKs. Since it's 1:N, this table could be folded
+    into \texttt{VEHICLE\_TYPE} as an FK column --- junction tables earn their
+    keep only for M:N.
+\end{itemize}
+
+\textbf{Case 2 --- \texttt{SPY(agent, spies\_on, spies\_for)}}
+
+``A country has at most one agent that spies on a given country.''
+\begin{itemize}
+    \item FD: $\{spies\_on, spies\_for\} \to agent$
+    \item Left side covers everything else \checkmark
+    \item \textbf{PK = \{spies\_on, spies\_for\}} (composite)
+    \item \texttt{agent} is not in the key --- a row is an \emph{assignment}, not
+    a person. One agent can hold many assignments (multiple targets, multiple
+    employers, double agent).
+\end{itemize}
+
+\textbf{Case 3 --- \texttt{SPY(agent, spies\_on, spies\_for)}, different constraint}
+
+``An agent spies on at most one country.''
+\begin{itemize}
+    \item FD: $agent \to spies\_on$
+    \item Left side does \textbf{not} cover \texttt{spies\_for} $\times$ $\to$ patch the hole
+    \item \textbf{PK = \{agent, spies\_for\}}
+    \item Note: \texttt{agent} is only \emph{part} of the key but determines
+    \texttt{spies\_on} $\to$ \textbf{partial dependency $\to$ 2NF violation}.
+    Decomposes into \texttt{AGENT(agent, spies\_on)} and
+    \texttt{ASSIGNMENT(agent, spies\_for)}.
+\end{itemize}
+
+\textbf{Same three columns, same table shape --- the constraint decides the key.}
+
+\section{Foreign Keys}
+
+\begin{lstlisting}[style=plainschema]
+EMPLOYEE(EmpID, Name, DeptID)
+                        --FK--> DEPARTMENT(DeptID)
+\end{lstlisting}
+
+\textbf{Referential integrity:} every FK value must either match an existing PK
+value in the parent table, or be NULL.
+
+\subsection*{Three Things Students Get Wrong}
+
+\begin{enumerate}
+    \item \textbf{An FK does NOT have to be unique.} Many employees, one
+    department --- \texttt{DeptID} repeats. Uniqueness is required on the
+    \emph{parent} side only.
+    \item \textbf{An FK CAN be NULL} (unless separately declared \texttt{NOT NULL}). A PK never can.
+    \item \textbf{Direction matters.} The FK lives on the \textbf{many} side.
+\end{enumerate}
+
+\subsection*{What It Prevents}
+
+\begin{lstlisting}[style=sqlstyle]
+INSERT INTO EMPLOYEE VALUES ('E5','Kim','D9');  -- REJECTED: D9 doesn't exist (orphan)
+DELETE FROM DEPARTMENT WHERE DeptID = 'D1';     -- REJECTED: employees still reference D1
+\end{lstlisting}
+
+\subsection*{Referential Actions}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Action} & \textbf{On delete of the parent row} \\
+\hline
+\texttt{RESTRICT} / \texttt{NO ACTION} & refuse the delete (default) \\
+\texttt{CASCADE} & delete the children too \\
+\texttt{SET NULL} & keep children, null out their FK \\
+\texttt{SET DEFAULT} & set FK to a declared default \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=sqlstyle]
+FOREIGN KEY (DeptID) REFERENCES DEPARTMENT(DeptID)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE
+\end{lstlisting}
+
+\subsection*{Variations}
+
+\begin{itemize}
+    \item \textbf{Composite FK} --- if the parent PK is composite, the FK must be too, all columns together.
+    \item \textbf{Self-referencing FK} --- \texttt{EMPLOYEE(EmpID, Name, ManagerID)}
+    where \texttt{ManagerID} $\to$ \texttt{EMPLOYEE(EmpID)}. The top of the chain
+    has \texttt{ManagerID = NULL}, which is exactly why FKs must allow NULL.
+    \item \textbf{PK that is also an FK} --- normal in junction tables and 1:1 relationships.
+\end{itemize}
+
+\section{Schema Design --- Where the FK Goes}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Relationship} & \textbf{Where the FK goes} \\
+\hline
+\textbf{1:N} & FK column on the \textbf{many} side --- no extra table \\
+\textbf{M:N} & \textbf{New junction table}, PK = both FKs combined \\
+\textbf{1:1} & FK on either side, plus a UNIQUE constraint \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Cardinality decides this, not table shape.} Two two-column tables can
+look identical and need opposite designs.
+
+\subsection*{M:N Example --- Books and Authors}
+
+``A book can have multiple authors, and an author can write multiple books.''
+
+\begin{lstlisting}[style=plainschema]
+BOOK(isbn, title, pub_year)
+     PK: {isbn}
+
+AUTHOR(author_id, first_name, last_name)
+       PK: {author_id}
+
+WROTE(isbn, author_id)
+      PK: {isbn, author_id}
+      FK: isbn      -> BOOK(isbn)
+      FK: author_id -> AUTHOR(author_id)
+\end{lstlisting}
+
+\textbf{BOOK and AUTHOR have no foreign keys.} Both FKs live in the junction table.
+
+Why the third table is mandatory: putting \texttt{author\_id = "A1, A2, A3"} in
+BOOK violates \textbf{atomicity (1NF)}; \texttt{author1/author2/author3} columns
+cap the author count and fill with NULLs. The junction table makes each
+authorship its own row.
+
+\begin{lstlisting}[style=sqlstyle]
+CREATE TABLE WROTE (
+  isbn       CHAR(13),
+  author_id  INTEGER,
+  PRIMARY KEY (isbn, author_id),
+  FOREIGN KEY (isbn)      REFERENCES BOOK(isbn)        ON DELETE CASCADE,
+  FOREIGN KEY (author_id) REFERENCES AUTHOR(author_id) ON DELETE CASCADE
+);
+\end{lstlisting}
+
+Relationship attributes (e.g. \texttt{author\_position} for cover order) belong
+in the junction table --- they describe the pairing, not either entity, and
+don't join the key.
+
+\subsection*{1:N Example --- Pets and Owners}
+
+``Each pet belongs to exactly one owner.''
+
+\begin{lstlisting}[style=plainschema]
+OWNER(owner_id, name, phone)
+      PK: {owner_id}
+
+PET(pet_id, name, species, owner_id)
+    PK: {pet_id}
+    FK: owner_id -> OWNER(owner_id)   [NOT NULL]
+\end{lstlisting}
+
+Two tables, no junction table. A \texttt{HAS\_PET} junction table would
+\emph{permit} a pet with two owners --- \textbf{your schema should make illegal
+states impossible.}
+
+Don't put \texttt{pet\_id} in OWNER --- that caps each owner at one pet.
+
+\subsection*{The ``Exactly'' vs.\ ``At Most'' Distinction}
+
+\begin{quote}
+\textbf{``exactly one''} $\to$ FK is \textbf{NOT NULL} \\
+\textbf{``at most one''} $\to$ FK \textbf{allows NULL}
+\end{quote}
+
+Graders look for this. It's also the one real argument for keeping a separate
+table in a 1:N case: if most rows would have no match, a separate table avoids
+a column full of NULLs.
+
+\section{OLTP vs.\ OLAP}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+ & \textbf{OLTP} & \textbf{OLAP} \\
+\hline
+Purpose & runs the business & analyzes the business \\
+Workload & many small short transactions & few huge complex read queries \\
+Query touches & a few rows, by key & millions of rows, scanned + aggregated \\
+Read/write & write-heavy, high concurrency & read-mostly, bulk-loaded \\
+Data & current, detailed, updated in place & historical, summarized, non-volatile \\
+Design & \textbf{normalized} (3NF) --- cheap writes & \textbf{denormalized} --- cheap joins \\
+Optimizes for & ACID, latency, throughput & scan performance \\
+\hline
+\end{tabular}
+\end{table}
+
+Why they're separate databases: a 40-minute analytical scan shouldn't lock up
+order processing, and the two workloads want physically opposite designs.
+
+\subsection*{Warehouse Vocabulary}
+
+\textbf{Data warehouse} (Inmon's definition --- often tested verbatim):
+\emph{subject-oriented, integrated, time-variant, non-volatile.}
+
+\begin{itemize}
+    \item \emph{Subject-oriented} --- organized around subjects, not applications
+    \item \emph{Integrated} --- merged from many sources, formats reconciled
+    \item \emph{Time-variant} --- every record carries a time dimension; history kept
+    \item \emph{Non-volatile} --- loaded and read, not updated or deleted
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Data mart} --- a warehouse scoped to one department
+    \item \textbf{ETL} --- Extract, Transform, Load (ELT = load raw, transform in the warehouse)
+    \item \textbf{Star schema} --- central \textbf{fact table} (numeric measures + FKs)
+    surrounded by denormalized \textbf{dimension tables} (Product, Store, Date, Customer)
+    \item \textbf{Snowflake schema} --- star schema with normalized dimensions
+    \item \textbf{Fact vs.\ dimension} --- facts are measures; dimensions are how you slice them
+\end{itemize}
+
+\subsection*{OLAP Cube Operations}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Operation} & \textbf{Meaning} \\
+\hline
+Roll-up & aggregate up a hierarchy (day $\to$ month $\to$ year) \\
+Drill-down & the reverse, go finer \\
+Slice & fix one dimension to a single value \\
+Dice & subcube from ranges on several dimensions \\
+Pivot & rotate the axes of the view \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{Quick Reference Card}
+
+\textbf{Superkey} = unique. \\
+\textbf{Candidate key} = unique AND nothing removable. \\
+\textbf{Primary key} = the candidate key you picked. \\
+\textbf{Composite} = 2+ attributes. \textbf{Simple} = 1 attribute.
+
+\textbf{Minimality test:} remove each attribute one at a time --- \emph{every}
+removal must break it.
+
+\textbf{Constraint $\to$ key:} turn the sentence into an FD, check whether the
+left side covers all remaining attributes, patch if not.
+
+\textbf{FK placement:} 1:N $\to$ many side. M:N $\to$ junction table with
+composite PK.
+
+\textbf{``Exactly one''} $\to$ NOT NULL. \textbf{``At most one''} $\to$ NULL allowed.
+
+\textbf{Instances disprove keys; they never prove them.}
+
+\end{document}

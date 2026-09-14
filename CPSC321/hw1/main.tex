@@ -1,0 +1,436 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{matrix, arrows.meta, calc}
+\usepackage{titling}
+\setlength{\droptitle}{-3em}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false
+}
+
+\lstdefinestyle{plainschema}{
+    language=,
+    basicstyle=\ttfamily\small,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false,
+    numbers=none
+}
+
+\lstdefinestyle{sqlstyle}{
+    language=SQL,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    frame=single,
+    backgroundcolor=\color{gray!10},
+    breaklines=true,
+    showstringspaces=false,
+    numbers=none
+}
+
+\geometry{margin=1in}
+
+\newcommand{\schema}[1]{%
+  \begin{center}%
+  \setlength{\fboxsep}{8pt}%
+  \colorbox{gray!10}{%
+    \begin{minipage}{0.93\linewidth}\ttfamily\small\raggedright #1\end{minipage}}%
+  \end{center}%
+}
+
+\title{HW1}
+\author{
+Greyson Knippel \\[4pt]
+CPSC 321 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{} and Ti\emph{k}Z :)
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{part A}
+
+\subsection*{question 1}
+
+\schema{
+AIRPORT(\underline{air\_id}, air\_name, city, state)\\[4pt]
+FK: none
+}
+
+\texttt{air\_id} is the primary key since its unique, and minimal.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{air\_id} & \textbf{air\_name} & \textbf{city} & \textbf{state} \\
+\hline
+GEG & Spokane International & Spokane & WA \\
+SEA & Seattle-Tacoma International & Seattle & WA \\
+LAX & Los Angeles International & Los Angeles & CA \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{question 2}
+
+\schema{
+AIRLINE(\underline{air\_code}, airline\_name, air\_id, founded\_year)\\[4pt]
+FK: air\_id -> AIRPORT(air\_id)
+}
+
+\texttt{air\_code} is the primary key since its unique, and minimal.
+\texttt{air\_id} is a foreign key referencing the hub airport's \texttt{air\_id}
+in AIRPORT.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{air\_code} & \textbf{airline\_name} & \textbf{air\_id} & \textbf{founded\_year} \\
+\hline
+AS & Alaska Airlines & SEA & 1932 \\
+WN & Southwest Airlines & LAX & 1967 \\
+UA & United Airlines & GEG & 1926 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{question 3}
+
+\schema{
+FLIGHT\_ROUTE(\underline{air\_code}, \underline{flight\_num}, dep\_id, arr\_id,
+distance)\\[4pt]
+FK: air\_code -> AIRLINE(air\_code)\\
+FK: dep\_id -> AIRPORT(air\_id)\\
+FK: arr\_id -> AIRPORT(air\_id)
+}
+
+primary key is composite. neither attribute is unique on its own: an
+airline operates many routes, so \texttt{air\_code} repeats, and two airlines
+can both use flight number 122, so \texttt{flight\_num} repeats. together they
+are unique, and removing either one breaks uniqueness, so the pair is minimal.
+
+\texttt{dep\_id} and \texttt{arr\_id} are both foreign keys into AIRPORT.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{air\_code} & \textbf{flight\_num} & \textbf{dep\_id} & \textbf{arr\_id} & \textbf{distance} \\
+\hline
+AS & 122 & GEG & SEA & 224 \\
+AS & 345 & SEA & LAX & 954 \\
+WN & 122 & LAX & GEG & 1046 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{question 4}
+
+\schema{
+PASSENGER(\underline{pass\_id}, first\_name, last\_name, email)\\[4pt]
+Additional candidate key: \{email\}\\
+FK: none
+}
+
+\texttt{pass\_id} and \texttt{email} are both candidate keys since both are
+stated to be unique. \texttt{pass\_id} should be the primary key because
+email addresses can change, and that would be a problem.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{pass\_id} & \textbf{first\_name} & \textbf{last\_name} & \textbf{email} \\
+\hline
+1 & Ana & Ruiz & aruiz@example.com \\
+2 & Ben & Cho & bcho@example.com \\
+3 & Dee & Patel & dpatel@example.com \\
+\hline
+\end{tabular}
+\end{table}
+
+\schema{
+BOOKING(\underline{pass\_id}, \underline{air\_code}, \underline{flight\_num},
+\underline{travel\_date}, seat, price)\\[4pt]
+FK: pass\_id -> PASSENGER(pass\_id)\\
+FK: (air\_code, flight\_num) -> FLIGHT\_ROUTE(air\_code, flight\_num)
+}
+
+the constraint ``booked once per route per date'' 
+makes those four attributes the key. every removal of the attributes breaks it as well.
+
+\texttt{(air\_code, flight\_num)} is a composite foreign key the parent key
+is composite, so the reference has to carry both columns together.
+\texttt{seat} and \texttt{price} are irrelevant to this table's keys.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{pass\_id} & \textbf{air\_code} & \textbf{flight\_num} & \textbf{travel\_date} & \textbf{seat} & \textbf{price} \\
+\hline
+1 & AS & 122 & 2026-10-02 & 14A & 189.50 \\
+1 & AS & 122 & 2026-11-15 & 08C & 210.00 \\
+2 & AS & 122 & 2026-10-02 & 14B & 205.75 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{part B}
+
+\subsection*{question 5}
+
+\begin{center}
+\begin{tikzpicture}[
+  reltable/.style={
+    matrix of nodes,
+    ampersand replacement=\&,
+    column sep=-\pgflinewidth,
+    nodes={draw, rectangle, font=\ttfamily\scriptsize, minimum height=6.5mm,
+           inner xsep=4pt, anchor=center}
+  },
+  relname/.style={font=\bfseries\footnotesize, anchor=east},
+  fk/.style={-{Stealth[length=2mm]}, semithick, draw=blue!60!black, rounded corners=2pt}
+]
+
+\matrix (airport) [reltable, anchor=north west] at (0,0) {
+  \underline{air\_id} \& air\_name \& city \& state \\
+};
+\matrix (airline) [reltable, anchor=north west] at (0,-2.2) {
+  \underline{air\_code} \& airline\_name \& air\_id \& founded\_year \\
+};
+\matrix (fr) [reltable, anchor=north west] at (0,-4.4) {
+  \underline{air\_code} \& \underline{flight\_num} \& dep\_id \& arr\_id \& distance \\
+};
+\matrix (bk) [reltable, anchor=north west] at (0,-6.6) {
+  \underline{pass\_id} \& \underline{air\_code} \& \underline{flight\_num} \&
+  \underline{travel\_date} \& seat \& price \\
+};
+\matrix (pax) [reltable, anchor=north west] at (0,-8.8) {
+  \underline{pass\_id} \& first\_name \& last\_name \& email \\
+};
+
+\node[relname] at ([xshift=-3mm]airport.west) {AIRPORT};
+\node[relname] at ([xshift=-3mm]airline.west) {AIRLINE};
+\node[relname] at ([xshift=-3mm]fr.west) {FLIGHT\_ROUTE};
+\node[relname] at ([xshift=-3mm]bk.west) {BOOKING};
+\node[relname] at ([xshift=-3mm]pax.west) {PASSENGER};
+
+\coordinate (chA) at ([xshift=7mm]bk.east);
+\coordinate (chB) at ([xshift=15mm]bk.east);
+\coordinate (topA) at ([yshift=7mm]airport.north east);
+\coordinate (topB) at ([yshift=14mm]airport.north east);
+\coordinate (dA) at ([yshift=4mm]fr-1-3.north);
+\coordinate (dB) at ([yshift=9mm]fr-1-4.north);
+\coordinate (e1) at ([xshift=-4mm]airport-1-1.north);
+\coordinate (e2) at ([xshift=4mm]airport-1-1.north);
+
+\draw[fk] (airline-1-3.north) -- ++(0,6mm) -| (airport-1-1.south);
+
+\draw[fk] (fr-1-1.north) -- ++(0,7mm) -| (airline-1-1.south);
+
+\draw[fk] (fr-1-3.north) -- (dA) -- (chA |- dA) -- (chA |- topA)
+          -- (e1 |- topA) -- (e1);
+
+\draw[fk] (fr-1-4.north) -- (dB) -- (chB |- dB) -- (chB |- topB)
+          -- (e2 |- topB) -- (e2);
+
+\draw[fk] (bk-1-2.north) -- ++(0,5mm) -| (fr-1-1.south);
+\draw[fk] (bk-1-3.north) -- ++(0,10mm) -| (fr-1-2.south);
+
+\draw[fk] (bk-1-1.south) -- ++(0,-6mm) -| (pax-1-1.north);
+
+\end{tikzpicture}
+\end{center}
+
+the underlined attributes are primary keys. each arrow runs from a foreign key to
+the primary key it references. the two arrows from BOOKING into FLIGHT\_ROUTE
+are a single composite foreign key: \texttt{air\_code} and
+\texttt{flight\_num} must be carried together, since the key they reference is
+composite. AIRPORT is referenced three times: once by AIRLINE for its hub, and
+twice by FLIGHT\_ROUTE for the departure and arrival airports.
+
+\newpage
+
+\section*{part C}
+
+\subsection*{question 6}
+
+\subsubsection*{(a)}
+
+\schema{
+MaintenanceRecord(\underline{aircraft\_id}, \underline{maintenance\_date},
+\underline{mechanic\_id},\\
+\hspace*{2em}aircraft\_model, manufacturer, mechanic\_name, work\_performed,\\
+\hspace*{2em}parts\_cost, mechanic\_cert\_level)\\[4pt]
+FK: none
+}
+
+the key means one row is ``this mechanic worked on this aircraft on this
+date,'' so every other attribute should be a fact about that event.
+
+the redundant
+values are \textbf{\texttt{mechanic\_name}} and
+\textbf{\texttt{mechanic\_cert\_level}}. both are facts about the mechanic, not
+about a maintenance job, so they repeat on every record that mechanic performs:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{attribute} & \textbf{really a fact about} & \textbf{so it repeats} \\
+\hline
+\texttt{aircraft\_model} & the aircraft & every record for that aircraft \\
+\texttt{manufacturer} & the aircraft (and its model) & every record for that aircraft \\
+\texttt{mechanic\_name} & the mechanic & every record by that mechanic \\
+\texttt{mechanic\_cert\_level} & the mechanic & every record by that mechanic \\
+\texttt{work\_performed} & the visit itself & never \\
+\texttt{parts\_cost} & the visit itself & never \\
+\hline
+\end{tabular}
+\end{table}
+
+a 737-900 is always built by Boeing, so the same value also repeats across
+completely different aircraft that happen to share a model.
+
+only \texttt{work\_performed} and \texttt{parts\_cost} change from one
+maintenance visit to the next, so they are the only attributes that actually
+belong in this table.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{aircraft} & \textbf{date} & \textbf{mech} & \textbf{model} &
+\textbf{manuf.} & \textbf{mech\_name} & \textbf{work} & \textbf{cost} &
+\textbf{cert} \\
+\hline
+N101AS & 2026-03-04 & M7 & 737-900 & Boeing & Dana Weiss & brake pads & 1450.00 & A\&P \\
+N101AS & 2026-06-18 & M7 & 737-900 & Boeing & Dana Weiss & hydraulics & 0.00 & A\&P \\
+N220WN & 2026-06-18 & M7 & 737-700 & Boeing & Dana Weiss & oil change & 310.00 & A\&P \\
+N101AS & 2026-09-02 & M3 & 737-900 & Boeing & Omar Diaz & tires & 2100.00 & IA \\
+\hline
+\end{tabular}
+\end{table}
+
+``Dana Weiss'' and ``A\&P'' are written three times because M7 appears three
+times, and ``Boeing'' is written on all four rows despite two different
+aircraft and two different models.
+
+\newpage
+
+\subsubsection*{(b)}
+
+each group of facts from part (a) moves into its own table, and the keys are whatever
+decides it. what is left behind in the original table is just the id, which
+links back to the new table:
+
+\schema{
+AIRCRAFT\_MODEL(\underline{aircraft\_model}, manufacturer)\\
+FK: none\\[8pt]
+AIRCRAFT(\underline{aircraft\_id}, aircraft\_model)\\
+FK: aircraft\_model -> AIRCRAFT\_MODEL(aircraft\_model)\\[8pt]
+MECHANIC(\underline{mechanic\_id}, mechanic\_name, mechanic\_cert\_level)\\
+FK: none\\[8pt]
+MAINTENANCE\_RECORD(\underline{aircraft\_id}, \underline{maintenance\_date},
+\underline{mechanic\_id},\\
+\hspace*{2em}work\_performed, parts\_cost)\\
+FK: aircraft\_id -> AIRCRAFT(aircraft\_id)\\
+FK: mechanic\_id -> MECHANIC(mechanic\_id)
+}
+
+the key of MAINTENANCE\_RECORD does not change --- it is still the same three
+attributes --- but \texttt{aircraft\_id} and \texttt{mechanic\_id} are now
+foreign keys as well as key attributes. only \texttt{work\_performed} and
+\texttt{parts\_cost} stay behind, since those are the only values that actually
+describe the visit.
+
+the fourth table is what removes the last of the redundancy. if
+\texttt{manufacturer} were left in AIRCRAFT, ``Boeing'' would still be written
+once per aircraft. giving the model its own table means each manufacturer is
+recorded exactly once.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|l|l|}
+\hline
+\textbf{aircraft\_model} & \textbf{manufacturer} \\
+\hline
+737-900 & Boeing \\
+737-700 & Boeing \\
+A320-200 & Airbus \\
+\hline
+\end{tabular}
+\qquad
+\begin{tabular}{|l|l|}
+\hline
+\textbf{aircraft\_id} & \textbf{aircraft\_model} \\
+\hline
+N101AS & 737-900 \\
+N220WN & 737-700 \\
+N455UA & A320-200 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{mechanic\_id} & \textbf{mechanic\_name} & \textbf{mechanic\_cert\_level} \\
+\hline
+M7 & Dana Weiss & A\&P \\
+M3 & Omar Diaz & IA \\
+M9 & Lena Petrov & A\&P \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{aircraft\_id} & \textbf{maintenance\_date} & \textbf{mechanic\_id} &
+\textbf{work\_performed} & \textbf{parts\_cost} \\
+\hline
+N101AS & 2026-03-04 & M7 & brake pads & 1450.00 \\
+N101AS & 2026-06-18 & M7 & hydraulics & 0.00 \\
+N220WN & 2026-06-18 & M7 & oil change & 310.00 \\
+N101AS & 2026-09-02 & M3 & tires & 2100.00 \\
+\hline
+\end{tabular}
+\end{table}
+
+these have the same information as the original table but are just more optimized.
+
+\end{document}
