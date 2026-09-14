@@ -160,7 +160,7 @@ FK: none
 
 \texttt{pass\_id} and \texttt{email} are both candidate keys since both are
 stated to be unique. \texttt{pass\_id} should be the primary key because
-email addresses can change, and that would be a problem.
+email addresses can change, and that would be bad.
 
 \begin{table}[H]
 \centering
@@ -168,9 +168,9 @@ email addresses can change, and that would be a problem.
 \hline
 \textbf{pass\_id} & \textbf{first\_name} & \textbf{last\_name} & \textbf{email} \\
 \hline
-1 & Ana & Ruiz & aruiz@example.com \\
-2 & Ben & Cho & bcho@example.com \\
-3 & Dee & Patel & dpatel@example.com \\
+1 & Jack & Smith & jsmith@example.com \\
+2 & Alan & Cho & acho@example.com \\
+3 & Greyson & Knippel & gknippel@example.com \\
 \hline
 \end{tabular}
 \end{table}
@@ -293,7 +293,7 @@ FK: none
 }
 
 the key means one row is ``this mechanic worked on this aircraft on this
-date,'' so every other attribute should be a fact about that event.
+date,'' so other attributes should relate to the situation.
 
 the redundant
 values are \textbf{\texttt{mechanic\_name}} and
@@ -332,15 +332,15 @@ belong in this table.
 \textbf{manuf.} & \textbf{mech\_name} & \textbf{work} & \textbf{cost} &
 \textbf{cert} \\
 \hline
-N101AS & 2026-03-04 & M7 & 737-900 & Boeing & Dana Weiss & brake pads & 1450.00 & A\&P \\
-N101AS & 2026-06-18 & M7 & 737-900 & Boeing & Dana Weiss & hydraulics & 0.00 & A\&P \\
-N220WN & 2026-06-18 & M7 & 737-700 & Boeing & Dana Weiss & oil change & 310.00 & A\&P \\
-N101AS & 2026-09-02 & M3 & 737-900 & Boeing & Omar Diaz & tires & 2100.00 & IA \\
+N101AS & 2026-03-04 & M7 & 737-900 & Boeing & James Smith & brake pads & 1450.00 & A\&P \\
+N101AS & 2026-06-18 & M7 & 737-900 & Boeing & James Smith & hydraulics & 0.00 & A\&P \\
+N220WN & 2026-06-18 & M7 & 737-700 & Boeing & James Smith & oil change & 310.00 & A\&P \\
+N101AS & 2026-09-02 & M3 & 737-900 & Boeing & James Smith & tires & 2100.00 & IA \\
 \hline
 \end{tabular}
 \end{table}
 
-``Dana Weiss'' and ``A\&P'' are written three times because M7 appears three
+``James Smith'' and ``A\&P'' are written three times because M7 appears three
 times, and ``Boeing'' is written on all four rows despite two different
 aircraft and two different models.
 
