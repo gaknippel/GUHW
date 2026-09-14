@@ -366,14 +366,14 @@ FK: aircraft\_id -> AIRCRAFT(aircraft\_id)\\
 FK: mechanic\_id -> MECHANIC(mechanic\_id)
 }
 
-the key of MAINTENANCE\_RECORD does not change --- it is still the same three
-attributes --- but \texttt{aircraft\_id} and \texttt{mechanic\_id} are now
+the key of MAINTENANCE\_RECORD does not change: it is still the same three
+attributes but \texttt{aircraft\_id} and \texttt{mechanic\_id} are now
 foreign keys as well as key attributes. only \texttt{work\_performed} and
 \texttt{parts\_cost} stay behind, since those are the only values that actually
 describe the visit.
 
 the fourth table is what removes the last of the redundancy. if
-\texttt{manufacturer} were left in AIRCRAFT, ``Boeing'' would still be written
+\texttt{manufacturer} were left in AIRCRAFT, ``Boeing'' would still have to be written
 once per aircraft. giving the model its own table means each manufacturer is
 recorded exactly once.
 
