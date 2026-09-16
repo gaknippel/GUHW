@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{fancyvrb}
+
+% ---- Fill in your info ----
+\newcommand{\myname}{Greyson Knippel}
+
+% Answer block: replace the placeholder text with your answer.
+\newenvironment{answer}
+  {\par\vspace{0.5em}\noindent\textbf{Answer:}\par\vspace{0.25em}\begingroup\itshape}
+  {\endgroup\par\vspace{1em}}
+
+% Blank line for fill-in-the-value questions: \fillin{value}
+\newcommand{\fillin}[1]{\underline{\makebox[1.6in][l]{\,#1}}}
+
+\begin{document}
+
+\begin{center}
+  {\Large Homework 1 \quad CPSC 346}\\[0.5em]
+  \myname
+\end{center}
+
+\vspace{1em}
+
+\begin{enumerate}[leftmargin=*]
+
+%===================== Problem 1 =====================
+\item The following tables are the current status of the registers and stack
+memory for a 64-bit computer. Please explain how the following instructions change the
+registers and the stack. Assume a) and b) operate on the original data as shown in the
+two tables.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Register & Value \\
+\hline
+\%rax & 4 \\
+\hline
+\%rbx & 8 \\
+\hline
+\%rsp & 0x00FFEE88 \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\noindent\hspace{1em} Memory(Stack):
+
+\begin{center}
+\begin{tabular}{|p{1.2in}|p{1.2in}|}
+\hline
+Address & Data \\
+\hline
+0x00FFEE88 & 15 \\
+\hline
+ & \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+  \item \verb|push %rax|
+  \begin{answer}
+    if you push \%rax to the stack, \%rsp would point to a location holding 4. and then the stack here would
+    grow downward. specifically, \%rsp would go down 8 since its 64 bit, and then \%rsp would be pointing to 0x00FFEE80,
+    with the value 4.
+  \end{answer}
+
+  \item \verb|pop %rbx|
+  \begin{answer}
+    after pop \%rbx, becomes 15, and \%rsp is 0x00FFEE90, adding 8 now. 
+  \end{answer}
+\end{enumerate}
+
+%===================== Problem 2 =====================
+\item (10 points) Fill in the value of the registers and the stack memory. Before executing
+the instruction ``callq \_Subroutine,'' we have \%rsp = 0xFF08; (\%rsp) = 0x8, which is
+the ``top'' value on the stack.
+
+\begin{Verbatim}[xleftmargin=1.5em]
+_caller:
+   .
+   .
+   400544: callq  _Subroutine
+   400549: mov    %rax,(%rbx)
+   .
+   .
+_Subroutine:
+   400650:  mov    %rdi,%rax
+   .
+   .
+   400657:  retq
+\end{Verbatim}
+
+\begin{enumerate}[label=\arabic*)]
+
+  \item About to execute the instruction ``callq \_Subroutine'':
+  \begin{itemize}[label={},leftmargin=2em]
+    \item \%rip: \fillin{}
+  \end{itemize}
+
+  \item Right after the instruction ``callq \_Subroutine'' is executed:\\
+  (Program will move to the subroutine but not start executing the subroutine yet.)
+  \begin{itemize}[label={},leftmargin=2em]
+    \item \%rip: \fillin{}
+    \item \%rsp: \fillin{}
+    \item (\%rsp): \fillin{}
+  \end{itemize}
+
+  \item About to execute the instruction ``retq'':
+  \begin{itemize}[label={},leftmargin=2em]
+    \item \%rip: \fillin{}
+    \item \%rsp: \fillin{}
+    \item (\%rsp): \fillin{}
+  \end{itemize}
+
+  \item Right after the instruction ``retq'' is executed:
+  \begin{itemize}[label={},leftmargin=2em]
+    \item \%rip: \fillin{}
+    \item \%rsp: \fillin{}
+    \item (\%rsp): \fillin{}
+  \end{itemize}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
