@@ -1,0 +1,331 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.1.22)  19 SEP 2026 18:16
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**c:/CodeProjects/HW/CPSC321/hw2/main.tex
+(c:/CodeProjects/HW/CPSC321/hw2/main.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-29>
+(C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo
+File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\bibindent=\dimen148
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+\Gm@cnth=\count283
+\Gm@cntv=\count284
+\c@Gm@tempcnt=\count285
+\Gm@bindingoffset=\dimen149
+\Gm@wd@mp=\dimen150
+\Gm@odd@mp=\dimen151
+\Gm@even@mp=\dimen152
+\Gm@layoutwidth=\dimen153
+\Gm@layoutheight=\dimen154
+\Gm@layouthoffset=\dimen155
+\Gm@layoutvoffset=\dimen156
+\Gm@dimlist=\toks18
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg)) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks19
+\ex@=\dimen157
+)) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen158
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count286
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count287
+\leftroot@=\count288
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count289
+\DOTSCASE@=\count290
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen159
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count291
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count292
+\dotsspace@=\muskip17
+\c@parentequation=\count293
+\dspbrk@lvl=\count294
+\tag@help=\toks20
+\row@=\count295
+\column@=\count296
+\maxfields@=\count297
+\andhelp@=\toks21
+\eqnshift@=\dimen160
+\alignsep@=\dimen161
+\tagshift@=\dimen162
+\tagwidth@=\dimen163
+\totwidth@=\dimen164
+\lineht@=\dimen165
+\@envbody=\toks22
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks23
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen166
+\Gin@req@width=\dimen167
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count298
+\float@exts=\toks24
+\float@box=\box55
+\@float@everytoks=\toks25
+\@floatcapt=\box56
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/titling\titling.sty
+Package: titling 2009/09/04 v2.1d maketitle typesetting
+\thanksmarkwidth=\skip54
+\thanksmargin=\skip55
+\droptitle=\skip56
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count299
+) (main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=59.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count300
+\scratchdimen=\dimen168
+\scratchbox=\box57
+\nofMPsegments=\count301
+\nofMParguments=\count302
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count303
+\MPscratchDim=\dimen169
+\MPnumerator=\count304
+\makeMPintoPDFobject=\count305
+\everyMPtoPDFconversion=\toks27
+) (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+LaTeX Font Info:    Trying to load font information for U+msa on input line 22.
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 22.
+ (C:\Users\burri\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<screenshots/scriptSuccess.png, id=1, 393.61339pt x 351.45589pt>
+File: screenshots/scriptSuccess.png Graphic file (type png)
+<use screenshots/scriptSuccess.png>
+Package pdftex.def Info: screenshots/scriptSuccess.png  used on input line 34.
+(pdftex.def)             Requested size: 258.36668pt x 230.70134pt.
+<screenshots/airport.png, id=3, 441.7934pt x 139.80803pt>
+File: screenshots/airport.png Graphic file (type png)
+<use screenshots/airport.png>
+Package pdftex.def Info: screenshots/airport.png  used on input line 41.
+(pdftex.def)             Requested size: 469.75502pt x 148.65872pt.
+<screenshots/airline.png, id=4, 397.91518pt x 140.6684pt>
+File: screenshots/airline.png Graphic file (type png)
+<use screenshots/airline.png>
+Package pdftex.def Info: screenshots/airline.png  used on input line 42.
+(pdftex.def)             Requested size: 469.75502pt x 166.06667pt.
+<screenshots/flight_route.png, id=5, 375.5459pt x 140.6684pt>
+File: screenshots/flight_route.png Graphic file (type png)
+<use screenshots/flight_route.png>
+Package pdftex.def Info: screenshots/flight_route.png  used on input line 43.
+(pdftex.def)             Requested size: 469.75502pt x 175.96169pt.
+ [1
+
+{C:/Users/burri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./screenshots/scriptSuccess.png>]
+<screenshots/passenger.png, id=16, 424.58624pt x 137.65715pt>
+File: screenshots/passenger.png Graphic file (type png)
+<use screenshots/passenger.png>
+Package pdftex.def Info: screenshots/passenger.png  used on input line 48.
+(pdftex.def)             Requested size: 469.75502pt x 152.30762pt.
+<screenshots/booking.png, id=17, 449.96678pt x 153.57375pt>
+File: screenshots/booking.png Graphic file (type png)
+<use screenshots/booking.png>
+Package pdftex.def Info: screenshots/booking.png  used on input line 49.
+(pdftex.def)             Requested size: 469.75502pt x 160.33624pt.
+ [2 <./screenshots/airport.png> <./screenshots/airline.png> <./screenshots/flight_route.png>]
+<screenshots/crew_member.png, id=24, 624.6193pt x 138.94768pt>
+File: screenshots/crew_member.png Graphic file (type png)
+<use screenshots/crew_member.png>
+Package pdftex.def Info: screenshots/crew_member.png  used on input line 54.
+(pdftex.def)             Requested size: 469.75502pt x 104.50095pt.
+<screenshots/crew_assignment.png, id=25, 647.41875pt x 129.48375pt>
+File: screenshots/crew_assignment.png Graphic file (type png)
+<use screenshots/crew_assignment.png>
+Package pdftex.def Info: screenshots/crew_assignment.png  used on input line 55.
+(pdftex.def)             Requested size: 469.75502pt x 93.95134pt.
+<screenshots/ss1.png, id=26, 797.1209pt x 230.14554pt>
+File: screenshots/ss1.png Graphic file (type png)
+<use screenshots/ss1.png>
+Package pdftex.def Info: screenshots/ss1.png  used on input line 68.
+(pdftex.def)             Requested size: 469.75502pt x 135.63017pt.
+ [3 <./screenshots/passenger.png> <./screenshots/booking.png> <./screenshots/crew_member.png> <./screenshots/crew_assignment.png>]
+<screenshots/ss2.png, id=34, 797.98125pt x 214.22893pt>
+File: screenshots/ss2.png Graphic file (type png)
+<use screenshots/ss2.png>
+Package pdftex.def Info: screenshots/ss2.png  used on input line 77.
+(pdftex.def)             Requested size: 469.75502pt x 126.11284pt.
+<screenshots/ss3.png, id=35, 792.38893pt x 197.02179pt>
+File: screenshots/ss3.png Graphic file (type png)
+<use screenshots/ss3.png>
+Package pdftex.def Info: screenshots/ss3.png  used on input line 87.
+(pdftex.def)             Requested size: 469.75502pt x 116.80101pt.
+<screenshots/ss4.png, id=36, 798.41142pt x 215.94965pt>
+File: screenshots/ss4.png Graphic file (type png)
+<use screenshots/ss4.png>
+Package pdftex.def Info: screenshots/ss4.png  used on input line 96.
+(pdftex.def)             Requested size: 469.75502pt x 127.0566pt.
+ [4 <./screenshots/ss1.png> <./screenshots/ss2.png> <./screenshots/ss3.png>]
+<screenshots/ss5.png, id=43, 784.21553pt x 245.20178pt>
+File: screenshots/ss5.png Graphic file (type png)
+<use screenshots/ss5.png>
+Package pdftex.def Info: screenshots/ss5.png  used on input line 105.
+(pdftex.def)             Requested size: 469.75502pt x 146.88274pt.
+<screenshots/ss6.png, id=44, 793.24928pt x 228.855pt>
+File: screenshots/ss6.png Graphic file (type png)
+<use screenshots/ss6.png>
+Package pdftex.def Info: screenshots/ss6.png  used on input line 114.
+(pdftex.def)             Requested size: 469.75502pt x 135.52962pt.
+<screenshots/ss7.png, id=45, 791.95876pt x 244.34143pt>
+File: screenshots/ss7.png Graphic file (type png)
+<use screenshots/ss7.png>
+Package pdftex.def Info: screenshots/ss7.png  used on input line 123.
+(pdftex.def)             Requested size: 469.75502pt x 144.93568pt.
+ [5 <./screenshots/ss4.png> <./screenshots/ss5.png> <./screenshots/ss6.png>] [6 <./screenshots/ss7.png>] (main.aux)
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-29>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 3390 strings out of 467871
+ 51775 string characters out of 5418376
+ 453543 words of memory out of 5000000
+ 32248 multiletter control sequences out of 15000+600000
+ 634045 words of font info for 64 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,6n,65p,252b,244s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on main.pdf (6 pages, 543585 bytes).
+PDF statistics:
+ 77 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 76 words of extra memory for PDF output out of 10000 (max. 10000000)
+
