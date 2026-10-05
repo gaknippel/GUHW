@@ -44,8 +44,7 @@ WHERE p.area < 40000
 --QUERY 5: provinces with at least two diff cities with population
 --         > 100000, in countries with inflation < 5.0. city is joined
 --         to itself
-SELECT DISTINCT c.country_code, c.country_name, c.inflation,
-       p.province_name, p.area
+SELECT DISTINCT c.country_code, c.country_name, c.inflation, p.province_name, p.area
 FROM country c, province p, city ci1, city ci2
 WHERE p.country_code = c.country_code
     AND ci1.province_name = p.province_name
@@ -54,5 +53,19 @@ WHERE p.country_code = c.country_code
     AND ci2.country_code = p.country_code
     AND ci1.city_name <> ci2.city_name
     AND ci1.population > 100000
+    AND ci2.population > 100000
+    AND c.inflation < 5.0;
+
+--QUERY 6: q5 written with join syntax
+
+SELECT DISTINCT c.country_code, c.country_name, c.inflation, p.province_name, p.area
+FROM country c
+    JOIN province p ON p.country_code = c.country_code
+    JOIN city ci1 ON ci1.province_name = p.province_name
+        AND ci1.country_code = p.country_code
+    JOIN city ci2 ON ci2.province_name = p.province_name
+        AND ci2.country_code = p.country_code
+        AND ci1.city_name <> ci2.city_name
+WHERE ci1.population > 100000
     AND ci2.population > 100000
     AND c.inflation < 5.0;
