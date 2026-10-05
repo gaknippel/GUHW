@@ -69,3 +69,9 @@ FROM country c
 WHERE ci1.population > 100000
     AND ci2.population > 100000
     AND c.inflation < 5.0;
+
+
+--QUERY 7:
+SELECT 
+FROM
+WHERE

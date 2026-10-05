@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\title{HW4}
+\author{
+Greyson Knippel \\[4pt]
+MATH 339 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 11}
+
+\[
+c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + c_3\mathbf{v}_3 = \mathbf{v}
+\]
+
+\[
+\left[\begin{array}{ccc|c}
+2 & 1 & -1 & 3 \\
+-3 & 6 & -1 & -17 \\
+4 & -1 & 2 & 17 \\
+1 & 2 & 3 & 7
+\end{array}\right]
+\xrightarrow{R_1 \leftrightarrow R_4}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+-3 & 6 & -1 & -17 \\
+4 & -1 & 2 & 17 \\
+2 & 1 & -1 & 3
+\end{array}\right]
+\]
+
+\[
+\xrightarrow[\substack{R_3 - 4R_1 \\ R_4 - 2R_1}]{R_2 + 3R_1}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+0 & 12 & 8 & 4 \\
+0 & -9 & -10 & -11 \\
+0 & -3 & -7 & -11
+\end{array}\right]
+\xrightarrow{R_2 / 4}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+0 & 3 & 2 & 1 \\
+0 & -9 & -10 & -11 \\
+0 & -3 & -7 & -11
+\end{array}\right]
+\]
+
+\[
+\xrightarrow[R_4 + R_2]{R_3 + 3R_2}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+0 & 3 & 2 & 1 \\
+0 & 0 & -4 & -8 \\
+0 & 0 & -5 & -10
+\end{array}\right]
+\xrightarrow{R_3 / (-4)}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+0 & 3 & 2 & 1 \\
+0 & 0 & 1 & 2 \\
+0 & 0 & -5 & -10
+\end{array}\right]
+\]
+
+\[
+\xrightarrow{R_4 + 5R_3}
+\left[\begin{array}{ccc|c}
+1 & 2 & 3 & 7 \\
+0 & 3 & 2 & 1 \\
+0 & 0 & 1 & 2 \\
+0 & 0 & 0 & 0
+\end{array}\right]
+\]
+
+consistent (0 0 0 = 0), so $\mathbf{v}$ is a linear combination.
+
+\begin{align*}
+c_3 &= 2 \\
+3c_2 + 2(2) = 1 \;&\Rightarrow\; c_2 = -1 \\
+c_1 + 2(-1) + 3(2) = 7 \;&\Rightarrow\; c_1 = 3
+\end{align*}
+
+\[
+\boxed{\mathbf{v} = 3\mathbf{v}_1 - \mathbf{v}_2 + 2\mathbf{v}_3}
+\]
+
+\section*{Problem 13}
+
+\[
+c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + c_3\mathbf{v}_3 = \mathbf{v}
+\]
+
+\[
+\left[\begin{array}{ccc|c}
+3 & 0 & -1 & 3 \\
+1 & -1 & 2 & 0
+\end{array}\right]
+\xrightarrow{R_1 \leftrightarrow R_2}
+\left[\begin{array}{ccc|c}
+1 & -1 & 2 & 0 \\
+3 & 0 & -1 & 3
+\end{array}\right]
+\xrightarrow{R_2 - 3R_1}
+\left[\begin{array}{ccc|c}
+1 & -1 & 2 & 0 \\
+0 & 3 & -7 & 3
+\end{array}\right]
+\]
+
+\[
+\xrightarrow{R_2 / 3}
+\left[\begin{array}{ccc|c}
+1 & -1 & 2 & 0 \\
+0 & 1 & -7/3 & 1
+\end{array}\right]
+\xrightarrow{R_1 + R_2}
+\left[\begin{array}{ccc|c}
+1 & 0 & -1/3 & 1 \\
+0 & 1 & -7/3 & 1
+\end{array}\right]
+\]
+
+$c_3 = t$ free
+
+\begin{align*}
+c_1 &= 1 + \tfrac{1}{3}t \\
+c_2 &= 1 + \tfrac{7}{3}t \\
+c_3 &= t
+\end{align*}
+
+\[
+\boxed{
+\text{solution} = \left\{ (1,1,0) + t\left(\tfrac{1}{3}, \tfrac{7}{3}, 1\right) \;:\; t \in \mathbb{R} \right\}
+}
+\]
+
+\end{document}
