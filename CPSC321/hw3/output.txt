@@ -1,0 +1,66 @@
+ country_code |       country_name       |  gdp  |  province_name   |  area   
+--------------+--------------------------+-------+------------------+---------
+ US           | United States of America | 46900 | Oregon           |  254799
+ US           | United States of America | 46900 | Washington       |  184661
+ CA           | Canada                   | 43100 | Ontario          | 1076395
+ CA           | Canada                   | 43100 | British Columbia |  944735
+(4 rows)
+
+ country_code |       country_name       |  gdp  |  province_name   |  area   
+--------------+--------------------------+-------+------------------+---------
+ US           | United States of America | 46900 | Oregon           |  254799
+ US           | United States of America | 46900 | Washington       |  184661
+ CA           | Canada                   | 43100 | Ontario          | 1076395
+ CA           | Canada                   | 43100 | British Columbia |  944735
+(4 rows)
+
+ country_code | province_name | area  
+--------------+---------------+-------
+ DE           | Bavaria       | 70550
+ DE           | Saxony        | 18450
+(2 rows)
+
+ country_code | province_name | area  
+--------------+---------------+-------
+ DE           | Bavaria       | 70550
+ DE           | Saxony        | 18450
+(2 rows)
+
+ country_code | country_name | inflation | province_name |  area   
+--------------+--------------+-----------+---------------+---------
+ CA           | Canada       |       2.4 | Ontario       | 1076395
+ DE           | Germany      |       2.2 | Bavaria       |   70550
+ DE           | Germany      |       2.2 | Saxony        |   18450
+(3 rows)
+
+ country_code | country_name | inflation | province_name |  area   
+--------------+--------------+-----------+---------------+---------
+ CA           | Canada       |       2.4 | Ontario       | 1076395
+ DE           | Germany      |       2.2 | Bavaria       |   70550
+ DE           | Germany      |       2.2 | Saxony        |   18450
+(3 rows)
+
+ city_name_1 | province_name_1 | country_code_1 | population_1 | city_name_2 | province_name_2  | country_code_2 | population_2 
+-------------+-----------------+----------------+--------------+-------------+------------------+----------------+--------------
+ Vancouver   | Washington      | US             |       190915 | Vancouver   | British Columbia | CA             |       662248
+ Portland    | Ontario         | CA             |        15000 | Portland    | Oregon           | US             |       652503
+(2 rows)
+
+ country_code |       country_name       
+--------------+--------------------------
+ CA           | Canada
+ US           | United States of America
+(2 rows)
+
+ country_code |       country_name       
+--------------+--------------------------
+ US           | United States of America
+ CA           | Canada
+(2 rows)
+
+ country_name | province_name |  area   
+--------------+---------------+---------
+ Canada       | Ontario       | 1076395
+ Germany      | Bavaria       |   70550
+(2 rows)
+

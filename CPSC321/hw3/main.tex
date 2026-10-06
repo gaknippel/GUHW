@@ -1,0 +1,300 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{titling}
+\setlength{\droptitle}{-3em}
+
+\title{HW3}
+\author{
+Greyson Knippel \\[4pt]
+CPSC-321\\[4pt]
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+%============================================================
+\section*{Query 1}
+
+thresholds: province area $> 100000$, country gdp $> 40000$.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code |       country_name       |  gdp  |  province_name   |  area
+--------------+--------------------------+-------+------------------+---------
+ US           | United States of America | 46900 | Oregon           |  254799
+ US           | United States of America | 46900 | Washington       |  184661
+ CA           | Canada                   | 43100 | Ontario          | 1076395
+ CA           | Canada                   | 43100 | British Columbia |  944735
+(4 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: US, Oregon.
+\begin{verbatim}
+country:  ('US', 'United States of America', 46900, 3.8)
+province: ('Oregon', 'US', 254799)
+\end{verbatim}
+oregon's area is 254799 $> 100000$ and the US gdp is 46900 $> 40000$.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+country:  ('MX', 'Mexico', 15300, 4.7)
+province: ('Sonora', 'MX', 179355)
+\end{verbatim}
+sonora's area is over the threshold, but mexico's gdp is 15300 $< 40000$. sonora is not in the output.
+
+%============================================================
+\section*{Query 2}
+
+thresholds: same as query 1.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code |       country_name       |  gdp  |  province_name   |  area
+--------------+--------------------------+-------+------------------+---------
+ US           | United States of America | 46900 | Oregon           |  254799
+ US           | United States of America | 46900 | Washington       |  184661
+ CA           | Canada                   | 43100 | Ontario          | 1076395
+ CA           | Canada                   | 43100 | British Columbia |  944735
+(4 rows)
+\end{verbatim}
+}
+
+\subsection*{examples}
+same as query 1. the output is identical to query 1.
+
+%============================================================
+\section*{Query 3}
+
+thresholds: province area $< 100000$, city population between 10000 and 300000 (inclusive).
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code | province_name | area
+--------------+---------------+-------
+ DE           | Bavaria       | 70550
+ DE           | Saxony        | 18450
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: DE, Bavaria.
+\begin{verbatim}
+province: ('Bavaria', 'DE', 70550)
+city:     ('Neustadt', 'Bavaria', 'DE', 13000)
+\end{verbatim}
+bavaria's area is 70550 $< 100000$ and neustadt's population of 13000 is in the range.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+province: ('Jalisco', 'MX', 78599)
+city:     ('Guadalajara', 'Jalisco', 'MX', 1385629)
+city:     ('Zapopan', 'Jalisco', 'MX', 1476491)
+city:     ('Tlaquepaque', 'Jalisco', 'MX', 687127)
+\end{verbatim}
+jalisco's area is under the threshold, but every city is over 300000. jalisco is not in the output.
+
+%============================================================
+\section*{Query 4}
+
+thresholds: same as query 3.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code | province_name | area
+--------------+---------------+-------
+ DE           | Bavaria       | 70550
+ DE           | Saxony        | 18450
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{examples}
+same as query 3. the output is the same as query 3.
+
+%============================================================
+\section*{Query 5}
+
+thresholds: city population $> 500000$, country inflation $< 4.0$.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code | country_name | inflation | province_name |  area
+--------------+--------------+-----------+---------------+---------
+ CA           | Canada       |       2.4 | Ontario       | 1076395
+ DE           | Germany      |       2.2 | Bavaria       |   70550
+ DE           | Germany      |       2.2 | Saxony        |   18450
+(3 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: CA, Ontario.
+\begin{verbatim}
+country:  ('CA', 'Canada', 43100, 2.4)
+province: ('Ontario', 'CA', 1076395)
+city:     ('Toronto', 'Ontario', 'CA', 2794356)
+city:     ('Ottawa', 'Ontario', 'CA', 1017449)
+\end{verbatim}
+ontario has two different cities over 500000 and canada's inflation is 2.4 $< 4.0$.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+country:  ('US', 'United States of America', 46900, 3.8)
+province: ('Washington', 'US', 184661)
+city:     ('Seattle', 'Washington', 'US', 737015)
+city:     ('Spokane', 'Washington', 'US', 228989)
+city:     ('Vancouver', 'Washington', 'US', 190915)
+\end{verbatim}
+the US inflation is under the threshold, but only seattle is over 500000. washington is not in the output.
+
+%============================================================
+\section*{Query 6}
+
+thresholds: same as query 5.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code | country_name | inflation | province_name |  area
+--------------+--------------+-----------+---------------+---------
+ CA           | Canada       |       2.4 | Ontario       | 1076395
+ DE           | Germany      |       2.2 | Bavaria       |   70550
+ DE           | Germany      |       2.2 | Saxony        |   18450
+(3 rows)
+\end{verbatim}
+}
+
+\subsection*{examples}
+same as query 5. the output is the same as query 5.
+
+%============================================================
+\section*{Query 7}
+
+no thresholds.
+
+\subsection*{output}
+{\tiny
+\begin{verbatim}
+ city_name_1 | province_name_1 | country_code_1 | population_1 | city_name_2 | province_name_2  | country_code_2 | population_2
+-------------+-----------------+----------------+--------------+-------------+------------------+----------------+--------------
+ Vancouver   | Washington      | US             |       190915 | Vancouver   | British Columbia | CA             |       662248
+ Portland    | Ontario         | CA             |        15000 | Portland    | Oregon           | US             |       652503
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: Vancouver (US), Vancouver (CA).
+\begin{verbatim}
+city: ('Vancouver', 'Washington', 'US', 190915)
+city: ('Vancouver', 'British Columbia', 'CA', 662248)
+\end{verbatim}
+same name, different countries, different populations. the less populous city (US) is first.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+city: ('Neustadt', 'Bavaria', 'DE', 13000)
+city: ('Neustadt', 'Saxony', 'DE', 12000)
+\end{verbatim}
+same name, but both are in DE. neustadt is not in the output.
+
+%============================================================
+\section*{Query 8}
+
+threshold: border length $> 400$.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code |       country_name
+--------------+--------------------------
+ CA           | Canada
+ US           | United States of America
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: US.
+\begin{verbatim}
+country: ('US', 'United States of America', 46900, 3.8)
+country: ('MX', 'Mexico', 15300, 4.7)
+border:  ('MX', 'US', 3145)
+\end{verbatim}
+the US has a higher gdp (46900 $>$ 15300) and lower inflation (3.8 $<$ 4.7) than mexico, and the border is 3145 $> 400$. the US is in \texttt{country\_code\_2}.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+country: ('MX', 'Mexico', 15300, 4.7)
+border:  ('MX', 'US', 3145)
+border:  ('CA', 'MX', 500)
+\end{verbatim}
+mexico has a lower gdp and higher inflation than both of its neighbors. mexico is not in the output.
+
+%============================================================
+\section*{Query 9}
+
+threshold: same as query 8.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_code |       country_name
+--------------+--------------------------
+ US           | United States of America
+ CA           | Canada
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{examples}
+same as query 8. the output has the same rows as query 8 (order differs, no sorting required).
+
+%============================================================
+\section*{Query 10}
+
+question: which provinces have a city with over 1000000 people, in a country with inflation under 4.0? \\
+thresholds: city population $> 1000000$, country inflation $< 4.0$. \\
+sorted by province area, largest first, so the largest regions are listed first.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+ country_name | province_name |  area
+--------------+---------------+---------
+ Canada       | Ontario       | 1076395
+ Germany      | Bavaria       |   70550
+(2 rows)
+\end{verbatim}
+}
+
+\subsection*{matching example}
+row: Germany, Bavaria.
+\begin{verbatim}
+country:  ('DE', 'Germany', 52100, 2.2)
+province: ('Bavaria', 'DE', 70550)
+city:     ('Munich', 'Bavaria', 'DE', 1512491)
+\end{verbatim}
+munich is over 1000000 and germany's inflation is 2.2 $< 4.0$.
+
+\subsection*{nonmatching example}
+\begin{verbatim}
+country:  ('MX', 'Mexico', 15300, 4.7)
+province: ('Jalisco', 'MX', 78599)
+city:     ('Guadalajara', 'Jalisco', 'MX', 1385629)
+city:     ('Zapopan', 'Jalisco', 'MX', 1476491)
+\end{verbatim}
+jalisco has cities over 1000000, but mexico's inflation is 4.7 $> 4.0$. jalisco is not in the output.
+
+\end{document}
