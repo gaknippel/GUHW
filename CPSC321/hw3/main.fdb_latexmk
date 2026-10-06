@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1791247292.49213 "c:/CodeProjects/HW/CPSC321/hw3/main.tex" "main.pdf" "main" 1791247293.27646 0
+["pdflatex"] 1791247453.55285 "c:/CodeProjects/HW/CPSC321/hw3/main.tex" "main.pdf" "main" 1791247454.31657 0
   "C:/Users/burri/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789525232 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/burri/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1769143393 13333487 d029dab1b967ff5ee3ac8778ec4fff17 ""
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmbx12.tfm" 1136765053 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -33,9 +33,9 @@
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1749322634 2671 d9941f4bf4750e9b0603c9a2ec54693b ""
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1761202581 30662 bfd6e864f4ffc5018b0e2b6260c3181c ""
   "C:/Users/burri/AppData/Local/Programs/MiKTeX/tex/latex/titling/titling.sty" 1252048308 7358 95ac619994bd30d405a74f3eca431c84 ""
-  "c:/CodeProjects/HW/CPSC321/hw3/main.tex" 1791247291 9241 817237a6d3bb14ae37316d5bd91f0e1c ""
-  "main.aux" 1791247293 32 77e0dffd05b653a64f0caf3eb9bb454a "pdflatex"
-  "main.tex" 1791247291 9241 817237a6d3bb14ae37316d5bd91f0e1c ""
+  "c:/CodeProjects/HW/CPSC321/hw3/main.tex" 1791247452 9252 d26fb25b91dfbc7e35c487719b649ff1 ""
+  "main.aux" 1791247454 32 77e0dffd05b653a64f0caf3eb9bb454a "pdflatex"
+  "main.tex" 1791247452 9252 d26fb25b91dfbc7e35c487719b649ff1 ""
   (generated)
   "main.aux"
   "main.log"
