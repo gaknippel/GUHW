@@ -1,0 +1,384 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{url}
+
+\title{Unit 1 Ext. Problems}
+\author{
+Greyson Knippel \\[4pt]
+MATH 339 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{\textit{Note: sorry this was late, but i remember you saying it would be okay if i got these to you by monday, since you wouldnt grade them by monday. apologies}}}
+\end{center}
+
+\section*{Problem 1A: \S1.8 \#12}
+
+\subsection*{write-up}
+
+this is a "Leontief input-output (open) model".
+each sector's production $X$ has to cover what the other sectors use ($AX$)
+plus the outside demand ($D$).
+we had not covered this model in class, so I loosely learned it from:
+
+\begin{itemize}
+  \item ``Solving a Leontief Input-Output Model using Matrix Algebra'' (youtube) \\
+        \url{https://www.youtube.com/watch?v=ucrZqMww1Qc}
+\end{itemize}
+
+the system is $10 \times 10$ with decimals (we do NOT want to do this by hand), so you can solve it with python (NumPy)
+
+\subsection*{work}
+
+\[
+X = AX + D
+\quad\Rightarrow\quad
+X - AX = D
+\quad\Rightarrow\quad
+(I - A)X = D
+\]
+
+$I - A$: diagonal entries $1 - a_{ii}$, non diagonal entries $-a_{ij}$.
+
+big row reduce and solve with numpy $[\,I - A \mid D\,]$:
+
+\[
+X =
+\begin{bmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \\ x_6 \\ x_7 \\ x_8 \\ x_9 \\ x_{10}
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+56.39 \\ 17.47 \\ 23.83 \\ 26.10 \\ 57.07 \\ 41.46 \\ 53.25 \\ 30.57 \\ 43.02 \\ 54.95
+\end{bmatrix}
+\]
+
+check: $X - AX = D$. \checkmark
+
+\[
+\boxed{
+X \approx (56.39,\ 17.47,\ 23.83,\ 26.10,\ 57.07,\ 41.46,\ 53.25,\ 30.57,\ 43.02,\ 54.95)
+}
+\]
+
+\section*{Problem 1B}
+
+\subsection*{write-up}
+
+this is a linear difference equation with a migration matrix $M$.
+each day, the cars move between locations by $\mathbf{x}_{k+1} = M\mathbf{x}_k$.
+we didn't cover this in class, so i loosely learned it from parts of the video:
+
+\begin{itemize}
+  \item ``Population Migration Models'' (youtube) \\
+        \url{https://www.youtube.com/watch?v=HraKEoXkaho}
+  \item ``Linear difference equation with matrices'' (math stack exchange) \\
+        \url{https://math.stackexchange.com/questions/2183669/}
+\end{itemize}
+
+mon to wed is 2 days, so 2 steps. then we do the multiplication with python (NumPy again).
+
+\subsection*{work}
+
+\[
+M =
+\begin{bmatrix}
+0.97 & 0.05 & 0.10 \\
+0.00 & 0.90 & 0.05 \\
+0.03 & 0.05 & 0.85
+\end{bmatrix}
+\qquad
+\mathbf{x}_0 =
+\begin{bmatrix}
+295 \\ 55 \\ 150
+\end{bmatrix}
+\begin{matrix}
+\text{Airport} \\ \text{North} \\ \text{Valley}
+\end{matrix}
+\]
+
+tuesday:
+\[
+\mathbf{x}_1 = M\mathbf{x}_0 =
+\begin{bmatrix}
+0.97(295) + 0.05(55) + 0.10(150) \\
+0(295) + 0.90(55) + 0.05(150) \\
+0.03(295) + 0.05(55) + 0.85(150)
+\end{bmatrix}
+=
+\begin{bmatrix}
+286.15 + 2.75 + 15 \\
+0 + 49.5 + 7.5 \\
+8.85 + 2.75 + 127.5
+\end{bmatrix}
+=
+\begin{bmatrix}
+303.9 \\ 57.0 \\ 139.1
+\end{bmatrix}
+\]
+
+wednesday:
+\[
+\mathbf{x}_2 = M\mathbf{x}_1 =
+\begin{bmatrix}
+0.97(303.9) + 0.05(57) + 0.10(139.1) \\
+0(303.9) + 0.90(57) + 0.05(139.1) \\
+0.03(303.9) + 0.05(57) + 0.85(139.1)
+\end{bmatrix}
+=
+\begin{bmatrix}
+294.783 + 2.85 + 13.91 \\
+0 + 51.3 + 6.955 \\
+9.117 + 2.85 + 118.235
+\end{bmatrix}
+=
+\begin{bmatrix}
+311.543 \\ 58.255 \\ 130.202
+\end{bmatrix}
+\]
+
+check: $311.543 + 58.255 + 130.202 = 500$. \checkmark
+
+\[
+\boxed{
+\text{wednesday} \approx 312 \text{ airport},\ 58 \text{ north},\ 130 \text{ valley}
+}
+\]
+
+\section*{Problem 1C}
+
+\subsection*{write-up}
+
+$D$ is a flexibility matrix: it turns forces $\mathbf{f}$ into deflections $\mathbf{y}$ by $\mathbf{y} = D\mathbf{f}$.
+the stiffness matrix $D^{-1}$ goes the other way: $\mathbf{f} = D^{-1}\mathbf{y}$.
+we didn't cover this in class, so i loosely learned it from:
+
+\begin{itemize}
+  \item ``Relationship between Stiffness and Flexibility Matrix Derivation'' (youtube) \\
+        \url{https://www.youtube.com/watch?v=2ZlYpOw1lss}
+  \item and some ai tools since i was very confused on this one. \\
+\end{itemize}
+
+\subsection*{work}
+
+\textbf{i.}
+\[
+\mathbf{y} = D\mathbf{f} =
+\begin{bmatrix}
+0.011 & 0.003 & 0.001 \\
+0.003 & 0.009 & 0.003 \\
+0.001 & 0.003 & 0.011
+\end{bmatrix}
+\begin{bmatrix}
+40 \\ 50 \\ 30
+\end{bmatrix}
+\]
+
+\[
+=
+\begin{bmatrix}
+0.011(40) + 0.003(50) + 0.001(30) \\
+0.003(40) + 0.009(50) + 0.003(30) \\
+0.001(40) + 0.003(50) + 0.011(30)
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.44 + 0.15 + 0.03 \\
+0.12 + 0.45 + 0.09 \\
+0.04 + 0.15 + 0.33
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.62 \\ 0.66 \\ 0.52
+\end{bmatrix}
+\]
+
+\[
+\boxed{y_1 = 0.62,\ y_2 = 0.66,\ y_3 = 0.52 \text{ inches}}
+\]
+
+\textbf{ii.}
+\[
+D = \frac{1}{1000}B,
+\qquad
+B =
+\begin{bmatrix}
+11 & 3 & 1 \\
+3 & 9 & 3 \\
+1 & 3 & 11
+\end{bmatrix}
+\qquad\Rightarrow\qquad
+D^{-1} = 1000\,B^{-1}
+\]
+
+\[
+\det B = 11(99 - 9) - 3(33 - 3) + 1(9 - 9) = 990 - 90 + 0 = 900
+\]
+
+\[
+\operatorname{adj} B =
+\begin{bmatrix}
+90 & -30 & 0 \\
+-30 & 120 & -30 \\
+0 & -30 & 90
+\end{bmatrix}
+\]
+
+\[
+D^{-1} = \frac{1000}{900}\operatorname{adj} B =
+\begin{bmatrix}
+100 & -\tfrac{100}{3} & 0 \\[2pt]
+-\tfrac{100}{3} & \tfrac{400}{3} & -\tfrac{100}{3} \\[2pt]
+0 & -\tfrac{100}{3} & 100
+\end{bmatrix}
+\]
+
+check: $DD^{-1} = I$. \checkmark
+
+\[
+\mathbf{f} = D^{-1}\mathbf{y} =
+\begin{bmatrix}
+100 & -\tfrac{100}{3} & 0 \\[2pt]
+-\tfrac{100}{3} & \tfrac{400}{3} & -\tfrac{100}{3} \\[2pt]
+0 & -\tfrac{100}{3} & 100
+\end{bmatrix}
+\begin{bmatrix}
+0 \\ 0 \\ 0.04
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\[2pt] -\tfrac{100}{3}(0.04) \\[2pt] 100(0.04)
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\[2pt] -\tfrac{4}{3} \\[2pt] 4
+\end{bmatrix}
+\]
+
+\[
+\boxed{f_1 = 0,\ f_2 = -\tfrac{4}{3} \approx -1.33,\ f_3 = 4 \text{ lbs}}
+\]
+
+negative $f_2$ means that force pushes up?
+
+\section*{Problem 2B}
+
+\subsection*{write-up}
+
+i picked ii (SVD) and iii (spectral factorization).
+both use the fact that a square matrix with $Q^TQ = I$ has $Q^{-1} = Q^T$,
+and that powers of a diagonal matrix are just powers of its diagonal entries.
+i loosely learned the matrix powers part from:
+
+\begin{itemize}
+  \item ``How to Compute Matrix Powers Using Diagonalization'' (YouTube) \\
+        \url{https://www.youtube.com/watch?v=xznLepig39g}
+  \item and some ai tools since i was very confused on this one. \\
+\end{itemize}
+
+\subsection*{ii. singular value decomposition}
+
+$U$ and $V$ are $n \times n$ with $U^TU = I$ and $V^TV = I$, so
+\[
+U^{-1} = U^T, \qquad V^{-1} = V^T, \qquad (V^T)^{-1} = V
+\]
+
+$D$ is diagonal with $\sigma_i > 0$, so
+\[
+D^{-1} =
+\begin{bmatrix}
+1/\sigma_1 & & \\
+& \ddots & \\
+& & 1/\sigma_n
+\end{bmatrix}
+\]
+
+$A = UDV^T$ is a product of invertible matrices, so $A$ is invertible:
+\[
+A^{-1} = (V^T)^{-1} D^{-1} U^{-1}
+\]
+
+\[
+\boxed{A^{-1} = V D^{-1} U^T}
+\]
+
+check:
+\[
+A A^{-1} = UDV^T \, V D^{-1} U^T = UD \, I \, D^{-1} U^T = U \, I \, U^T = UU^T = I \checkmark
+\]
+
+\subsection*{iii. Spectral Factorization}
+
+\[
+A^2 = (PDP^{-1})(PDP^{-1}) = PD(P^{-1}P)DP^{-1} = PD^2P^{-1}
+\]
+
+\[
+A^3 = A^2 A = (PD^2P^{-1})(PDP^{-1}) = PD^2(P^{-1}P)DP^{-1} = PD^3P^{-1}
+\]
+
+the middle $P^{-1}P = I$ cancels every time, so
+\[
+A^k = PD^kP^{-1}
+\]
+
+$D$ is diagonal, so just raise each entry to the power:
+\[
+D^2 =
+\begin{bmatrix}
+4 & 0 & 0 \\
+0 & 9 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\qquad
+D^3 =
+\begin{bmatrix}
+8 & 0 & 0 \\
+0 & 27 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\qquad
+D^k =
+\begin{bmatrix}
+2^k & 0 & 0 \\
+0 & 3^k & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\]
+
+\[
+\boxed{
+A^2 = P
+\begin{bmatrix}
+4 & 0 & 0 \\
+0 & 9 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+P^{-1},
+\quad
+A^3 = P
+\begin{bmatrix}
+8 & 0 & 0 \\
+0 & 27 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+P^{-1},
+\quad
+A^k = P
+\begin{bmatrix}
+2^k & 0 & 0 \\
+0 & 3^k & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+P^{-1}
+}
+\]
+
+
+\end{document}

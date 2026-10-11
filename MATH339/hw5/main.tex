@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\title{HW5}
+\author{
+Greyson Knippel \\[4pt]
+MATH 339 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 19}
+
+\subsection*{(a)}
+
+\[
+\mathbf{a}_1 = \begin{bmatrix} -1 \\ 3 \\ 2 \end{bmatrix}
+\qquad
+\mathbf{a}_2 = \begin{bmatrix} 2 \\ -6 \\ -4 \end{bmatrix}
+\]
+
+\[
+\mathbf{a}_2 = -2\,\mathbf{a}_1
+\quad\Longrightarrow\quad
+2\mathbf{a}_1 + \mathbf{a}_2 + 0\,\mathbf{a}_3 = \mathbf{0}
+\]
+
+\subsection*{(b)}
+
+\[
+\mathbf{a}_1 + \mathbf{a}_2 =
+\begin{bmatrix} 2 \\ 1 \\ -1 \end{bmatrix} +
+\begin{bmatrix} 1 \\ 0 \\ 1 \end{bmatrix} =
+\begin{bmatrix} 3 \\ 1 \\ 0 \end{bmatrix} = \mathbf{a}_3
+\]
+
+\[
+\mathbf{a}_1 + \mathbf{a}_2 - \mathbf{a}_3 = \mathbf{0}
+\]
+
+\section*{Problem 37}
+
+\[
+c_1\mathbf{w}_1 + c_2\mathbf{w}_2 + c_3\mathbf{w}_3 = \mathbf{0}
+\]
+
+\[
+c_1(\mathbf{v}_1 + \mathbf{v}_2) + c_2(\mathbf{v}_2 - \mathbf{v}_3) + c_3(\mathbf{v}_2 + \mathbf{v}_3) = \mathbf{0}
+\]
+
+\[
+c_1\,\mathbf{v}_1 + (c_1 + c_2 + c_3)\,\mathbf{v}_2 + (-c_2 + c_3)\,\mathbf{v}_3 = \mathbf{0}
+\]
+
+$S$ linearly independent $\Longrightarrow$
+\[
+\begin{aligned}
+c_1 &= 0 \\
+c_1 + c_2 + c_3 &= 0 \\
+-c_2 + c_3 &= 0
+\end{aligned}
+\]
+
+\[
+c_3 = c_2 \;\Longrightarrow\; 2c_2 = 0 \;\Longrightarrow\; c_1 = c_2 = c_3 = 0
+\]
+
+$so  T$ is linearly independent.
+
+\end{document}
