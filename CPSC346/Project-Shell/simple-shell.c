@@ -35,7 +35,8 @@ int command_count = 0;
  * - A circular-array approach is recommended.
  */
 void addtohistory(char inputBuffer[]) {
-	/* TODO Part II: update history and command_count. */
+	strcpy(history[command_count % MAX_COMMANDS], inputBuffer);
+	command_count++;
 
 	return;
 }
@@ -91,36 +92,37 @@ int setup(char inputBuffer[], char *args[], int *background) {
 	} while (length == 1 && inputBuffer[0] == '\n');
 	
 
-    /**
-     * Part II — History Recall
-     *
-     * If the command begins with '!', handle !! or !N.
-     * If a command is recalled:
-     * - replace inputBuffer with the recalled command,
-     * - print the recalled command, and
-     * - update length to match the recalled command.
-     *
-     * Invalid history requests should print an error and return SETUP_SKIP.
-    */
-	
-    /**
-     * Part II — Add to History
-     *
-     * Add the command to history here, before parsing modifies inputBuffer.
-     * If !! or !N was used, add the recalled command rather than the
-     * literal history request.
-     */
-    /* TODO Part II: add the command to history when appropriate. */
+	if (inputBuffer[0] == '!') {
+		if (inputBuffer[1] == '!') {
+			/* !! */
+			if (command_count == 0) {
+				printf("No commands in history.\n");
+				return SETUP_SKIP;
+			}
+			strcpy(inputBuffer, history[(command_count - 1) % MAX_COMMANDS]);
+			printf("%s", inputBuffer);          /* echo  */
+			length = strlen(inputBuffer);
+		}
+		else if (isdigit(inputBuffer[1])) {
+			/* !N  */
+			int n = inputBuffer[1] - '0';       
 
-	/**
-	 * Part I — Parse inputBuffer
-	 *
-	 * Use a separate argument index (for example, arg_index) rather than using
-	 * i as both the character index and the args index.
-	 *
-	 * Spaces and tabs separate arguments. Replace separators with '\0'.
-	 * Store the address of the first character of each argument in args.
-	 */
+			if (n < 1 || n > command_count || n > MAX_COMMANDS) {
+				printf("No such command in history.\n");
+				return SETUP_SKIP;
+			}
+			strcpy(inputBuffer, history[(command_count - n) % MAX_COMMANDS]);
+			printf("%s", inputBuffer);
+			length = strlen(inputBuffer);
+		}
+		else {
+			/* "!" */
+			printf("No such command in history.\n");
+			return SETUP_SKIP;
+		}
+	}
+
+	addtohistory(inputBuffer);
 
 	for (i = 0; i < length; i++) {
 		switch (inputBuffer[i]) {
@@ -155,15 +157,14 @@ int setup(char inputBuffer[], char *args[], int *background) {
 	if(arg_index == 0){
 		return SETUP_SKIP;
 	}
+	if (strcmp(args[arg_index - 1], "&") == 0) {
+		*background = 1;
+		arg_index--;          /* drop "&" from args */
+	}
+	if (arg_index == 0) {     /* user typed only "&" */
+		return SETUP_SKIP;
+	}
 	args[arg_index] = NULL;
-	/*
-    * TODO Part I:
-    * - return SETUP_SKIP if no arguments were entered
-    * - if the final argument is '&', set *background = 1 and
-    *   remove '&' from args.
-    * - terminate args with NULL,
-    */
-
 
 	return SETUP_EXECUTE;
 }
@@ -189,15 +190,12 @@ int main(void) {
 		}
 
 		for (int k = 0; args[k] != NULL; k++)
-			printf("args[%d] = \"%s\"\n", k, args[k]);	
+			printf("args[%d] = \"%s\"\n", k, args[k]);
+		printf("background = %d\n", background);
 
-		/**
-         * Part I — Built-in exit
-         *
-         * If the command is exactly "exit", terminate the shell normally.
-         */
-        // TODO Part I: handle exit. 
-
+		if (strcmp(args[0], "exit") == 0){
+			break;
+		}
 
 		/**
 		 * Part II — Built-in history
@@ -206,18 +204,23 @@ int main(void) {
         */
 		// TODO Part II: display history.
 
-		/**
-		 * Part I — fork / exec / wait
-		 *
-		 * child < 0: fork failed; print an error.
-		 * child == 0: execute args with execvp(args[0], args).
-		 *             If execvp() returns, print an error and exit the child
-		 *             with EXIT_FAILURE.
-		 * child > 0: this is the parent. If background == 0, wait specifically
-		 *            for this child using waitpid(). If background == 1, do not
-		 *            wait before returning to the prompt.
-		 */
-		// TODO Part I: create and handle the child process. 
+
+		child = fork();
+
+		if(child < 0){
+			perror("fork failed");
+		}
+		else if (child == 0){
+			execvp(args[0], args);
+
+			perror("execvp failed");
+			exit(EXIT_FAILURE);
+		}
+		else {
+			if(background == 0){
+				waitpid(child, NULL, 0);
+			}
+		}
         
 	}
 
