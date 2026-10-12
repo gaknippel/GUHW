@@ -1,7 +1,7 @@
 /**
  * Project 4 — UNIX Shell and History Feature
  *
- * Add author information here.
+ * Greyson Knippel
  */
 
 #include <ctype.h>
@@ -62,6 +62,7 @@ int setup(char inputBuffer[], char *args[], int *background) {
 	int i;      /* Index used to examine inputBuffer. */
 	int start = -1;
 	int arg_index = 0;
+	char saved[MAX_LINE]; /* Unparsed copy of the command, for history. */
 
 	/*
 	 * Read what the user enters on the command line.
@@ -122,7 +123,7 @@ int setup(char inputBuffer[], char *args[], int *background) {
 		}
 	}
 
-	addtohistory(inputBuffer);
+	strcpy(saved, inputBuffer);
 
 	for (i = 0; i < length; i++) {
 		switch (inputBuffer[i]) {
@@ -166,6 +167,9 @@ int setup(char inputBuffer[], char *args[], int *background) {
 	}
 	args[arg_index] = NULL;
 
+	/* Only real commands reach here, so blank lines and a lone "&" are never saved. */
+	addtohistory(saved);
+
 	return SETUP_EXECUTE;
 }
 
@@ -189,22 +193,21 @@ int main(void) {
 			continue;
 		}
 
-		for (int k = 0; args[k] != NULL; k++)
-			printf("args[%d] = \"%s\"\n", k, args[k]);
-		printf("background = %d\n", background);
-
 		if (strcmp(args[0], "exit") == 0){
 			break;
 		}
 
-		/**
-		 * Part II — Built-in history
-		 *
-		 * If the command is exactly "history": 
-        */
-		// TODO Part II: display history.
+		if(strcmp(args[0], "history") == 0){
+			int count = command_count < MAX_COMMANDS ? command_count : MAX_COMMANDS;
+			
+			for(int n = 1; n <= count; n++){
+				printf("%d %s", n, history[(command_count - n) % MAX_COMMANDS]);
+			}
+			continue;
+		}
 
 
+		fflush(stdout);   
 		child = fork();
 
 		if(child < 0){

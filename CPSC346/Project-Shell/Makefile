@@ -1,4 +1,4 @@
-shell:
+shell: simple-shell.c
 	gcc -Wall -Wextra -pedantic simple-shell.c -o shell
 
 clean:
