@@ -12,6 +12,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include  <signal.h>
+
 
 #define MAX_LINE 80       /* Maximum command size (80 chars), including room for '\0'. */
 #define MAX_COMMANDS 9    /* Number of commands stored in history. */
@@ -77,7 +79,6 @@ int setup(char inputBuffer[], char *args[], int *background) {
 		length = read(STDIN_FILENO, inputBuffer, MAX_LINE - 1);
 
 		if (length == 0) {
-			/* CTRL-D / end of input. */
 			return SETUP_EXIT;
 		}
 
@@ -86,10 +87,8 @@ int setup(char inputBuffer[], char *args[], int *background) {
 			exit(EXIT_FAILURE);
 		}
 
-		/* Make inputBuffer a valid C string. */
 		inputBuffer[length] = '\0';
 
-	/* Ignore a line containing only Enter and display another prompt. */
 	} while (length == 1 && inputBuffer[0] == '\n');
 	
 
@@ -101,7 +100,7 @@ int setup(char inputBuffer[], char *args[], int *background) {
 				return SETUP_SKIP;
 			}
 			strcpy(inputBuffer, history[(command_count - 1) % MAX_COMMANDS]);
-			printf("%s", inputBuffer);          /* echo  */
+			printf("%s", inputBuffer);          //echo
 			length = strlen(inputBuffer);
 		}
 		else if (isdigit(inputBuffer[1])) {
@@ -160,25 +159,43 @@ int setup(char inputBuffer[], char *args[], int *background) {
 	}
 	if (strcmp(args[arg_index - 1], "&") == 0) {
 		*background = 1;
-		arg_index--;          /* drop "&" from args */
+		arg_index--;          
 	}
-	if (arg_index == 0) {     /* user typed only "&" */
+	if (arg_index == 0) {     
 		return SETUP_SKIP;
 	}
 	args[arg_index] = NULL;
 
-	/* Only real commands reach here, so blank lines and a lone "&" are never saved. */
 	addtohistory(saved);
 
 	return SETUP_EXECUTE;
 }
 
+void sigchild_handler (int sig){
+	int saved_errno = errno;
+	(void) sig;
+
+	while (waitpid(-1, NULL, WNOHANG) > 0);
+
+	errno = saved_errno;
+}
+
 int main(void) {
 	char inputBuffer[MAX_LINE];
-	char *args[MAX_LINE / 2 + 1]; /* Up to 40 args plus the final NULL. */
+	char *args[MAX_LINE / 2 + 1];
 	int background;
 	int setup_result;
 	pid_t child;
+	struct sigaction sa;
+
+	sa.sa_handler = sigchild_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+
+	if (sigaction(SIGCHLD, &sa, NULL) < 0) {
+		perror("sigaction failed");
+		exit(EXIT_FAILURE);
+	}
 
 	while (1) {
 		background = 0;
@@ -198,7 +215,7 @@ int main(void) {
 		}
 
 		if(strcmp(args[0], "history") == 0){
-			int count = command_count < MAX_COMMANDS ? command_count : MAX_COMMANDS;
+			int count = command_count < MAX_COMMANDS ? command_count : MAX_COMMANDS; //if command count < max commands, ? then command count = max commands
 			
 			for(int n = 1; n <= count; n++){
 				printf("%d %s", n, history[(command_count - n) % MAX_COMMANDS]);

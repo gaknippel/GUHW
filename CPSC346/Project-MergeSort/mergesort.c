@@ -101,11 +101,7 @@ int main(){
 	struct node a = {3, &b};
 
 
-	struct node x = {0, NULL};
-
-
-
-
+	printf("unsorted: ");
 	printlist(&a);
 
 
@@ -121,6 +117,7 @@ int main(){
 
 	struct node* sorted = mergesort(&a, getlistlength(&a));
 
+		printf("sorted w/ mergesort: ");
 		printlist(sorted);
 
 	return 0;
