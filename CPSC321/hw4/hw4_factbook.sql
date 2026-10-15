@@ -132,11 +132,69 @@ SELECT c.country_code, c.country_name
 FROM country c
     JOIN border_full b ON c.country_code = b.country_code_1;
 
+-- question 4: countries that do not border any other country,
+-- using a LEFT JOIN and keeping the countries with no matching border
+SELECT country_code, country_name
+FROM country c,
+LEFT JOIN border_full b ON c.country_code = b.country_code_1
+WHERE b.country_code_1 IS NULL;
 
 
+-- question 5: countries with the highest gdp per capita,
+-- all countries EXCEPT those with a lower gdp than some other country
+SELECT country_code, country_name, gdp
+FROM country
+EXCEPT
+SELECT c1.country_code, c1.country_name, c1.gdp
+FROM country c1
+    JOIN country c2 ON c1.gdp < c2.gdp;
 
+-- question 6: cities in a given country with population >= a given minimum
+PREPARE country_cities(CHAR(2), INT) AS
+    SELECT city_name, province_name, population
+    FROM city
+    WHERE country_code = $1
+    AND population >= $2;
 
+-- first execution: germany, min population 563311
+EXECUTE country_cities('DE', 563311);
 
+-- second execution US, min population 200000
+EXECUTE country_cities('US', 200000);
 
+-- question 7: stored function with the same parameters and columns as question 6
+CREATE FUNCTION large_cities(code CHAR(2), min_pop INT)
+RETURNS TABLE (city_name VARCHAR(40), province_name VARCHAR(30), population INT)
+AS $$
+    SELECT c.city_name, c.province_name, c.population
+    FROM city c
+    WHERE c.country_code = code
+      AND c.population >= min_pop;
+$$ LANGUAGE SQL;
 
+-- call it with the same values as the first execute (germany, 563311),
+-- adding each city's province area, sorted by population large to small
+SELECT lc.city_name, lc.population, lc.province_name, p.area
+FROM large_cities('DE', 563311) lc
+    JOIN province p ON lc.province_name = p.province_name
+                   AND p.country_code = 'DE'
+ORDER BY lc.population DESC;
 
+-- question 8: stored procedure that adds a province, then a city in that province
+-- (province first)
+CREATE PROCEDURE add_province (code CHAR(2), prov_name VARCHAR(30), prov_area INT, city_nm VARCHAR(40), city_pop INT)
+LANGUAGE SQL
+AS  $$
+    INSERT INTO province VALUES (prov_name, code, prov_area);
+    INSERT INTO city VALUES (city_nm, prov_name, code, city_pop);
+$$;
+
+-- add quebec (canada) and montreal, then show the new province and city
+CALL add_province('CA', 'Quebec', 1542056, 'Montreal', 1762949);
+
+SELECT p.province_name, p.country_code, p.area, c.city_name, c.population
+FROM province p
+    JOIN city c ON p.province_name = c.province_name
+               AND p.country_code = c.country_code
+WHERE p.province_name = 'Quebec'
+  AND p.country_code = 'CA';
