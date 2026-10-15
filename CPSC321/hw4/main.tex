@@ -15,4 +15,45 @@ CPSC-321- Fall 2026\\[4pt]
 
 \maketitle
 
+%============================================================
+\section*{Question 1}
+
+\texttt{border\_full} combines the stored rows of \texttt{border} with a flipped copy
+(\texttt{country\_code\_2, country\_code\_1}) using \texttt{UNION}, so every border appears
+in both directions. the 3 stored borders become 6 rows.
+
+\subsection*{output}
+{\small
+\begin{verbatim}
+TODO: paste output of SELECT * FROM border_full;
+\end{verbatim}
+}
+
+%============================================================
+\section*{Question 2}
+
+threshold: border length $> 400$ (same as hw3 query 8).
+
+\subsection*{output (hw4, using border\_full)}
+{\small
+\begin{verbatim}
+TODO: paste output of question 2 query
+\end{verbatim}
+}
+
+\subsection*{output (hw3 query 8, same starting data)}
+{\small
+\begin{verbatim}
+TODO: paste output of hw3 query 8
+\end{verbatim}
+}
+
+\subsection*{comparison}
+both queries return the same rows: US and CA. the US has a higher gdp (46900 $>$ 15300) and
+lower inflation (3.8 $<$ 4.7) than MX, which it borders with length 3145 $> 400$.
+CA has a higher gdp (43100 $>$ 15300) and lower inflation (2.4 $<$ 4.7) than MX, which it
+borders with length 500 $> 400$. the hw3 query needed \texttt{OR} to check both columns of
+\texttt{border}, but \texttt{border\_full} already has both directions, so the hw4 query only
+checks \texttt{country\_code\_1}.
+
 \end{document}
