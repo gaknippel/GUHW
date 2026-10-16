@@ -135,8 +135,8 @@ FROM country c
 -- question 4: countries that do not border any other country,
 -- using a LEFT JOIN and keeping the countries with no matching border
 SELECT country_code, country_name
-FROM country c,
-LEFT JOIN border_full b ON c.country_code = b.country_code_1
+FROM country c
+    LEFT JOIN border_full b ON c.country_code = b.country_code_1
 WHERE b.country_code_1 IS NULL;
 
 
