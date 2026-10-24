@@ -1,7 +1,7 @@
 /*
  * Project: Multithreaded Sorting Application (30 points)
  *
- * Name: __________________________
+ * Name: Greyson Knippel
  *
  * Goal: Use two pthreads to sort disjoint halves of a shared array,
  * then use a third pthread to merge the two sorted halves.
@@ -51,14 +51,25 @@ int main(void)
      * Pass each thread a pointer to its own sort_parameters struct.
      * Do not join the first sorting thread before creating the second.
      */
+    pthread_create(&sort_threads[0], NULL, sorter, &left);
+    pthread_create(&sort_threads[1], NULL, sorter, &right);
 
     /* TODO 2: Join BOTH sorting threads before beginning the merge. */
+    pthread_join(sort_threads[0], NULL);
+    pthread_join(sort_threads[1], NULL);
 
     /* TODO 3: Start the merging thread with &merge_args. */
+    pthread_create(&merge_thread, NULL, merger, &merge_args);
+
 
     /* TODO 4: Join the merging thread before reading result. */
+    pthread_join(merge_thread, NULL);
 
     /* TODO 5: Print all SIZE elements of result in order. */
+    for (int i = 0; i < SIZE; i++){
+        printf("%d ", result[i]);
+    }
+    printf("\n");
 
     return 0;
 }
@@ -71,6 +82,15 @@ void *sorter(void *arg)
      * Choose any sorting algorithm. Work directly in list; do not make
      * a separate array or access elements outside your assigned range.
      */
+    for (int i = range->start; i < range->end - 1; i++) {
+    for (int j = range->start; j < range->end - 1 - (i - range->start); j++) {
+        if (list[j] > list[j + 1]) {
+            int temp = list[j];
+            list[j] = list[j + 1];
+            list[j + 1] = temp;
+        }
+    }
+}
 
     return NULL;
 }
@@ -84,7 +104,25 @@ void *merger(void *arg)
      *   right: [bounds->split, SIZE)
      * Write the merged ascending sequence to result[0 ... SIZE - 1].
      * Remember to copy any leftover values after one half is exhausted.
-     */
+        */
+    int i = 0;              // left 
+    int j = bounds->split;  // right 
+    int k = 0;              
+
+    while (i < bounds->split && j < SIZE) {
+        if (list[i] <= list[j]) {
+            result[k++] = list[i++];
+        } else {
+            result[k++] = list[j++];
+        }
+    }
+
+    while (i < bounds->split) {
+        result[k++] = list[i++];
+    }
+    while (j < SIZE) {
+        result[k++] = list[j++];
+    }
 
     return NULL;
 }
