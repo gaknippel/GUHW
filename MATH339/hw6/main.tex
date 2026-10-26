@@ -1,0 +1,238 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\title{HW6}
+\author{
+Greyson Knippel \\[4pt]
+MATH 339 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{3.1 - 17}
+
+Let $V$ be the set of all invertible $2 \times 2$ matrices, with the standard
+matrix addition and scalar multiplication.
+
+\textbf{claim:} $V$ is \emph{not} a vector space, because it is not closed
+under addition.
+
+\textbf{counterexample:} Take
+\[
+A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix},
+\qquad
+B = \begin{bmatrix} -1 & 0 \\ 0 & -1 \end{bmatrix}.
+\]
+both are invertible, since $\det A = 1 \neq 0$ and $\det B = 1 \neq 0$,
+so $A, B \in V$. but
+\[
+A + B = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix},
+\qquad
+\det(A + B) = 0,
+\]
+so $A + B$ is not invertible and $A + B \notin V$.
+
+therefore the closure axiom ``if $\mathbf{u}, \mathbf{v} \in V$, then
+$\mathbf{u} + \mathbf{v} \in V$'' doenst work, and $V$ is not a vector space.
+
+\section*{3.1 - 23}
+
+\subsection*{(a)}
+
+\textbf{additive identity:} we need $\mathbf{v}_s \oplus \mathbf{v}_t = \mathbf{v}_t$
+for every $t$, i.e.\ $s + t = t$, so $s = 0$:
+\[
+\mathbf{0} = \mathbf{v}_0 = \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}.
+\]
+
+\textbf{additive inverse:} we need $\mathbf{v}_t \oplus \mathbf{v}_s = \mathbf{v}_0$,
+i.e.\ $t + s = 0$, so $s = -t$:
+\[
+-\mathbf{v}_t = \mathbf{v}_{-t} = \begin{bmatrix} 1 - t \\ 2 + t \\ 3 - 2t \end{bmatrix}.
+\]
+
+\subsection*{(b)}
+
+let $\mathbf{u} = \mathbf{v}_r$, $\mathbf{v} = \mathbf{v}_s$, $\mathbf{w} = \mathbf{v}_t$
+be in $V$ and $c, d \in \mathbb{R}$.
+
+\begin{enumerate}
+  \item $\mathbf{u} \oplus \mathbf{v} = \mathbf{v}_{r+s} \in V$ since $r + s \in \mathbb{R}$.
+  \item $\mathbf{u} \oplus \mathbf{v} = \mathbf{v}_{r+s} = \mathbf{v}_{s+r} = \mathbf{v} \oplus \mathbf{u}$.
+  \item $(\mathbf{u} \oplus \mathbf{v}) \oplus \mathbf{w} = \mathbf{v}_{(r+s)+t}
+        = \mathbf{v}_{r+(s+t)} = \mathbf{u} \oplus (\mathbf{v} \oplus \mathbf{w})$.
+  \item $\mathbf{v}_0 \oplus \mathbf{u} = \mathbf{v}_{0+r} = \mathbf{v}_r = \mathbf{u}$, from (a).
+  \item $\mathbf{u} \oplus \mathbf{v}_{-r} = \mathbf{v}_{r-r} = \mathbf{v}_0$, from (a).
+  \item $c \odot \mathbf{u} = \mathbf{v}_{cr} \in V$ since $cr \in \mathbb{R}$.
+  \item $c \odot (\mathbf{u} \oplus \mathbf{v}) = \mathbf{v}_{c(r+s)} = \mathbf{v}_{cr+cs}
+        = (c \odot \mathbf{u}) \oplus (c \odot \mathbf{v})$.
+  \item $(c + d) \odot \mathbf{u} = \mathbf{v}_{(c+d)r} = \mathbf{v}_{cr+dr}
+        = (c \odot \mathbf{u}) \oplus (d \odot \mathbf{u})$.
+  \item $c \odot (d \odot \mathbf{u}) = \mathbf{v}_{c(dr)} = \mathbf{v}_{(cd)r}
+        = (cd) \odot \mathbf{u}$.
+  \item $1 \odot \mathbf{u} = \mathbf{v}_{1 \cdot r} = \mathbf{v}_r = \mathbf{u}$.
+\end{enumerate}
+all 10 of the checks hold, so $V$ is a vector space.
+
+\subsection*{(c)}
+
+for any $\mathbf{v} = \mathbf{v}_t \in V$,
+\[
+0 \odot \mathbf{v}_t
+= \begin{bmatrix} 1 + 0t \\ 2 - 0t \\ 3 + 2(0)t \end{bmatrix}
+= \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}
+= \mathbf{v}_0 = \mathbf{0}.
+\]
+
+\section*{3.2 - 9}
+
+$S$ is a subspace of $\mathbb{R}^3$ if it's got $\mathbf{0}$ and is closed
+under addition and scalar multiplication.
+
+\textbf{zero vector:} take $s = t = 0$:
+\[
+\begin{bmatrix} 0 - 2(0) \\ 0 \\ 0 + 0 \end{bmatrix}
+= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \in S.
+\]
+
+\textbf{closed under addition:} let
+\[
+\mathbf{u} = \begin{bmatrix} s_1 - 2t_1 \\ s_1 \\ t_1 + s_1 \end{bmatrix},
+\qquad
+\mathbf{v} = \begin{bmatrix} s_2 - 2t_2 \\ s_2 \\ t_2 + s_2 \end{bmatrix}.
+\]
+then
+\[
+\mathbf{u} + \mathbf{v}
+= \begin{bmatrix} (s_1 + s_2) - 2(t_1 + t_2) \\ s_1 + s_2 \\ (t_1 + t_2) + (s_1 + s_2) \end{bmatrix},
+\]
+which has the form of $S$ with $s = s_1 + s_2$ and $t = t_1 + t_2$, so
+$\mathbf{u} + \mathbf{v} \in S$.
+
+\textbf{closed under scalar multiplication:} for $c \in \mathbb{R}$,
+\[
+c\,\mathbf{u}
+= \begin{bmatrix} cs_1 - 2(ct_1) \\ cs_1 \\ ct_1 + cs_1 \end{bmatrix},
+\]
+which has the form of $S$ with $s = cs_1$ and $t = ct_1$, so $c\,\mathbf{u} \in S$.
+
+all three of the checks hold, so $S$ is a subspace of $\mathbb{R}^3$.
+
+\section*{3.2 - 41}
+
+\[
+H = \left\{
+\begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix},
+\begin{bmatrix} -1 \\ 3 \\ -1 \end{bmatrix},
+\begin{bmatrix} 1 \\ 2 \\ -1 \end{bmatrix}
+\right\}
+\]
+\[
+T = \left\{
+\begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix},
+\begin{bmatrix} -1 \\ 3 \\ -1 \end{bmatrix},
+\begin{bmatrix} 1 \\ 2 \\ -1 \end{bmatrix},
+\begin{bmatrix} -3 \\ 4 \\ 5 \end{bmatrix}
+\right\}
+\]
+\[
+S = \left\{
+\begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix},
+\begin{bmatrix} -1 \\ 3 \\ -1 \end{bmatrix},
+\begin{bmatrix} 1 \\ 2 \\ -1 \end{bmatrix},
+\begin{bmatrix} 0 \\ 6 \\ 1 \end{bmatrix},
+\begin{bmatrix} -3 \\ 4 \\ 5 \end{bmatrix}
+\right\}
+\]
+
+\textbf{key fact:} put the vectors of $H$ in the columns of
+\[
+A = \begin{bmatrix} 1 & -1 & 1 \\ 2 & 3 & 2 \\ 2 & -1 & -1 \end{bmatrix}.
+\]
+then
+\[
+\det A
+= 1\begin{vmatrix} 3 & 2 \\ -1 & -1 \end{vmatrix}
+- (-1)\begin{vmatrix} 2 & 2 \\ 2 & -1 \end{vmatrix}
++ 1\begin{vmatrix} 2 & 3 \\ 2 & -1 \end{vmatrix}
+= (-1) + (-6) + (-8) = -15 \neq 0.
+\]
+so $A$ is invertible, which means $A\mathbf{x} = \mathbf{b}$ has a solution for
+every $\mathbf{b}$ (so $\mathrm{span}(H) = \mathbb{R}^3$) and $A\mathbf{x} = \mathbf{0}$
+has only $\mathbf{x} = \mathbf{0}$ (so $H$ is linearly independent).
+
+\subsection*{(a)}
+
+$H \subseteq S$, so $\mathbb{R}^3 = \mathrm{span}(H) \subseteq \mathrm{span}(S) \subseteq \mathbb{R}^3$.
+therefore $\mathrm{span}(S) = \mathbb{R}^3$.
+
+\textbf{} so basically everything in S can be built in H.
+
+\subsection*{(b)}
+
+no. $S$ has 5 vectors in $\mathbb{R}^3$
+\subsection*{(c)}
+
+$\mathrm{span}(T) = \mathbb{R}^3$, since $H \subseteq T$ (same reasoning as (a)).
+$T$ is not linearly independent
+
+\subsection*{(d)}
+
+$\mathrm{span}(H) = \mathbb{R}^3$ and $H$ is linearly independent
+
+\section*{3.3 - 19}
+
+split the vector into an $s$ part and a $t$ part:
+\[
+\begin{bmatrix} s + 2t \\ -s + t \\ t \end{bmatrix}
+= s\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}
++ t\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}.
+\]
+so $S = \mathrm{span}\left\{
+\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix},
+\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}
+\right\}$.
+
+\textbf{linearly independent:} suppose
+\[
+a\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix}
++ b\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}
+= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}.
+\]
+the third entry gives $b = 0$, then the first entry gives $a = 0$.
+
+so a basis for $S$ is
+\[
+\left\{
+\begin{bmatrix} 1 \\ -1 \\ 0 \end{bmatrix},
+\begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}
+\right\},
+\qquad
+\dim S = 2.
+\]
+
+\section*{3.3 - 35}
+
+$\dim \mathbb{R}^3 = 3$, so we need one more vector. the two vectors that are given to us are
+already linearly independent, since neither is a multiple of the other. we can add
+$\mathbf{e}_1$:
+\[
+A = \begin{bmatrix} -1 & 1 & 1 \\ 1 & 1 & 0 \\ 3 & 1 & 0 \end{bmatrix},
+\qquad
+\det A = 1\begin{vmatrix} 1 & 1 \\ 3 & 1 \end{vmatrix} = 1 - 3 = -2 \neq 0
+\]
+(expanding along the third column). so the three columns are linearly
+independent, and the basis is:
+\[
+\left\{
+\begin{bmatrix} -1 \\ 1 \\ 3 \end{bmatrix},
+\begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix},
+\begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
+\right\}.
+\]
+
+\end{document}
