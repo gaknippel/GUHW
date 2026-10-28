@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
+
+\title{HW7}
+\author{
+Greyson Knippel \\[4pt]
+MATH 339 --- Gonzaga University \\[4pt]
+compiled with \LaTeX{}
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{3.4 - 15}
+
+\[
+B_1 = \left\{
+\begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix},
+\begin{bmatrix} 0 \\ 1 \\ 1 \end{bmatrix},
+\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+\right\},
+\qquad
+B_2 = \left\{
+\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix},
+\begin{bmatrix} -1 \\ 1 \\ -1 \end{bmatrix},
+\begin{bmatrix} 2 \\ 1 \\ -1 \end{bmatrix}
+\right\},
+\qquad
+[\mathbf{v}]_{B_1} = \begin{bmatrix} -1 \\ 0 \\ 2 \end{bmatrix}.
+\]
+
+we can do the row reduce method to find P:
+\[
+\left[\begin{array}{rrr|rrr}
+0 & -1 & 2 & 1 & 0 & 0 \\
+1 & 1 & 1 & 2 & 1 & 1 \\
+0 & -1 & -1 & 1 & 1 & 0
+\end{array}\right]
+\xrightarrow{R_1 \leftrightarrow R_2}
+\left[\begin{array}{rrr|rrr}
+1 & 1 & 1 & 2 & 1 & 1 \\
+0 & -1 & 2 & 1 & 0 & 0 \\
+0 & -1 & -1 & 1 & 1 & 0
+\end{array}\right]
+\xrightarrow{R_3 - R_2}
+\left[\begin{array}{rrr|rrr}
+1 & 1 & 1 & 2 & 1 & 1 \\
+0 & -1 & 2 & 1 & 0 & 0 \\
+0 & 0 & -3 & 0 & 1 & 0
+\end{array}\right]
+\]
+\[
+\xrightarrow[-R_2]{-\frac{1}{3}R_3}
+\left[\begin{array}{rrr|rrr}
+1 & 1 & 1 & 2 & 1 & 1 \\
+0 & 1 & -2 & -1 & 0 & 0 \\
+0 & 0 & 1 & 0 & -\frac{1}{3} & 0
+\end{array}\right]
+\xrightarrow{R_2 + 2R_3}
+\left[\begin{array}{rrr|rrr}
+1 & 1 & 1 & 2 & 1 & 1 \\
+0 & 1 & 0 & -1 & -\frac{2}{3} & 0 \\
+0 & 0 & 1 & 0 & -\frac{1}{3} & 0
+\end{array}\right]
+\]
+\[
+\xrightarrow{R_1 - R_2 - R_3}
+\left[\begin{array}{rrr|rrr}
+1 & 0 & 0 & 3 & 2 & 1 \\
+0 & 1 & 0 & -1 & -\frac{2}{3} & 0 \\
+0 & 0 & 1 & 0 & -\frac{1}{3} & 0
+\end{array}\right]
+\]
+so
+\[
+[I]_{B_1}^{B_2} = \begin{bmatrix}
+3 & 2 & 1 \\
+-1 & -\frac{2}{3} & 0 \\
+0 & -\frac{1}{3} & 0
+\end{bmatrix}.
+\]
+
+\textbf{check column 1:} $3\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+- \begin{bmatrix} -1 \\ 1 \\ -1 \end{bmatrix}
++ 0\begin{bmatrix} 2 \\ 1 \\ -1 \end{bmatrix}
+= \begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix}$, which is the first vector of $B_1$.
+(column 3 is free because the third vector of $B_1$ is the first vector of $B_2$.)
+
+then
+\[
+[\mathbf{v}]_{B_2} = [I]_{B_1}^{B_2}[\mathbf{v}]_{B_1}
+= \begin{bmatrix}
+3 & 2 & 1 \\
+-1 & -\frac{2}{3} & 0 \\
+0 & -\frac{1}{3} & 0
+\end{bmatrix}
+\begin{bmatrix} -1 \\ 0 \\ 2 \end{bmatrix}
+= \begin{bmatrix} -3 + 0 + 2 \\ 1 + 0 + 0 \\ 0 + 0 + 0 \end{bmatrix}
+= \begin{bmatrix} -1 \\ 1 \\ 0 \end{bmatrix}.
+\]
+
+\textbf{check:} both coordinate vectors build the same $\mathbf{v}$:
+\[
+-1\begin{bmatrix} 1 \\ 2 \\ 1 \end{bmatrix}
++ 2\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+= \begin{bmatrix} -1 \\ 0 \\ -1 \end{bmatrix},
+\qquad
+-1\begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
++ 1\begin{bmatrix} -1 \\ 1 \\ -1 \end{bmatrix}
+= \begin{bmatrix} -1 \\ 0 \\ -1 \end{bmatrix}.
+\]
+
+\end{document}
