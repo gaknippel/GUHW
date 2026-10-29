@@ -3,9 +3,15 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <unistd.h>     // sleep()
 
 buffer_item buffer[BUFFER_SIZE];
 // TODO: declare global variables here
+sem_t empty;            // coutns empty slots
+sem_t full;             // counts full slots
+pthread_mutex_t mutex;  
+int next_add = 0;       // index where the next produced item goes
+int next_remove = 0;    // index where the next consumed item gets consumed
 
 void print_buffer(){
     for(int i = 0; i < BUFFER_SIZE-1; i++){
@@ -16,14 +22,29 @@ void print_buffer(){
 
 int insert_item(buffer_item item){
     // TODO: fill out this function so it is thread safe
+    sem_wait(&empty);              
+    pthread_mutex_lock(&mutex);
 
-    // printf("ADDING %d at %d\n", item, next_add);
+    buffer[next_add] = item;
+    printf("ADDING %d at %d\n", item, next_add);
+    next_add = (next_add + 1) % BUFFER_SIZE;  //circular array
 
-    return 0; // return 0 on success
+    pthread_mutex_unlock(&mutex);  
+    sem_post(&full);               
+
+    return 0; //return 0 on success
 }
 int remove_item(buffer_item *item){
     // TODO: fill out this function so it is thread safe
-    // printf("REMOVING %d at %d\n", *item, next_remove);
+    sem_wait(&full);               
+    pthread_mutex_lock(&mutex);
+
+    *item = buffer[next_remove];   
+    printf("REMOVING %d at %d\n", *item, next_remove);
+    next_remove = (next_remove + 1) % BUFFER_SIZE;  // circular array
+
+    pthread_mutex_unlock(&mutex);
+    sem_post(&empty);              
 
     return 0; // return 0 on success
 }
@@ -75,6 +96,19 @@ int main(int argc, char *argv[]) {
     con        = atoi(argv[3]);   // argv[3]=# consumers
 
     // TODO: Initialize semaphores, create producer threads, create consumer threads
+    sem_init(&empty, 0, BUFFER_SIZE);   
+    sem_init(&full, 0, 0);              
+    pthread_mutex_init(&mutex, NULL);   
+
+    pthread_t producers[prod];
+    pthread_t consumers[con];
+
+    for (int i = 0; i < prod; i++){
+        pthread_create(&producers[i], NULL, producer, NULL);
+    }
+    for (int i = 0; i < con; i++){
+        pthread_create(&consumers[i], NULL, consumer, NULL);
+    }
 
     sleep(sleep_time);
 
