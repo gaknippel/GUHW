@@ -1,0 +1,8 @@
+# Copy this file to db_config.py and fill in your course database settings.
+# Do not submit db_config.py or publish your password.
+DB_CONFIG = {
+    'host': 'cps-postgresql.gonzaga.edu',
+    'dbname': 'your_database',
+    'user': 'your_username',
+    'password': 'your_password',
+}
