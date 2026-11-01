@@ -37,9 +37,9 @@ def list_countries_action() -> None:
 
 
 def show_country_action() -> None:
-    """Displays the country with the code the user enters, in the same
+    """displays the country with the code the user enters, in the same
     format as list_countries_action, or a message if there is no such
-    country.
+    country
     """
     code = input('Country code: ').strip()
     with pg.connect(**DB_CONFIG) as cn:
@@ -54,40 +54,100 @@ def show_country_action() -> None:
 
 
 def add_country_action() -> None:
-    """Adds the country the user enters. Displays whether the country
-    was added or already exists.
+    """adds the country the user enters. Displays whether the country
+    was added or already exists
     """
-    print("Not implemented yet.")
+    code = input('Country code: ').strip()
+    name = input('Country name: ').strip()
+    gdp = int(input('Country gdp: '))
+    inflation = float(input('Country inflation: '))
+    with pg.connect(**DB_CONFIG) as cn:
+        added = ops.add_country(cn, code, name, gdp, inflation)
+    print()
+    if added:
+        print('Country added.')
+    else:
+        print('Country already exists.')
 
 
 def update_country_action() -> None:
-    """Sets the gdp and inflation of the country the user enters.
-    Displays whether the country was updated or does not exist.
+    """sets the gdp and inflation of the country the user enters.
+    displays whether the country was updated or does not exist
     """
-    print("Not implemented yet.")
+    code = input('Country code: ').strip()
+    gdp = int(input('Country gdp: '))
+    inflation = float(input('Country inflation: '))
+    with pg.connect(**DB_CONFIG) as cn:
+        updated = ops.update_country(cn, code, gdp, inflation)
+    print()
+    if updated:
+        print('Country updated.')
+    else:
+        print('Country does not exist.')
 
 
 def remove_border_action() -> None:
-    """Removes the border between the two countries the user enters.
-    Displays whether the border was removed or does not exist.
+    """removes the border between the two countries the user enters.
+    displays whether the border was removed or does not exist
     """
-    print("Not implemented yet.")
+    code1 = input('Country 1 code: ').strip()
+    code2 = input('Country 2 code: ').strip()
+    with pg.connect(**DB_CONFIG) as cn:
+        removed = ops.remove_border(cn, code1, code2)
+    print()
+    if removed:
+        print('Border removed.')
+    else:
+        print('No border exists between the countries.')
 
 
 def add_province_with_city_action() -> None:
-    """Adds the province and city the user enters. Displays whether
-    both were added or the province already exists.
+    """adds the province and city the user enters. displays whether
+    both were added or the province already exists
     """
-    print("Not implemented yet.")
+    country_code = input('Country code: ').strip()
+    province_name = input('Province name: ').strip()
+    area = float(input('Province area: '))
+    city_name = input('City name: ').strip()
+    population = int(input('City population: '))
+    with pg.connect(**DB_CONFIG) as cn:
+        added = ops.add_province_with_city(cn, country_code, province_name,
+                                           area, city_name, population)
+    print()
+    if added:
+        print('Province and city added.')
+    else:
+        print('Province already exists.')
 
 
 def search_cities_action() -> None:
-    """Displays the cities that match the filters the user enters, one
+    """displays the cities that match the filters the user enters, one
     city per line, 5 cities at a time. After each 5, asks the user
-    whether to see more.
+    whether to see more
     """
-    # Hint: use a named cursor for this search.
-    print("Not implemented yet.")
+    country_code = input('Country code (enter to skip): ').strip() or None
+    province_name = input('Province name (enter to skip): ').strip() or None
+    min_pop = input('Minimum population (enter to skip): ').strip()
+    max_pop = input('Maximum population (enter to skip): ').strip()
+    min_pop = int(min_pop) if min_pop else None
+    max_pop = int(max_pop) if max_pop else None
+    with pg.connect(**DB_CONFIG) as cn:
+        with cn.cursor(name='city_search') as cur:
+            ops.find_cities(cur, country_code, province_name,
+                            min_pop, max_pop)
+            rows = cur.fetchmany(5)
+            print()
+            if not rows:
+                print('No matching cities.')
+            while rows:
+                for name, province, code, population in rows:
+                    print(f'{name}, {province} ({code}), '
+                          f'population {population}')
+                print()
+                if input('See more rows (y/n): ').strip() != 'y':
+                    break
+                print()
+                rows = cur.fetchmany(5)
 
 
 ACTIONS = {
@@ -102,7 +162,7 @@ ACTIONS = {
 
 
 def main() -> None:
-    """Displays the menu and runs the chosen action until Exit."""
+    """displays the menu and runs the chosen action until exit."""
     while True:
         print(MENU)
         choice = input('Enter your choice (1-8): ').strip()

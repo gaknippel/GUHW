@@ -1,0 +1,416 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{titling}
+\setlength{\droptitle}{-3em}
+
+\title{HW-5}
+\author{
+Greyson Knippel \\[4pt]
+CPSC 321, Fall 2026\\[4pt]
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+The database was reset with \texttt{hw5.sql} before running these tests,
+in the order shown. Menu options are omitted from the output.
+
+%============================================================
+\section*{List countries (starter code)}
+
+\noindent \textbf{all countries after resetting the database with \texttt{hw5.sql}:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 1
+
+Belgium (BE), per capita gdp $48700, inflation rate 2.9%
+Canada (CA), per capita gdp $43100, inflation rate 2.4%
+Germany (DE), per capita gdp $52100, inflation rate 2.2%
+Iceland (IS), per capita gdp $52100, inflation rate 3.1%
+Mexico (MX), per capita gdp $15300, inflation rate 4.7%
+Netherlands (NL), per capita gdp $57000, inflation rate 3.3%
+United States of America (US), per capita gdp $46900, inflation rate 3.8%
+\end{verbatim}
+}
+
+%============================================================
+\section*{Show country}
+
+\noindent \textbf{existing country:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 2
+
+Country code: CA
+
+Canada (CA), per capita gdp $43100, inflation rate 2.4%
+\end{verbatim}
+}
+
+\noindent \textbf{missing country:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 2
+
+Country code: XX
+
+No matching country.
+\end{verbatim}
+}
+
+%============================================================
+\section*{Add country}
+
+\noindent \textbf{new country:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 3
+
+Country code: NZ
+Country name: New Zealand
+Country gdp: 42000
+Country inflation: 2.0
+
+Country added.
+\end{verbatim}
+}
+
+\noindent \textbf{same code again with different values:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 3
+
+Country code: NZ
+Country name: New Zealand Revised
+Country gdp: 50000
+Country inflation: 3.0
+
+Country already exists.
+\end{verbatim}
+}
+
+\noindent \textbf{verify: NZ kept its original name, gdp, and inflation:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 2
+
+Country code: NZ
+
+New Zealand (NZ), per capita gdp $42000, inflation rate 2.0%
+\end{verbatim}
+}
+
+%============================================================
+\section*{Update country}
+
+\noindent \textbf{existing country:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 4
+
+Country code: CA
+Country gdp: 46000
+Country inflation: 2.0
+
+Country updated.
+\end{verbatim}
+}
+
+\noindent \textbf{verify: CA has the new gdp and inflation:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 2
+
+Country code: CA
+
+Canada (CA), per capita gdp $46000, inflation rate 2.0%
+\end{verbatim}
+}
+
+\noindent \textbf{same values again still reports updated:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 4
+
+Country code: CA
+Country gdp: 46000
+Country inflation: 2.0
+
+Country updated.
+\end{verbatim}
+}
+
+\noindent \textbf{missing country:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 4
+
+Country code: AB
+Country gdp: 46000
+Country inflation: 2.0
+
+Country does not exist.
+\end{verbatim}
+}
+
+%============================================================
+\section*{Remove border}
+
+\noindent \textbf{border stored as (US, CA), entered in reverse order:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 5
+
+Country 1 code: CA
+Country 2 code: US
+
+Border removed.
+\end{verbatim}
+}
+
+\noindent \textbf{verify: repeating it finds no border:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 5
+
+Country 1 code: CA
+Country 2 code: US
+
+No border exists between the countries.
+\end{verbatim}
+}
+
+\noindent \textbf{border entered in stored order (BE, NL):}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 5
+
+Country 1 code: BE
+Country 2 code: NL
+
+Border removed.
+\end{verbatim}
+}
+
+\noindent \textbf{countries that never shared a border:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 5
+
+Country 1 code: US
+Country 2 code: DE
+
+No border exists between the countries.
+\end{verbatim}
+}
+
+%============================================================
+\section*{Add province with city}
+
+\noindent \textbf{new province and city:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 6
+
+Country code: CA
+Province name: Alberta
+Province area: 255541
+City name: Calgary
+City population: 1678073
+
+Province and city added.
+\end{verbatim}
+}
+
+\noindent \textbf{existing province: no city added, area unchanged:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 6
+
+Country code: CA
+Province name: Alberta
+Province area: 661848
+City name: Edmonton
+City population: 600000
+
+Province already exists.
+\end{verbatim}
+}
+
+\noindent \textbf{verify: Alberta has only Calgary (Edmonton was not added):}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): CA
+Province name (enter to skip): Alberta
+Minimum population (enter to skip): 
+Maximum population (enter to skip): 
+
+Calgary, Alberta (CA), population 1678073
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{missing country: the province insert fails (foreign key):}
+{\tiny
+\begin{verbatim}
+Enter your choice (1-8): 6
+
+Country code: ZZ
+Province name: Nowhere
+Province area: 1000
+City name: Ghost Town
+City population: 10
+Database error: insert or update on table "province" violates foreign key constraint "province_country_code_fkey"
+DETAIL:  Key (country_code)=(ZZ) is not present in table "country".
+\end{verbatim}
+}
+
+\noindent \textbf{province insert succeeds, then the city insert fails (name longer than 40 characters):}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 6
+
+Country code: CA
+Province name: Yukon
+Province area: 482443
+City name: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+City population: 30000
+Database error: value too long for type character varying(40)
+\end{verbatim}
+}
+
+\noindent \textbf{verify: the rollback also undid the Yukon province insert:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): CA
+Province name (enter to skip): Yukon
+Minimum population (enter to skip): 
+Maximum population (enter to skip): 
+
+No matching cities.
+\end{verbatim}
+}
+
+%============================================================
+\section*{Search cities}
+
+\noindent \textbf{country filter only, more than five rows: display a second batch:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): US
+Province name (enter to skip): 
+Minimum population (enter to skip): 
+Maximum population (enter to skip): 
+
+Seattle, Washington (US), population 737015
+Portland, Oregon (US), population 652503
+Spokane, Washington (US), population 228989
+Vancouver, Washington (US), population 190915
+Eugene, Oregon (US), population 176654
+
+See more rows (y/n): y
+
+Salem, Oregon (US), population 175535
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{no filters (all cities): stop after the first batch:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): 
+Province name (enter to skip): 
+Minimum population (enter to skip): 
+Maximum population (enter to skip): 
+
+Toronto, Ontario (CA), population 2794356
+Calgary, Alberta (CA), population 1678073
+Munich, Bavaria (DE), population 1512491
+Zapopan, Jalisco (MX), population 1476491
+Guadalajara, Jalisco (MX), population 1385629
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{province name in two countries (Limburg), equal min and max: ties sorted by country code, then city name:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): 
+Province name (enter to skip): Limburg
+Minimum population (enter to skip): 100000
+Maximum population (enter to skip): 100000
+
+Genk, Limburg (BE), population 100000
+Sittard, Limburg (NL), population 100000
+Venlo, Limburg (NL), population 100000
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{population bounds only: cities at exactly 12000 and 15000 are included:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): 
+Province name (enter to skip): 
+Minimum population (enter to skip): 12000
+Maximum population (enter to skip): 15000
+
+Portland, Ontario (CA), population 15000
+Neustadt, Bavaria (DE), population 13000
+Neustadt, Saxony (DE), population 12000
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{country and minimum population:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): DE
+Province name (enter to skip): 
+Minimum population (enter to skip): 600000
+Maximum population (enter to skip): 
+
+Munich, Bavaria (DE), population 1512491
+Leipzig, Saxony (DE), population 616093
+
+See more rows (y/n): n
+\end{verbatim}
+}
+
+\noindent \textbf{no matching cities:}
+{\small
+\begin{verbatim}
+Enter your choice (1-8): 7
+
+Country code (enter to skip): CA
+Province name (enter to skip): FooBar
+Minimum population (enter to skip): 
+Maximum population (enter to skip): 
+
+No matching cities.
+\end{verbatim}
+}
+
+\end{document}

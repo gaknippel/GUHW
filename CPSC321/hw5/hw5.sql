@@ -3,7 +3,7 @@
  * ASSIGN: HW-5
  * COURSE: CPSC 321, Fall 2026
  * DESC: factbook tables from hw4, recreated and populated for
- *       the hw5 menu program.
+ *       the hw5 menu program
  *============================================================*/
 
 
