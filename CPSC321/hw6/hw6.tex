@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{titling}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\setlength{\droptitle}{-3em}
+
+\title{HW-6}
+\author{
+Greyson Knippel \\[4pt]
+CPSC 321, Fall 2026\\[4pt]
+}
+\date{\today}
+
+% attribute / relation names in monospace
+\newcommand{\at}[1]{\texttt{#1}}
+
+\begin{document}
+
+\maketitle
+
+%============================================================
+\section*{question 1}
+
+\subsection*{(a) relation, primary key, and functional dependencies}
+
+an online game store keeps track of each users game library in one table:
+\begin{center}
+\at{library(owner\_id, game\_id, username, game\_title, developer, hours\_played)}
+\end{center}
+Each row says that the user with \at{owner\_id} (whose display name is
+\at{username}) owns the game \at{game\_id} (with its \at{game\_title} and
+\at{developer}) and has played it for \at{hours\_played} hours.
+
+\medskip
+\noindent\textbf{primary key:} \at{(owner\_id, game\_id)}. A user can own a
+given game only once, so the pair identifies a row, and
+\at{owner\_id, game\_id} $\to$ \at{username, game\_title, developer,
+hours\_played}. 
+
+\medskip
+\noindent\textbf{non key functional dependencies:}
+\begin{enumerate}[label=FD\arabic*:, leftmargin=*]
+  \item \at{owner\_id} $\to$ \at{username}. Each account has one display
+    name, so every row for the same owner must show the same username.
+  \item \at{game\_id} $\to$ \at{game\_title, developer}. Each game in the
+    store has one title and one developer, so every row for the same game
+    must show the same title and developer.
+\end{enumerate}
+Both are non trivial and non key dependencies
+
+\subsection*{(b) instance with redundant data}
+
+\begin{center}
+\begin{tabular}{llllll}
+\toprule
+\at{owner\_id} & \at{game\_id} & \at{username} & \at{game\_title} & \at{developer} & \at{hours\_played} \\
+\midrule
+101 & 413150  & grey     & Stardew Valley & ConcernedApe     & 212 \\
+101 & 367520  & grey     & Hollow Knight  & Team Cherry      & 48  \\
+202 & 413150  & pixelpat & Stardew Valley & ConcernedApe     & 95  \\
+303 & 1145360 & nova     & Hades          & Supergiant Games & 30  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The instance satisfies both FDs: owner 101 is always ``grey'', and
+game 413150 is always ``Stardew Valley'' by ConcernedApe. Its also
+redundant: ``owner 101 is grey'' is stored twice, and ``413150 is Stardew
+Valley by ConcernedApe'' is stored twice. With a real store, a popular game
+owned by millions of users would have its title and developer repeated
+millions of times.
+
+\subsection*{(c) anomalies}
+
+\begin{description}[leftmargin=1em]
+  \item[update anomaly] user 101 changes their username from ``grey'' to
+    ``greyson''. If only the first row is updated, the second row still says
+    ``grey'', so the table claims owner 101 has two different usernames. This
+    breaks \at{owner\_id} $\to$ \at{username}. To make the change correctly we
+    have to update every row in user 101s library.
+
+  \item[insertion anomaly] The store adds a new game (say \at{game\_id}
+    2000000, ``Starlight Drift'' by a new studio) before anyone has bought it.
+    We cannot record its title and developer, because \at{owner\_id} is part
+    of the primary key and cannot be NULL, and there is no owner yet. The same
+    problem happens for a new user who hasn't bought any games: their
+    username can't be stored.
+
+  \item[deletion anomaly] user 303 refunds Hades, so their row is deleted.
+    That row was the only one for user 303 and the only one for game
+    1145360, so deleting it also loses the fact that user 303 is ``nova''
+    and that Hades is made by Supergiant Games, even though we only meant to
+    remove one purchase.
+\end{description}
+
+%============================================================
+\section*{question 2}
+
+\subsection*{(a) decomposition: if $X \to YZ$, then $X \to Y$ and $X \to Z$}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+step & FD & justification \\
+\midrule
+1 & $X \to YZ$ & given \\
+2 & $YZ \to Y$ & reflexivity, since $Y \subseteq YZ$ \\
+3 & $X \to Y$  & transitivity on (1) and (2) \\
+4 & $YZ \to Z$ & reflexivity, since $Z \subseteq YZ$ \\
+5 & $X \to Z$  & transitivity on (1) and (4) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent steps (3) and (5) give $X \to Y$ and $X \to Z$ 
+
+\subsection*{(b) pseudotransitivity: if $X \to Y$ and $YW \to Z$, then $XW \to Z$}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+step & FD & justification \\
+\midrule
+1 & $X \to Y$   & given \\
+2 & $XW \to YW$ & augmentation of (1) with $W$ \\
+3 & $YW \to Z$  & given \\
+4 & $XW \to Z$  & transitivity on (2) and (3) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent step (4) gives $XW \to Z$
+
+%============================================================
+\section*{question 3}
+
+\noindent\textbf{method.} for a set of attributes $X$, write $X^+$ for its
+closure: every attribute that $X$ determines. to find it, start with $X$
+(reflexivity) and keep applying FDs: if some FD $Y \to Z$ has $Y$ already in
+the closure, add $Z$ (this is augmentation/decomposition plus transitivity).
+$X$ is a superkey exactly when $X^+$ contains every attribute of $R$, and a
+candidate key when no proper subset of $X$ is also a superkey.
+
+\medskip
+\noindent a useful shortcut: an attribute that never appears on the
+right-hand side of any FD can't be determined by anything else, so it has to
+be in \emph{every} key.
+
+%------------------------------------------------------------
+\subsection*{(a) $R(a,b,c,d)$, FDs $\{b \to c,\ d \to a\}$}
+
+\noindent\textbf{candidate key: $bd$ (the only one).}
+
+\begin{itemize}
+  \item \textbf{determines everything:} $\{b,d\}$
+    $\xrightarrow{b \to c}$ $\{b,c,d\}$
+    $\xrightarrow{d \to a}$ $\{a,b,c,d\}$. so $bd^+$ is all of $R$.
+  \item \textbf{minimal:} $b^+ = \{b,c\}$ (missing $a, d$) and
+    $d^+ = \{a,d\}$ (missing $b, c$), so neither $b$ nor $d$ alone is a
+    superkey.
+  \item \textbf{no other keys:} $b$ and $d$ never appear on the right-hand
+    side of an FD, so every superkey must contain both of them, i.e.\ every
+    superkey contains $bd$. any superkey other than $bd$ is then a proper
+    superset of $bd$ and isn't minimal.
+\end{itemize}
+
+%------------------------------------------------------------
+\subsection*{(b) $R(a,b,c,d,e)$, FDs $\{a \to bc,\ cd \to e,\ b \to d,\ e \to a\}$}
+
+\noindent\textbf{candidate keys: $a$, $e$, $bc$, $cd$.}
+
+\medskip
+\noindent here every attribute shows up on some right-hand side, so the
+shortcut doesn't help and we check closures directly.
+
+\begin{itemize}
+  \item \textbf{$a$:} $\{a\}$
+    $\xrightarrow{a \to bc}$ $\{a,b,c\}$
+    $\xrightarrow{b \to d}$ $\{a,b,c,d\}$
+    $\xrightarrow{cd \to e}$ $\{a,b,c,d,e\}$.
+    a single attribute is automatically minimal (its only proper subset is
+    $\emptyset$, which determines nothing).
+  \item \textbf{$e$:} $\{e\}$
+    $\xrightarrow{e \to a}$ $\{a,e\}$, and from $a$ we get everything as
+    above, so $e^+ = \{a,b,c,d,e\}$. minimal for the same reason.
+  \item \textbf{$bc$:} $\{b,c\}$
+    $\xrightarrow{b \to d}$ $\{b,c,d\}$
+    $\xrightarrow{cd \to e}$ $\{b,c,d,e\}$
+    $\xrightarrow{e \to a}$ $\{a,b,c,d,e\}$.
+    minimal since $b^+ = \{b,d\}$ and $c^+ = \{c\}$.
+  \item \textbf{$cd$:} $\{c,d\}$
+    $\xrightarrow{cd \to e}$ $\{c,d,e\}$
+    $\xrightarrow{e \to a}$ $\{a,c,d,e\}$
+    $\xrightarrow{a \to bc}$ $\{a,b,c,d,e\}$.
+    minimal since $c^+ = \{c\}$ and $d^+ = \{d\}$ (no FD has just $c$ or
+    just $d$ on the left).
+\end{itemize}
+
+\noindent\textbf{no other keys.} take any superkey $K$.
+\begin{itemize}
+  \item if $K$ contains $a$ or $e$, then $K$ contains the key $a$ or the key
+    $e$, so it's only minimal if $K = a$ or $K = e$.
+  \item otherwise $K \subseteq \{b,c,d\}$. the singletons fail
+    ($b^+ = \{b,d\}$, $c^+ = \{c\}$, $d^+ = \{d\}$). of the pairs, $bc$ and
+    $cd$ are keys, and $bd^+ = \{b,d\}$ is not a superkey. the only triple,
+    $bcd$, contains $bc$, so it isn't minimal.
+\end{itemize}
+so the candidate keys are exactly $a$, $e$, $bc$, and $cd$.
+
+%------------------------------------------------------------
+\subsection*{(c) $R(a,b,c,d,e)$, FDs $\{c \to b,\ bd \to e,\ a \to d,\ e \to a\}$}
+
+\noindent\textbf{candidate keys: $ac$, $cd$, $ce$.}
+
+\medskip
+\noindent $c$ never appears on a right-hand side, so $c$ is in every key. on
+its own, $c^+ = \{b,c\}$, which is not everything, so we need to add more.
+
+\begin{itemize}
+  \item \textbf{$ac$:} $\{a,c\}$
+    $\xrightarrow{c \to b}$ $\{a,b,c\}$
+    $\xrightarrow{a \to d}$ $\{a,b,c,d\}$
+    $\xrightarrow{bd \to e}$ $\{a,b,c,d,e\}$.
+    minimal since $a^+ = \{a,d\}$ and $c^+ = \{b,c\}$.
+  \item \textbf{$cd$:} $\{c,d\}$
+    $\xrightarrow{c \to b}$ $\{b,c,d\}$
+    $\xrightarrow{bd \to e}$ $\{b,c,d,e\}$
+    $\xrightarrow{e \to a}$ $\{a,b,c,d,e\}$.
+    minimal since $c^+ = \{b,c\}$ and $d^+ = \{d\}$.
+  \item \textbf{$ce$:} $\{c,e\}$
+    $\xrightarrow{c \to b}$ $\{b,c,e\}$
+    $\xrightarrow{e \to a}$ $\{a,b,c,e\}$
+    $\xrightarrow{a \to d}$ $\{a,b,c,d,e\}$.
+    minimal since $c^+ = \{b,c\}$ and $e^+ = \{a,d,e\}$.
+\end{itemize}
+
+\noindent\textbf{no other keys.} every key contains $c$. if a superkey $K$
+also contains $a$, $d$, or $e$, then it contains one of the keys $ac$, $cd$,
+or $ce$, so it's only minimal if it equals that key. otherwise
+$K \subseteq \{b,c\}$, but $c^+ = bc^+ = \{b,c\}$, so neither $c$ nor $bc$ is
+a superkey. so the candidate keys are exactly $ac$, $cd$, and $ce$.
+
+\end{document}
