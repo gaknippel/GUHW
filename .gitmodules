@@ -1,0 +1,9 @@
+[submodule "CPSC332/hw1-submission"]
+	path = CPSC332/hw1-submission
+	url = https://github.com/GU-Web-Dev-2026/web-dev-2026-homework-1-html-gaknippel.git
+[submodule "CPSC332/hw2"]
+	path = CPSC332/hw2
+	url = https://github.com/GU-Web-Dev-2026/web-dev-2026-homework-2-css-gaknippel.git
+[submodule "CPSC332/web-dev-2026-homework-1-html-gaknippel"]
+	path = CPSC332/web-dev-2026-homework-1-html-gaknippel
+	url = https://github.com/GU-Web-Dev-2026/web-dev-2026-homework-1-html-gaknippel.git
