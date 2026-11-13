@@ -22,7 +22,7 @@ the number of virtual pages is the size of the virtual address space divided by 
 \]
 
 the offset needs $\log_2(\text{page size})$ bits, and the page number uses the remaining bits.
-so the maximum number of virtual pages is $2^{|p|}$.
+so the maximum number of virtual pages is $2^{p}$
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
@@ -47,8 +47,28 @@ page number bits $|p|$ & $16-5=11$ & $32-6=26$ & $36-7=29$ \\
 \end{itemize}
 
 
-% \section*{b) Maximum number of pages in physical memory}
+\section*{b)}
 
-% \section*{c) Two-level page table for Design 3}
+the number of physical pages is the size of physical memory divided by the page size:
+\[
+\#\text{physical pages} = \frac{2^{\text{physical bits}}}{\text{page size}}
+= 2^{\,\text{physical bits} - \text{offset bits}}
+\]
+
+\begin{itemize}
+  \item \textbf{design 1:} $\dfrac{2^{10}}{2^{5}} = 2^{5} = \mathbf{32}$ pages
+  \item \textbf{design 2:} $\dfrac{2^{20}}{2^{6}} = 2^{14} = \mathbf{16{,}384}$ pages
+  \item \textbf{design 3:} $\dfrac{2^{24}}{2^{7}} = 2^{17} = \mathbf{131{,}072}$ pages
+\end{itemize}
+
+\section*{c)}
+
+splits into outer, inner, and offset:
+
+\begin{itemize}
+  \item \textbf{outer:} 128 entries $= 2^{7}$, so $\mathbf{7}$ bits
+  \item \textbf{offset:} 128-byte page $= 2^{7}$, so $\mathbf{7}$ bits
+  \item \textbf{inner:} the rest, $36 - 7 - 7 = \mathbf{22}$ bits
+\end{itemize}
 
 \end{document}
